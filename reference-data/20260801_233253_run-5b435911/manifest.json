@@ -1,0 +1,174 @@
+{
+  "schema_version": "1.0",
+  "software": {
+    "package": "motion_acquisition",
+    "software_version": "7.0.0",
+    "git_commit": null,
+    "python_version": "3.12.2"
+  },
+  "host": {
+    "hostname": "LAPTOP-CG47Q1DK",
+    "system": "Windows",
+    "release": "11",
+    "machine": "AMD64"
+  },
+  "command": {
+    "command_line": "motion-acq-direct",
+    "config_file": "config_snapshot.yaml"
+  },
+  "can": {
+    "interface": "pcan",
+    "channel": "PCAN_USBBUS1",
+    "bitrate": 1000000
+  },
+  "canopen": {
+    "node_id": 1,
+    "sdo_timeout_s": 0.5,
+    "retries": 3
+  },
+  "acquisition": {
+    "objects": [
+      "position_demand",
+      "position_actual",
+      "following_error",
+      "velocity_actual",
+      "current_actual",
+      "statusword",
+      "error_code"
+    ],
+    "period_s": 0.02,
+    "duration_s": 40.0,
+    "start_time": "2026-08-01T23:32:53.057+08:00",
+    "end_time": "2026-08-01T23:32:58.177+08:00",
+    "csv_file": "samples.csv",
+    "manifest_file": "manifest.json"
+  },
+  "statistics": {
+    "total_samples": 97,
+    "total_object_reads": 679,
+    "failed_reads": 0,
+    "estimated_rate_hz": 97.91093395630811,
+    "actual_rate_hz": 48.509051561621845,
+    "mean_cycle_s": 0.01021336391751958,
+    "max_cycle_s": 0.01095040000109293,
+    "deadline_miss_count": 0,
+    "run_elapsed_s": 5.097554300000411
+  },
+  "time_semantics": {
+    "schema_version": "1.0",
+    "clock_domain": "host",
+    "wall_clock_source": "datetime.now().astimezone",
+    "monotonic_clock_source": "time.perf_counter",
+    "timestamp_scope": "cycle_start",
+    "elapsed_origin": "session_timebase_start",
+    "wall_time_precision_s": 0.001,
+    "monotonic_precision_s": 1e-06,
+    "objects_share_cycle_timestamp": true,
+    "device_timestamp_present": false,
+    "device_clock_synchronized": false,
+    "external_sensor_synchronized": false,
+    "hard_realtime": false,
+    "scheduler_policy": "absolute_deadline_with_late_reset",
+    "inter_object_semantics": "selected objects are read sequentially but share the host cycle-start timestamp",
+    "limitations": [
+      "timestamps are assigned by the host application, not by the drive",
+      "shared cycle timestamps do not expose per-object SDO response time",
+      "no hardware clock synchronization is claimed",
+      "the acquisition loop is not a hard-real-time scheduler"
+    ]
+  },
+  "safety_boundary": {
+    "read_only": false,
+    "sdo_download_enabled": true,
+    "nmt_operational_sent": true,
+    "pdo_configured": false,
+    "motion_command_sent": true,
+    "raw_can_write_enabled": false,
+    "shadow_device_write_capability": false,
+    "device_write_enabled": true
+  },
+  "notes": "Windows direct PCAN/CANopen DS-BVM PPM field preview; raw counts only.",
+  "run_kind": "direct_control_acquisition",
+  "control_route": "windows_pcan_ds_bvm",
+  "control": {
+    "axis": "Z",
+    "mode": "profile_position_relative",
+    "profile_source": "drive_readback_user_confirmed_50rpm_a300",
+    "start_position_counts": 27,
+    "target_deltas_counts": [
+      5000,
+      -5000
+    ],
+    "profile_raw": {
+      "profile_velocity": 6900,
+      "profile_acceleration": 30000,
+      "profile_deceleration": 30000,
+      "quick_stop_deceleration": 100000,
+      "profile_type": 0,
+      "jerk": 30000
+    },
+    "plan": {
+      "first_delta_counts": 5000,
+      "return_delta_counts": -5000,
+      "pre_roll_s": 2.0,
+      "forward_dwell_s": 2.0,
+      "final_capture_s": 2.0,
+      "leg_timeout_s": 15.0,
+      "normal_finish": "hold_enabled",
+      "abort_finish": "halt_then_disable"
+    },
+    "normal_finish": "hold_enabled",
+    "abort_finish": "halt_then_disable",
+    "nmt_start_remote_node": true
+  },
+  "outcome": "error",
+  "run": {
+    "run_id": "run-5b4359112944",
+    "experiment_name": "DIRECT_PCAN_PPM_5000_A300_01"
+  },
+  "errors": [
+    {
+      "message": "DirectControlError: timeout waiting for Statusword bit 12=1; last statusword=0x0437"
+    }
+  ],
+  "files": {
+    "samples": "samples.csv",
+    "manifest": "manifest.json",
+    "log": "acquisition.log",
+    "config_snapshot": "config_snapshot.yaml",
+    "events": "events.jsonl",
+    "checksums": "checksums.sha256",
+    "control_commands": "control_commands.jsonl"
+  },
+  "experiment": {
+    "name": "DIRECT_PCAN_PPM_5000_A300_01",
+    "operator": "",
+    "axis": "",
+    "direction": "",
+    "target_displacement": "",
+    "speed": "",
+    "acceleration": "",
+    "deceleration": "",
+    "jerk": "",
+    "notes": "Windows direct PCAN/CANopen DS-BVM PPM field preview; raw counts only."
+  },
+  "events_summary": {
+    "count": 0,
+    "by_type": {},
+    "time_basis": "host_operator_manual",
+    "drive_synchronized": false
+  },
+  "integrity": {
+    "checksum_algorithm": "sha256",
+    "checksum_file": "checksums.sha256",
+    "protected_files": [
+      "samples.csv",
+      "manifest.json",
+      "acquisition.log",
+      "config_snapshot.yaml",
+      "events.jsonl",
+      "control_commands.jsonl"
+    ],
+    "generated_at": "2026-08-01T23:32:58.180+08:00"
+  }
+}

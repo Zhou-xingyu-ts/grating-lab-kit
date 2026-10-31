@@ -1,0 +1,21 @@
+can:
+  interface: pcan
+  channel: PCAN_USBBUS1
+  bitrate: 1000000
+  receive_own_messages: false
+  python_can_args: {}
+canopen:
+  node_id: 1
+  sdo_timeout_s: 0.5
+  retries: 3
+acquisition:
+  period_s: 0.005
+  duration_s: 15.0
+  objects:
+  - position_demand
+  - position_actual
+  - following_error
+output:
+  output_dir: logs
+  csv_prefix: motion_sdo
+log_level: INFO
