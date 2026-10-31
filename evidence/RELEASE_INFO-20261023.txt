@@ -1,0 +1,6 @@
+Motion Acquisition V9.0.0 - 20261023-ux2
+Build tag: 20261023-ux2
+Built at: 2026-10-23T01:08:04.9896372+08:00
+Desktop-only build; retains the offline SIL helper.
+Build success is not runtime or hardware verification; smoke results are separate.
+PCAN driver is external and is not bundled. No firmware was built or flashed.

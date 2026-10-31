@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "entry": "direct",
+  "version": "V9.0.0 · 20261023-ux2",
+  "window_title": "Motion Acquisition V9.0.0 · 20261023-ux2 — DS-BVM 直控",
+  "exit_code": 0,
+  "blocked_calls": [],
+  "errors": [],
+  "checks": {
+    "replay": true,
+    "summary": true,
+    "png_export": true
+  },
+  "real_hardware_access": false,
+  "device_write_capability": false
+}

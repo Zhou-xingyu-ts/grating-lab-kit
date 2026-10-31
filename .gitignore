@@ -1,0 +1,11 @@
+# Only distribution documentation belongs in Git. Executables live in Releases.
+*.exe
+*.dll
+*.zip
+software/
+installers/
+data/
+logs/
+sessions/
+.venv/
+__pycache__/
