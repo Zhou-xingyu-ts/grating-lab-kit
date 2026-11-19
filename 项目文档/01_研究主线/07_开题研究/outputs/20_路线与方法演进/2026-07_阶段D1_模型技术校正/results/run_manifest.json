@@ -1,0 +1,77 @@
+﻿{
+  "simulation_only": true,
+  "hardware_disabled": true,
+  "hardware_interfaces_imported": [],
+  "output_root": "D:\\清华\\清华-科研横向\\光栅尺运动控制调研\\01_研究主线\07_开题研究\\outputs\\2026-07_阶段D1_模型技术校正",
+  "disclaimer": "离线模型结果，不代表真实台架性能",
+  "scheme_b_equations": [
+    "x_dot = v",
+    "v_dot = (Kv*u_applied-v)/tau_v - (F_f(v)+F_d)/M"
+  ],
+  "baseline_case_count": 15,
+  "sensitivity_case_count": 35,
+  "b_default_parameters": {
+    "mass_kg": 0.8,
+    "coulomb_forward_n": 0.1,
+    "coulomb_reverse_n": 0.13,
+    "velocity_epsilon_m_s": 0.0002,
+    "disturbance_n": 0.0,
+    "velocity_loop_gain": 1.0,
+    "velocity_loop_tau_s": 0.02,
+    "position_quantization_m": 5e-07,
+    "measurement_noise_std_m": 2.5e-07,
+    "measurement_delay_steps": 1,
+    "command_delay_steps": 1,
+    "velocity_limit_m_s": 0.02,
+    "acceleration_limit_m_s2": 0.2
+  },
+  "d_default_parameters": {
+    "natural_frequency_rad_s": 125.66370614359172,
+    "damping_ratio": 0.9,
+    "closed_loop_gain": 1.0,
+    "target_update_period_steps": 1,
+    "command_delay_steps": 1,
+    "target_quantization_m": 5e-07,
+    "measurement_quantization_m": 5e-07,
+    "measurement_noise_std_m": 2.5e-07,
+    "missed_update_probability": 0.0
+  },
+  "controllers": {
+    "P": {
+      "kp_per_s": 14.0,
+      "ki_per_s2": 0.0,
+      "kd_dimensionless": 0.0,
+      "kff_v_dimensionless": 0.0,
+      "kff_a_s": 0.0,
+      "derivative_filter_tau_s": 0.01,
+      "integral_error_limit_m_s": 0.002
+    },
+    "PI_AW": {
+      "kp_per_s": 12.0,
+      "ki_per_s2": 22.0,
+      "kd_dimensionless": 0.0,
+      "kff_v_dimensionless": 0.0,
+      "kff_a_s": 0.0,
+      "derivative_filter_tau_s": 0.01,
+      "integral_error_limit_m_s": 0.002
+    },
+    "PI_INV_FF_AW": {
+      "kp_per_s": 12.0,
+      "ki_per_s2": 22.0,
+      "kd_dimensionless": 0.0,
+      "kff_v_dimensionless": 1.0,
+      "kff_a_s": 0.02,
+      "derivative_filter_tau_s": 0.01,
+      "integral_error_limit_m_s": 0.002
+    },
+    "PID_INV_FF_AW": {
+      "kp_per_s": 12.0,
+      "ki_per_s2": 22.0,
+      "kd_dimensionless": 0.002,
+      "kff_v_dimensionless": 1.0,
+      "kff_a_s": 0.02,
+      "derivative_filter_tau_s": 0.01,
+      "integral_error_limit_m_s": 0.002
+    }
+  }
+}

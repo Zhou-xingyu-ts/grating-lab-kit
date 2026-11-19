@@ -1,0 +1,3923 @@
+               Motion Controller
+
+               GM1 Series
+               Reference Manual
+
+                         Hardware
+
+
+
+
+WUME-GM1H-02
+
+
+2021.8
+(MEMO)
+
+
+
+
+2        WUME-GM1H-02
+ Introduction
+  Thank you for purchasing a Panasonic product. Before you use the product, please carefully
+  read through the installation instructions and the manuals, and understand them in detail to use
+  the product properly.
+
+
+ Types of Manual
+  ● There are different types of manuals for the GM1 series, as listed below. Please refer to a
+    relevant manual for the unit and purpose of your use.
+  ● The manuals can be downloaded from our website: https://industrial.panasonic.com/ac/e/
+    motor/motion-controller/mc/gm1/index.jsp.
+
+  Manuals for GM1 series
+   Manual name                           Manual code         Description
+   GM1 Controller RTEX User's Manual     WUME-
+   (Setup Edition)                       GM1RTXSU
+                                                             Explains wiring between the GM1 and its
+   GM1 Controller EtherCAT User’s                            peripheral devices, installation method, and
+   Manual                                WUME-               operation check method.
+                                         GM1ETCSU
+   (Setup Edition)
+   GM1 Controller RTEX User's Manual     WUME-
+   (Operation Edition)                   GM1RTXOP
+                                                             Explains how to use GM Programmer and
+   GM1 Controller EtherCAT User’s                            PANATERM Lite for GM, set up each function,
+   Manual                                WUME-               create projects, and perform other operations.
+                                         GM1ETCOP
+   (Operation Edition)
+   GM1 Series Reference Manual                               Explains the functions and performance of each
+                                         WUME-GM1H
+   (Hardware Edition)                                        GM1 unit.
+
+   GM1 Series Reference Manual                               Explains the specifications of each instruction that
+                                         WUME-GM1PGR
+   (Instruction Edition)                                     can be used with the GM1 Series.
+
+   GM1 Series Reference Manual           WUME-GM1AIO         Explains the functions and performance of the
+   (Analog I/O Unit)                                         GM1 Analog Expansion Unit.
+
+   GM1 Series Reference Manual           WUME-GM1PG          Explains the functions and performance of the
+   (Pulse Output Unit)                                       GM1 Pulse Output Unit.
+
+
+
+ Copyright / Trademarks
+
+   ● The copyright of this manual belongs to Panasonic Corporation.
+   ● Unauthorized reproduction of this manual is strictly prohibited.
+   ● Windows is a registered trademark of Microsoft Corporation in the U.S. and other countries.
+   ● Ethernet is a registered trademark of Fuji Xerox Co., Ltd. and Xerox Corporation.
+   ● EtherCAT is a registered trademark of and patented technology licensed by Beckhoff Automation GmbH,
+     Germany.
+   ● EtherNet/IP is a registered trademark of ODVA (Open DeviceNet Vendor Association).
+   ● SDHC and SD logos are trademarks of LLC.
+   ● Other company and product names are trademarks or registered trademarks of their respective companies.
+
+
+
+
+WUME-GM1H-02                                                                                                    iii
+(MEMO)
+
+
+
+
+iv       WUME-GM1H-02
+                                              Table of Contents
+
+
+    1 Before Using This Product...................................................................1-1
+       1.1 Safety Precautions..............................................................................1-2
+       1.2 Handling Precautions..........................................................................1-3
+
+    2 Overview (System Configuration) .......................................................2-1
+       2.1 Basic System Configuration................................................................2-2
+              2.1.1 Outline of the GM1 System .............................................................. 2-2
+              2.1.2 Unit Types ........................................................................................ 2-2
+              2.1.3 Restrictions on the Number of Expansion Units .............................. 2-3
+          2.2 Restrictions on the GM1 Controller and Servo Amplifiers...................2-5
+             2.2.1 Restrictions on the Combination of the GM1 Controller and Servo
+                   Amplifiers .......................................................................................... 2-5
+             2.2.2 Restrictions on Servo Amplifier Parameters .................................... 2-6
+          2.3 Programming Tools .............................................................................2-8
+             2.3.1 Software Usage Environment and Applicable Cables ..................... 2-8
+
+    3 Names and Functions of Components ...............................................3-1
+       3.1 Names and Functions of Components of the GM1 Controller ............3-2
+              3.1.1 Names and Functions of Components of the RTEX-compatible
+                    GM1 Controller.................................................................................. 3-2
+              3.1.2 Names and Functions of Components of the EtherCAT-compatible
+                    GM1 Controller.................................................................................. 3-5
+              3.1.3 Terminal Layout Diagram of the GM1 Controller (RTEX-
+                    compatible / EtherCAT-compatible) .................................................. 3-7
+          3.2 Expansion Units ..................................................................................3-11
+             3.2.1 Names and Functions of Components of the GM1 Digital I/O Unit . 3-11
+             3.2.2 Terminal Layout Diagram of the GM1 Digital I/O Unit ...................... 3-12
+             3.2.3 Names and Functions of Components of the GM1 Analog I/O Unit 3-15
+             3.2.4 Terminal Layout Diagram of the GM1 Analog I/O Unit ..................... 3-16
+             3.2.5 Names and Functions of Parts of the GM1 Pulse Output Unit......... 3-17
+             3.2.6 Terminal Layout Diagram of the GM1 Pulse Output Unit ................. 3-18
+
+    4 Installation .............................................................................................4-1
+        4.1 Installation of the GM1 Series.............................................................4-2
+              4.1.1 Installation Environment and Space ................................................ 4-2
+              4.1.2 Unit Installation Procedure ............................................................... 4-4
+              4.1.3 Removing the Unit ........................................................................... 4-5
+              4.1.4 Attaching to DIN Rail........................................................................ 4-6
+              4.1.5 Removing from DIN Rail .................................................................. 4-7
+
+    5 Wiring .....................................................................................................5-1
+       5.1 Wiring the Power Supply.....................................................................5-2
+              5.1.1 Common Precautions ...................................................................... 5-2
+              5.1.2 Power Supply for the GM1 Controller (RTEX-compatible /
+                    EtherCAT-compatible)....................................................................... 5-3
+              5.1.3 Grounding ........................................................................................ 5-3
+
+
+WUME-GM1H-02                                                                                                                   v
+          5.2 Wiring of Network................................................................................5-5
+          5.3 Wiring of Input and Output ..................................................................5-7
+             5.3.1 Precautions Common to Input and Output....................................... 5-7
+             5.3.2 Input Wiring ...................................................................................... 5-7
+             5.3.3 High-speed Counter Input Wiring..................................................... 5-8
+             5.3.4 Output Wiring ................................................................................... 5-10
+          5.4 Connection Using the Discrete-wire Connector .................................5-11
+             5.4.1 Specifications of the Discrete-wire Connector ................................. 5-11
+             5.4.2 Wiring the Discrete-wire Connector ................................................. 5-12
+          5.5 Safety Measures .................................................................................5-15
+             5.5.1 General Safety Measures ................................................................ 5-15
+             5.5.2 Momentary Power Failure ................................................................ 5-15
+             5.5.3 Watchdog Timer ............................................................................... 5-15
+
+     6 Checking Wiring....................................................................................6-1
+        6.1 Safety Circuit Design ..........................................................................6-2
+        6.2 Items to Check during Wiring..............................................................6-3
+        6.3 Power ON Operation...........................................................................6-4
+        6.4 Power OFF Operation.........................................................................6-5
+
+     7 Using the SD Memory Card and SDHC Memory Card .......................7-1
+        7.1 Preparation of the SD Memory Card and SDHC Memory Card..........7-2
+        7.2 Inserting the SD Memory Card and SDHC Memory Card ..................7-3
+
+     8 Device Reset..........................................................................................8-1
+        8.1 Device Reset by GM1 Controller Operation........................................8-2
+
+     9 Troubleshooting ....................................................................................9-1
+        9.1 Self-diagnostic Function......................................................................9-2
+        9.2 Operation Status at the Time of Error .................................................9-3
+        9.3 What to Do If an Error Occurs.............................................................9-4
+               9.3.1 ERROR LED Flashes on the Control Unit ....................................... 9-4
+               9.3.2 ALARM LED Lights on the Control Unit ........................................... 9-4
+               9.3.3 POWER LED Does not Light on the Control Unit ............................ 9-5
+               9.3.4 Desired Output Is Not Obtained: Checking when the Output Does
+                     Not Turn ON / OFF ........................................................................... 9-5
+               9.3.5 Desired Input Is Not Obtained: Checking when the Input Does Not
+                     Turn ON / OFF .................................................................................. 9-6
+               9.3.6 If the ALARM LED Is Lit on the Expansion Unit ............................... 9-6
+               9.3.7 If the ALARM LED Is Unlit on the Expansion Unit ........................... 9-7
+
+     10 Maintenance and Inspection ..............................................................10-1
+        10.1 Inspection..........................................................................................10-2
+
+     11 Specifications and Dimensions .........................................................11-1
+        11.1 General Specifications ......................................................................11-2
+        11.2 Specifications of the GM1 Controller.................................................11-4
+
+vi                                                                                                         WUME-GM1H-02
+              11.2.1 High-speed Counter Input Specifications of the GM1 Controller.... 11-4
+              11.2.2 Input Specifications of the GM1 Controller..................................... 11-4
+              11.2.3 Output Specifications of the GM1 Controller (Sink Type) .............. 11-5
+              11.2.4 Output Specifications of the GM1 Controller (Source Type) .......... 11-6
+         11.3 Specifications of Expansion Units .....................................................11-8
+            11.3.1 Input Specifications of the 64-point Digital Input Unit .................... 11-8
+            11.3.2 Output Specifications of the 64-point Digital Output Unit (Sink
+                  Type) ................................................................................................. 11-9
+            11.3.3 Output Specifications of the 64-point Digital Output Unit (Source
+                  Type) ................................................................................................. 11-11
+            11.3.4 I/O Specifications of the 64-point Digital I/O Unit (Sink Type) ........ 11-12
+            11.3.5 I/O Specifications of the 64-point Digital I/O Unit (Source Type).... 11-15
+            11.3.6 Input Specifications of the Analog Input Unit ................................. 11-18
+            11.3.7 Output Specifications of the Analog Output Unit ............................ 11-19
+            11.3.8 Performance Specifications of the Pulse Output Unit .................... 11-20
+         11.4 Communication Specifications ..........................................................11-24
+            11.4.1 Specifications of the USB Port ....................................................... 11-24
+            11.4.2 Specifications of the COM Port (RS-232C) .................................... 11-24
+            11.4.3 Specifications of the LAN Port........................................................ 11-25
+            11.4.4 Specifications of the RTEX Port ..................................................... 11-25
+            11.4.5 Specifications of the EtherCAT Port .............................................. 11-26
+         11.5 Performance Specifications ..............................................................11-27
+         11.6 Dimensions .......................................................................................11-28
+            11.6.1 Dimensions of the GM1 Controller ................................................. 11-28
+            11.6.2 Dimensions of the GM1 Expansion Unit......................................... 11-29
+
+    Appendix Warranty / Cautions for Proper Use.....................................App-1
+       Warranty ....................................................................................................App-2
+              Warranty Period ......................................................................................... App-2
+              Warranty Scope ......................................................................................... App-2
+         Cautions for Proper Use ............................................................................App-3
+
+
+
+
+WUME-GM1H-02                                                                                                                      vii
+(MEMO)
+
+
+
+
+viii     WUME-GM1H-02
+       1 Before Using This Product
+       1.1 Safety Precautions..............................................................................1-2
+       1.2 Handling Precautions..........................................................................1-3
+
+
+
+
+WUME-GM1H-02                                                                                                     1-1
+1.1 Safety Precautions
+
+
+ 1.1 Safety Precautions
+      This section explains important rules that must be observed to prevent personal injury and
+      property damage.
+      ● Injuries and damages that may occur as a result of incorrect use are classified into the
+         following levels and safety precautions are explained according to the level.
+
+                       Indicates that there is a risk of death or serious injury
+
+                       Indicates that there is a risk of minor injury or property damage
+
+
+
+                       Indicates an action that is prohibited
+
+                       Indicates an action that must be taken
+
+
+
+
+             ● Take safety measures outside this product to ensure the safety of the entire system even
+               if this product fails or an error occurs due to external factors.
+             ● Do not use this product in atmospheres that contain flammable gases.
+               Doing so may result in explosion.
+             ● Do not throw this product into the fire.
+               Doing so may cause the batteries or other electronic parts to explode.
+
+
+
+
+             ● To prevent abnormal heat generation or smoke generation, use this product with some
+               leeway from the guaranteed characteristics and performance values of the product.
+             ● Do not disassemble or modify this product.
+               Doing so may result in abnormal heat generation or smoke generation.
+             ● Do not touch any terminals while the power is on.
+               Doing so may result in electrical shock.
+
+             ● Configure emergency stop and interlock circuits outside this product.
+
+             ● Connect wires and connectors properly.
+               Failure to do so may result in abnormal heat generation or smoke generation.
+             ● Do not perform work (such as connection or removal) with the power turned on.
+               Doing so may result in electrical shock.
+             ● If this product is used in any way that is not specified by Panasonic, its protection function
+               may be impaired.
+
+             ● This product has been developed and manufactured for industrial use only.
+
+
+
+
+1-2                                                                                          WUME-GM1H-02
+                                                                       1.2 Handling Precautions
+
+
+ 1.2 Handling Precautions
+
+  ■ In this manual, the following symbols are used to indicate safety information that
+     must be observed.
+
+                       Indicates an action that is prohibited or a matter that requires caution.
+
+                       Indicates an action that must be taken.
+
+                       Indicates supplemental information.
+
+                       Indicates details about the subject in question or information useful to remember.
+
+                       Indicates operation procedures.
+
+
+
+
+WUME-GM1H-02                                                                                                1-3
+(MEMO)
+
+
+
+
+1-4      WUME-GM1H-02
+       2 Overview (System
+         Configuration)
+       2.1 Basic System Configuration................................................................2-2
+          2.1.1 Outline of the GM1 System .............................................................. 2-2
+          2.1.2 Unit Types ........................................................................................ 2-2
+          2.1.3 Restrictions on the Number of Expansion Units .............................. 2-3
+       2.2 Restrictions on the GM1 Controller and Servo Amplifiers...................2-5
+          2.2.1 Restrictions on the Combination of the GM1 Controller and Servo
+                Amplifiers .......................................................................................... 2-5
+          2.2.2 Restrictions on Servo Amplifier Parameters .................................... 2-6
+       2.3 Programming Tools .............................................................................2-8
+          2.3.1 Software Usage Environment and Applicable Cables ..................... 2-8
+
+
+
+
+WUME-GM1H-02                                                                                                                2-1
+2.1 Basic System Configuration
+
+
+ 2.1 Basic System Configuration
+
+
+ 2.1.1 Outline of the GM1 System
+
+      ■ Network control
+      With the RTEX-compatible GM1 Controller, a MINAS series A6N/A5N servomotor network
+      system can be easily configured using the RTEX network dedicated to motion control.
+      The EtherCAT-compatible GM1 Controller is a MINAS series servomotor network system can
+      be easily configured by adopting EtherCAT communication.
+
+
+
+
+      ■ Two LAN ports
+      There are two Ethernet connection ports.
+      Each port can have a unique IP address. They can be used for different purposes, such as for
+      an in-device network or for a host system network.
+
+      ■ Equipped with the high-speed counter input and PWM output
+      The RTEX-compatible GM1 Controller / EtherCAT-compatible GM1 Controller is equipped with
+      a 2-ch high-speed counter input for 16 MHz (multiplied by 4) and a 4-ch PWM output that can
+      output a maximum of 100 kHz. These functions can be used without adding expansion units.
+
+
+
+ 2.1.2 Unit Types
+
+      ■ Controller
+      Type                             Function                              Model number
+
+      RTEX-compatible GM1 Controller   RTEX 16-axis motion controller
+                                                                             AGM1CSRX16T
+      (Sink type)                      Transistor NPN output type
+
+      EtherCAT-compatible GM1          EtherCAT motion controller
+                                                                             AGM1CSEC16T
+      Controller (Sink type)           Transistor NPN output type
+
+
+
+2-2                                                                                 WUME-GM1H-02
+                                                                          2.1 Basic System Configuration
+
+
+   Type                                     Function                                  Model number
+
+   EtherCAT-compatible GM1                  EtherCAT motion controller
+                                                                                      AGM1CSEC16P
+   Controller (Source type)                 Transistor PNP output type
+
+  ■ Expansion units
+   Type                                     Function                                  Model number
+   Digital input (64 points)                24 V DC, 64 input points                  AGM1X64D2
+                                            64 output points
+   Digital output (64 points) (sink type)                                             AGM1Y64T
+                                            Transistor NPN type
+   Digital output (64 points) (source       64 output points
+                                                                                      AGM1Y64P
+   type)                                    Transistor PNP type
+                                            24 V DC, 32 input points
+   Digital I/O (64 points) (sink type)      32 output points                          AGM1XY64D2T
+                                            Transistor NPN type
+                                            24 V DC, 32 input points
+   Digital I/O (64 points) (source type)    32 output points                          AGM1XY64D2P
+                                            Transistor PNP type
+   Analog input (8 points)                  8 input points                            AGM1AD8
+   Analog output (4 points)                 4 output points                           AGM1DA4
+
+   Pulse output (Transistor output          4-axis, pulse train, 500 kpps
+                                                                                      AGM1PG04T
+   type)                                    Open collector output
+
+   Pulse output (Line driver output         4-axis, pulse train, 4 Mpps
+                                                                                      AGM1PG04L
+   type)                                    Line driver output
+
+
+
+
+ 2.1.3 Restrictions on the Number of Expansion Units
+
+  Up to 15 expansion units can be mounted on the right side of the GM1 Controller (RTEX-
+  compatible / EtherCAT-compatible).
+
+  Example: For RTEX-compatible GM1 Controller
+
+
+
+
+            RTEX-compatible GM1
+   (1)                                      (2)      Expansion units            (3)   End unit
+            Controller
+
+
+WUME-GM1H-02                                                                                         2-3
+2.1 Basic System Configuration
+
+
+       ● Make sure to connect an end unit to the end of the system.
+
+
+
+
+2-4                                                                   WUME-GM1H-02
+                       2.2 Restrictions on the GM1 Controller and Servo Amplifiers
+
+
+ 2.2 Restrictions on the GM1 Controller and Servo Amplifiers
+
+
+ 2.2.1 Restrictions on the Combination of the GM1 Controller and Servo
+ Amplifiers
+
+  As for the combination of the GM1 Controller (RTEX-compatible / EtherCAT-compatible) and
+  each MINAS series, confirm the following restrictions.
+
+  Combination of the RTEX-compatible GM1 Controller and servo amplifiers
+   Connectable servo amplifier
+                                        Description
+   A5N                A6N
+           ●                     ●      A5N and A6N can be connected to the same network.
+
+  Combination of the EtherCAT-compatible GM1 Controller and servo amplifiers
+   Connectable servo amplifier
+                                        Description
+   A5B                A6B
+           ●                     ●      A5B and A6B can be connected to the same network.
+
+
+
+
+    ● When using servo amplifiers in combination with the GM1 Controller, use the ones with the
+      latest software version
+
+  ■ Setting ranges of movement amount and speed
+  The input range of the movement amount or speed specified in the GM1 Controller (RTEX-
+  compatible / EtherCAT-compatible) may differ from the upper and lower setting limits of the
+  servo amplifier.
+
+
+
+    ● The communication cycle and command update cycle supported by the RTEX-compatible GM1
+      Controller and servo amplifiers A5N and A6N are as follows.
+      • RTEX-compatible GM1 Controller: Communication cycle: 500 μs to 2 ms, Command update
+        cycle: 500 μs to 4 ms
+      • Servo amplifier A5N: Communication cycle: 500 μs to 1 ms, Command update cycle: 500 μs
+        to 1 ms
+      • Servo amplifier A6N: Communication cycle: 500 μs to 2 ms, Command update cycle: 500 μs
+        to 4 ms
+    ● The control cycles supported by the EtherCAT-compatible GM1 Controller and servo amplifiers
+      A5B or A6B are as follows.
+      • EtherCAT-compatible GM1 Controller: Control cycle: 500 μs to 4 ms
+      • Servo amplifier A5B: Control cycle: 500 μs to 4 ms
+      • Servo amplifier A6B: Control cycle: 500 μs to 4 ms
+
+
+
+
+WUME-GM1H-02                                                                                      2-5
+2.2 Restrictions on the GM1 Controller and Servo Amplifiers
+
+
+ 2.2.2 Restrictions on Servo Amplifier Parameters
+
+      ■ Parameters for servo amplifiers on the A5N/A6N
+      Some parameters for servo amplifiers on the A5N/A6N side affect the behaviors of the RTEX-
+      compatible GM1 Controller. Use the following parameters.
+                                                                                                    Standard
+                                                                                                    factory
+      No.      Name             Settings
+                                                                                                    default
+                                                                                                    setting
+               Over-travel      Use setting value “1 (Disable the over-travel inhibit input)”.
+      Pr5.04   inhibit input                                                                        1(Note 1)
+               setup            (Recommended)
+
+               RTEX function    Use setting value “1 (32-byte mode)”.
+      Pr7.22   extended setup                                                                       1(Note 2)
+               1                (Mandatory)
+
+                                Use setting value “18”.
+                                (Mandatory)
+                                This parameter sets each function in bits.
+                                bit 0: Allow parameter values to be written via RTEX
+                                communication
+                                 0: Allow, 1: Disallow
+                                bit 1: Set a sub-number for alarm code
+                                 0: Fixed at 0, 1: Enable sub-number
+                                bit 2: Set RTEX status response conditions when "Over-travel
+                                inhibit input setup" is disabled (Pr5.04 = 1)
+                                  0: Enable status, 1: Fixed at 0
+                                bit 3: Set RTEX status bit assignment for POT and NOT
+                                 0: POT corresponds to bit 1 and NOT corresponds to bit 0, 1: NOT
+                                 corresponds to bit 1 and POT corresponds to bit 0
+                                 0: POT corresponds to bit 1 and NOT corresponds to bit 0, 1: NOT
+                                 corresponds to bit 1 and POT corresponds to bit 0
+               RTEX function
+      Pr7.23   extended setup   bit 4: Set display mode for "COM" LED                               18(Note 2)
+               2                 0: Mode 1, 1: Mode 2
+                                bit 5: Set non-cyclic command start mode
+                                 0: When a change from base command occurs
+                                 1: When command code or command argument changes
+                                bit 6: Set RTEX status logic for POT and NOT
+                                 0: Do not reverse, 1: Reverse
+                                bit 7: Set RTEX status logic for PSL and NSL
+                                 0: Do not reverse, 1: Reverse
+                                bit 8: Select RTEX status from In_Progress / AC_OFF
+                                 0: In_Progress, 1: AC_OFF
+                                 (It is linked to the setting in bit 15.)
+                                bit 9: Select whether to return a command error when a
+                                command for motion toward the direction of over-travel
+                                prohibition is received after deceleration stop is executed by
+                                "Over-travel inhibit input setup"
+                                 0: Do not return a command error
+
+
+2-6                                                                                              WUME-GM1H-02
+                             2.2 Restrictions on the GM1 Controller and Servo Amplifiers
+
+
+                                                                                                      Standard
+                                                                                                      factory
+   No.       Name               Settings
+                                                                                                      default
+                                                                                                      setting
+                                 1: Return a command error
+                                (Bit 10 to bit 13 are not used.)
+                                  Fix to "0".
+                                bit 14: Set position deviation [command unit] output
+                                 0: Internal commanded position (after filtering) [command unit] -
+                                 Actual position [command unit]
+                                 1: Internal commanded position (before filtering) [command unit] -
+                                 Actual position [command unit]
+                                Bit 15: Select extended RTEX status from In_Progress /
+                                AC_OFF / Pr7.112 settings
+                                 0: Follow the setting of Pr7.23 bit 8 (In_Progress / AC_OFF)
+                                 1: Follow the setting of Pr7.112.
+
+             RTEX speed         Use setting value “1 (command unit/s)”.
+   Pr7.25
+             unit setup                                                                               1(Note 2)
+                                (Mandatory)
+
+  (Note 1)   We recommend that the set value should not be changed judging from the characteristics of the GM1
+             and MINAS.
+  (Note 2)   Do not change the set value. If the set value is changed, the RTEX-compatible GM1 Controller will
+             make an error stop.
+
+  ■ Parameters for servo amplifiers on the A5B/A6B
+  Some parameters for servo amplifiers on the A5B/A6B side affect the behaviors of the
+  EtherCAT-compatible GM1 Controller. Use the following parameters.
+                                                                                                      Standard
+                                                                                                      factory
+   No.       Name               Settings
+                                                                                                      default
+                                                                                                      setting
+             Over-travel        Use setting value 1.
+   Pr5.04    inhibit input                                                                            1(Note 1)
+             setup              (Recommended)
+
+  (Note 1)   We recommend that the set value should not be changed judging from the characteristics of the GM1
+             and MINAS.
+
+
+
+
+WUME-GM1H-02                                                                                                      2-7
+2.3 Programming Tools
+
+
+ 2.3 Programming Tools
+
+
+ 2.3.1 Software Usage Environment and Applicable Cables
+
+      Programming software
+                           Applicable             Applicable
+      Product name                                                     Product No.        Remarks
+                           version                language
+                                                  Japanese /
+      GM Programmer        Ver.1.2 or higher                           AGMSMP
+                                                  English / Chinese
+
+      (Note 1)   When the GM Programmer is installed, MINAS setup support software ""PANATERM Lite for GM"" is
+                 installed at the same time.
+
+      Software operating environment
+      Item                        Description
+      OS                          Microsoft(R) Windows(R) 10: 32 bit / 64 bit
+                                  PC with the following installed:
+                                  ● Microsoft.NET Framework 4.6.1 or higher
+                                  ● Microsoft Visual C++ 2010 SP1 Redistributable Package (x86)
+                                  ● Microsoft Visual C++ 2010 SP1 Redistributable Package (x64)
+      PC
+                                  ● Microsoft Visual C++ 2013 Redistributable Package (x86)
+                                  ● Microsoft Visual C++ 2013 Redistributable Package (x64)
+                                  ● Microsoft Visual C++ 2015 Update 3 Redistributable Package (x86)
+                                  ● Microsoft Visual C++ 2015 Update 3 Redistributable Package (x64)
+      HDD                         At least 4 GB of free space
+      Memory                      At least 8 GB
+                                  LAN port (for Ethernet connection)
+      Communication port
+                                  USB 2.0 port (for USB connection)
+
+      PC connection cable
+      ● Use a commercial USB cable.
+      Cable type                                                Length
+
+      USB 2.0 cable (A: miniB)(Note 1)                          Max. 5 m
+
+      (Note 1)   Match the connection terminal shape of the USB2.0 cable on the PC side with the specifications of the
+                 PC side.
+
+
+
+
+       For the tool operation, refer to the , GM1 Controller RTEX User’s Manual (Operation) or GM1
+       Controller EtherCAT User’s Manual (Operation).
+
+
+2-8                                                                                                 WUME-GM1H-02
+       3 Names and Functions of
+         Components
+       3.1 Names and Functions of Components of the GM1 Controller ............3-2
+          3.1.1 Names and Functions of Components of the RTEX-compatible
+                GM1 Controller.................................................................................. 3-2
+          3.1.2 Names and Functions of Components of the EtherCAT-compatible
+                GM1 Controller.................................................................................. 3-5
+          3.1.3 Terminal Layout Diagram of the GM1 Controller (RTEX-
+                compatible / EtherCAT-compatible) .................................................. 3-7
+       3.2 Expansion Units ..................................................................................3-11
+          3.2.1 Names and Functions of Components of the GM1 Digital I/O Unit . 3-11
+          3.2.2 Terminal Layout Diagram of the GM1 Digital I/O Unit ...................... 3-12
+          3.2.3 Names and Functions of Components of the GM1 Analog I/O Unit 3-15
+          3.2.4 Terminal Layout Diagram of the GM1 Analog I/O Unit ..................... 3-16
+          3.2.5 Names and Functions of Parts of the GM1 Pulse Output Unit......... 3-17
+          3.2.6 Terminal Layout Diagram of the GM1 Pulse Output Unit ................. 3-18
+
+
+
+
+WUME-GM1H-02                                                                                                           3-1
+3.1 Names and Functions of Components of the GM1 Controller
+
+
+ 3.1 Names and Functions of Components of the GM1 Controller
+
+
+ 3.1.1 Names and Functions of Components of the RTEX-compatible GM1
+ Controller
+
+
+
+
+      No.   Name                             Function
+                                             LEDs indicate the RTEX-compatible GM1 Controller state.
+      (1)   Operation monitor LEDs
+                                             Refer to "Names and functions of operation monitor LEDs".
+            Card cover
+             Inside the card cover(Note 1)   Stores the SD memory card.
+                                             The following are contained inside the cover.
+      (2)
+                                              (2) -1 SD memory card slot
+                                              (2) -2 Cover switch
+
+
+      (3)   LAN port 1                       Ethernet connector
+      (4)   LAN port 2                       Ethernet connector
+                                             Motion network connector dedicated for connecting the MINAS A6N
+                                             or A5N series
+      (5)   RTEX port
+                                             ● "RX" reception side
+                                             ● "TX" transmission side
+            High-speed counter input
+      (6)                                    Refer to "High-speed counter input part".
+            connector
+
+
+
+3-2                                                                                           WUME-GM1H-02
+                     3.1 Names and Functions of Components of the GM1 Controller
+
+
+   No.    Name                               Function
+   (7)    General-purpose I/O connector      Refer to "General-purpose I/O part".
+                                             Used to select either the input state (X) or the output state (Y) of
+   (8)    Display selector switch
+                                             operation monitor LEDs
+                                             Used to connect to a personal computer that uses a tool software.
+   (9)    USB port
+                                             (miniB type)
+                                             Used to change the mode to RUN or STOP.
+   (10)   Mode selector switch               Regardless of whether the switch is set to RUN or STOP, the mode
+                                             can be switched through remote operation from the GM Programmer.
+                                             When power is turned ON, it operates in the mode set on the switch.
+   (11)   DIN rail attachment part           This is the part which is attached to the DIN rail.
+                                             This is a connector to which each expansion unit is connected.
+   (12)   Unit connector
+                                             An end unit is fitted when the unit is shipped.
+                                             SW1:
+                                                Do not change the setting. It is set to ON as the factory default.
+          Dip switches                       SW2: Reset bit
+   (13)                                         This is the switch used to reset the devices.
+                                             If the power supply is turned ON with the mode selector switch set to
+                                             STOP and the reset bit set to ON, the “Device reset (GM1
+                                             initialization)” function is implemented.(Note 2)
+   (14)   DIN hook                           Used to fix the Controller to a DIN rail
+   (15)   COM port terminal                  Serial (RS-232C) connector
+   (16)   Power supply connector             24 V DC power supply connector
+
+  (Note 1)   Do not apply an excessive force to the card cover when opening or closing it or when the cover is left
+             open.
+             Otherwise, the cover attachment part will be deformed to cause malfunction in the cover switch
+             mounted inside the product.
+  (Note 2)   For details on the device reset function, refer to "8.1 Device Reset by GM1 Controller Operation".
+
+  ■ Names and functions of operation monitor LEDs
+
+
+
+
+   No.    Name             LED color         Function
+                                             Indicates the power state of the unit.
+                                             Lit: Power supply of the unit is started normally.
+   (1)    Power            Blue
+                                             Unlit: Power is not supplied. Or, there is an error in the power supply
+                                             to the system.
+                                             Indicates that an alarm has occurred in the system.
+   (2)    Alarm            Red
+                                             Lit: System error
+
+
+
+WUME-GM1H-02                                                                                                        3-3
+3.1 Names and Functions of Components of the GM1 Controller
+
+
+      No.    Name               LED color         Function
+                                                  Unlit: Normal
+      (3)    RUN                Green             Indicates the operating state of the application.
+                                                  RUN (Lit) and STOP (Unlit): The application is in the operating state.
+      (4)    STOP               Green             RUN (Unlit) and STOP (Lit): The application is in the stopped state.
+                                                  RUN (Unlit) and STOP (Unlit): No application exists.
+                                                  Indicates that an error has occurred in the system.
+                                                  Flashing: An error occurred. (Flashing cycle: ON for 0.5 s and OFF
+      (5)    ERROR              Red
+                                                  for 0.5 s)
+                                                  Unlit: Normal
+                                                  Indicates an access state to the SD memory card.
+      (6)    SD                 Green             Lit: Currently accessing to the SD memory card
+                                                  Unlit: No access to the SD memory card
+      (7)    COM.SD             Green             Flashes while data is transmitted from the COM port.
+      (8)    COM.RD             Green             Flashes while data is received by the COM port.
+                                                  Indicates the packet transmission / reception state through motion
+                                                  communication.
+             RTEX
+      (9)                       Green             Lit: Communication is established with normal communication.
+             STATUS
+                                                  Flashing: Starting up
+                                                  Unlit: Communication is not established.
+                                                  Indicates the LINK state of motion communication.
+             RTEX                                 Lit: Normal connection (The TX of the sending node and the RX of
+      (10)                      Green
+             LINK                                 the local node are electrically connected normally.)
+                                                  Unlit: Not connected
+             CH0 A, B, and
+             Z
+      (11)                      Green             Indicates the status of the high-speed counter input signal(Note 1)
+             CH1 A, B, and
+             Z
+                                                  Indicates the ON/OFF state of the Controller I/O depending on the
+                                                  state of the display selector switch.
+                                                  Display selector switch X
+                                                    Lit: Each terminal of the input contacts X0-XF is ON.
+      (12)   0-F                Green
+                                                    Unlit: Each terminal of the input contacts X0-XF is OFF.
+                                                  Display selector switch Y
+                                                    Lit: Each terminal of the output contacts Y0-YF is ON.
+                                                    Unlit: Each terminal of the output contacts Y0-YF is OFF.
+
+      (Note 1)    The LEDs for the high-speed counter input signal flash according to the input statuses. Thus look as if
+                  they are continuously lit if the input frequencies are high.
+
+
+
+
+3-4                                                                                                    WUME-GM1H-02
+                    3.1 Names and Functions of Components of the GM1 Controller
+
+
+ 3.1.2 Names and Functions of Components of the EtherCAT-compatible GM1
+ Controller
+
+
+
+
+   No.   Name                             Function
+                                          LEDs indicate the EtherCAT-compatible GM1 Controller state.
+   (1)   Operation monitor LEDs
+                                          Refer to "Names and functions of operation monitor LEDs".
+         Card cover
+          Inside the card cover(Note 1)   Stores the SD memory card.
+                                          The following are contained inside the cover.
+   (2)
+                                           (2) -1 SD memory card slot
+                                           (2) -2 Cover switch
+
+
+   (3)   LAN port 1                       Ethernet connector
+   (4)   LAN port 2                       Ethernet connector
+                                          Motion network connector dedicated for connecting the MINAS A6B
+   (5)   EtherCAT port
+                                          or A5B series
+         High-speed counter input
+   (6)                                    Refer to "High-speed counter input part".
+         connector
+   (7)   General-purpose I/O connector    Refer to "General-purpose I/O part".
+                                          Used to select either the input state (X) or the output state (Y) of
+   (8)   Display selector switch
+                                          operation monitor LEDs
+                                          Used to connect to a personal computer that uses a tool software.
+   (9)   USB port
+                                          (miniB type)
+
+
+
+WUME-GM1H-02                                                                                                     3-5
+3.1 Names and Functions of Components of the GM1 Controller
+
+
+      No.    Name                                Function
+                                                 Used to change the mode to RUN or STOP.
+      (10)   Mode selector switch                Regardless of whether the switch is set to RUN or STOP, the mode
+                                                 can be switched through remote operation from the GM Programmer.
+                                                 When power is turned ON, it operates in the mode set on the switch.
+      (11)   DIN rail attachment part            This is the part which is attached to the DIN rail.
+                                                 This is a connector to which each expansion unit is connected.
+      (12)   Unit connector
+                                                 An end unit is fitted when the unit is shipped.
+                                                 SW1:
+                                                    Do not change the setting. It is set to ON as the factory default.
+             Dip switches                        SW2: Reset bit
+      (13)                                          This is the switch used to reset the devices.
+                                                 If the power supply is turned ON with the mode selector switch set to
+                                                 STOP and the reset bit set to ON, the “Device reset (GM1
+                                                 initialization)” function is implemented.(Note 2)
+      (14)   DIN hook                            Used to fix the Controller to a DIN rail
+      (15)   COM port terminal                   Serial (RS-232C) connector
+      (16)   Power supply connector              24 V DC power supply connector
+
+      (Note 1)   Do not apply an excessive force to the card cover when opening or closing it or when the cover is left
+                 open.
+                 Otherwise, the cover attachment part will be deformed to cause malfunction in the cover switch
+                 mounted inside the product.
+      (Note 2)   For details on the device reset function, refer to "8.1 Device Reset by GM1 Controller Operation".
+
+      ■ Names and functions of operation monitor LEDs
+
+
+
+
+      No.    Name              LED color         Function
+                                                 Indicates the power state of the unit.
+                                                 Lit: Power supply of the unit is started normally.
+      (1)    Power             Blue
+                                                 Unlit: Power is not supplied. Or, there is an error in the power supply
+                                                 to the system.
+                                                 Indicates that an alarm has occurred in the system.
+      (2)    Alarm             Red               Lit: System error
+                                                 Unlit: Normal
+      (3)    RUN               Green             Indicates the operating state of the application.
+                                                 RUN (Lit) and STOP (Unlit): The application is in the operating state.
+      (4)    STOP              Green             RUN (Unlit) and STOP (Lit): The application is in the stopped state.
+                                                 RUN (Unlit) and STOP (Unlit): No application exists.
+
+
+
+3-6                                                                                                    WUME-GM1H-02
+                     3.1 Names and Functions of Components of the GM1 Controller
+
+
+   No.    Name               LED color         Function
+                                               Indicates that an error has occurred in the system.
+                                               Flashing: An error occurred. (Flashing cycle: ON for 0.5 sec and OFF
+   (5)    ERROR              Red
+                                               for 0.5 sec)
+                                               Unlit: Normal
+                                               Indicates an access state to the SD memory card.
+   (6)    SD                 Green             Lit: Currently accessing to the SD memory card
+                                               Unlit: No access to the SD memory card
+   (7)    COM.SD             Green             Flashes while data is transmitted from the COM port.
+   (8)    COM.RD             Green             Flashes while data is received by the COM port.
+                                               Indicates the LINK state of EtherCAT communication.
+                                               Lit: EtherCAT communication LINK is established. (= Operational
+                                               mode)
+                                               (All slave devices connected to the master device are in the Active
+          ECAT                                 state.)
+   (9)                       Green
+          LINK                                 Flashing: EtherCAT is starting up.
+                                               (When the Active state turns OFF due to wire disconnection or other
+                                               reasons while the master device is in the Active state)
+                                               Unlit: EtherCAT communication is not established.
+                                               (When the master device is invalid or does not exist)
+                                               Indicates the state of the physical port of EtherCAT communication.
+                                               Lit: PHY LINK is established and data are transmitted / received.
+          ECAT
+   (10)                      Green             Flashing: PHY LINK is established and data are not transmitted /
+          L/A
+                                               received.
+                                               Unlit: PHY LINK is not established.
+          CH0 A, B, and
+          Z
+   (11)                      Green             Indicates the status of the high-speed counter input signal(Note 1)
+          CH1 A, B, and
+          Z
+                                               Indicates the ON/OFF state of the Controller I/O depending on the
+                                               state of the display selector switch.
+                                               Display selector switch X
+                                                 Lit: Each terminal of the input contacts X0-XF is ON.
+   (12)   0-F                Green
+                                                 Unlit: Each terminal of the input contacts X0-XF is OFF.
+                                               Display selector switch Y
+                                                 Lit: Each terminal of the output contacts Y0-YF is ON.
+                                                 Unlit: Each terminal of the output contacts Y0-YF is OFF.
+
+  (Note 1)     The LEDs for the high-speed counter input signal flash according to the input statuses. Thus look as if
+               they are continuously lit if the input frequencies are high.
+
+
+
+
+ 3.1.3 Terminal Layout Diagram of the GM1 Controller (RTEX-compatible /
+ EtherCAT-compatible)
+
+  ■ High-speed counter input part
+  The 2-ch high-speed counter can be used.
+
+
+
+WUME-GM1H-02                                                                                                         3-7
+3.1 Names and Functions of Components of the GM1 Controller
+
+
+
+
+      High-speed counter input terminal arrangement
+      Pin No.
+                                   Circuit                              Signal name
+      Ch0           Ch1
+      A1            A11                                                 Input A: 24 V DC (12 to 24 V DC)
+      A2            A12                                                 Input A: 5 V DC (3.5 to 5 V DC)
+      B1            B11                                                 Input A: COM
+      B2            B12                                                 Input A: COM
+      A3            A13                                                 Input B: 24 V DC (12 to 24 V DC)
+      A4            A14                                                 Input B: 5 V DC (3.5 to 5 V DC)
+      B3            B13                                                 Input B: COM
+      B4            B14                                                 Input B: COM
+      A5            A15                                                 Input Z: 24 V DC (12 to 24 V DC)
+      A6            A16                                                 Input Z: 5 V DC (3.5 to 5 V DC)
+      B5            B15                                                 Input Z: COM
+      B6            B16                                                 Input Z: COM
+      A7 to A10     B7 to B10      -                                    -
+      A17 to A20    B17 to B20     -                                    -
+
+
+
+
+       For the counter input signals (A, B, and Z), use shielded twisted-pair cables.
+
+      ■ General-purpose I/O part
+      High-speed counter control signals (control signals, external outputs) and PWM outputs can be
+      allocated to general-purpose I/O (16 input points, 16 output points).
+
+
+
+
+3-8                                                                                          WUME-GM1H-02
+               3.1 Names and Functions of Components of the GM1 Controller
+
+
+
+
+  Terminal layout
+   Pin No.      General-
+                              Signal name
+   Column C     purpose I/O
+
+   C1           X0            High-speed counter ch0 control 0 signal
+   C2           X1            High-speed counter ch0 control 1 signal
+   C3           X2            High-speed counter ch1 control 0 signal
+   C4           X3            High-speed counter ch1 control 1 signal
+   C5           X4            -
+   C6           X5            -
+   C7           X6            -
+   C8           X7            -
+
+   C9           COM(Note 1)   COM
+
+   C10          COM(Note 1)   COM
+
+   C11          Y0            High-speed counter ch0 external output 0 signal
+   C12          Y1            High-speed counter ch0 external output 1 signal
+   C13          Y2            High-speed counter ch1 external output 0 signal
+   C14          Y3            High-speed counter ch1 external output 1 signal
+   C15          Y4            PWM output 0
+   C16          Y5            PWM output 1
+   C17          Y6            PWM output 2
+   C18          Y7            PWM output 3
+
+   C19          +(Note 2)     +V
+
+   C20          -(Note 3)     -V
+
+   D1           X8            -
+   D2           X9            -
+
+
+WUME-GM1H-02                                                                    3-9
+3.1 Names and Functions of Components of the GM1 Controller
+
+
+       Pin No.        General-
+                                         Signal name
+       Column C       purpose I/O
+
+       D3             X10                -
+       D4             X11                -
+       D5             X12                -
+       D6             X13                -
+       D7             X14                -
+       D8             X15                -
+
+       D9             COM(Note 1)        COM
+
+       D10            COM(Note 1)        COM
+
+       D11            Y8                 -
+       D12            Y9                 -
+       D13            Y10                -
+       D14            Y11                -
+       D15            Y12                -
+       D16            Y13                -
+       D17            Y14                -
+       D18            Y15                -
+
+       D19            +(Note 2)          +V
+
+       D20            -(Note 3)          -V
+
+   (Note 1)   The COM terminals (4 places) of the general-purpose input are connected within the unit.
+   (Note 2)   The positive terminals (2 places) of the general-purpose output are connected within the unit.
+   (Note 3)   The negative terminals (2 places) of the general-purpose output are connected within the unit.
+
+
+
+
+3-10                                                                                              WUME-GM1H-02
+                                                                                 3.2 Expansion Units
+
+
+ 3.2 Expansion Units
+
+
+ 3.2.1 Names and Functions of Components of the GM1 Digital I/O Unit
+
+
+
+
+   No.   Name                         Function
+   (1)   Unit connector               This is a connector to which each expansion unit is connected.
+   (2)   Operation monitor LEDs       These LEDs indicate the status of expansion units.
+                                      This is a switch used to select I/O information to be displayed on
+   (3)   Display selector switch
+                                      LEDs.
+   (4)   I/O connector                Used to connect input devices to output devices.
+   (5)   Expansion hook               This is a hook used to fix each expansion unit to another.
+   (6)   DIN rail attachment part     This is the part which is attached to the DIN rail.
+   (7)   DIN hook                     Used to fix the Controller to a DIN rail
+
+  ■ Names and functions of each operation monitor LED
+
+
+
+
+   No.   Name             LED color   Function
+                                      Indicates the power state of the unit.
+                                      Lit: Power supply of the unit is started normally.
+   (1)   Power            Blue
+                                      Unlit: Power is not supplied. Or, there is an error in the power supply
+                                      to the system.
+                                      Indicates that an alarm has occurred in the unit.
+   (2)   Alarm            Red
+                                      Lit: Unit error
+
+
+WUME-GM1H-02                                                                                               3-11
+3.2 Expansion Units
+
+
+       No.   Name     LED color     Function
+                                    Unlit: Normal
+                                    Indicates the ON / OFF state of the expansion unit depending on the
+                                    state of the display selector switch.
+                                     ● 64-point digital input unit
+                                        • Display selector switch CN1
+                                           Lit: Each terminal of the X0-1F is ON.
+                                           Unlit: Each terminal of the X0-1F is OFF.
+                                        • Display selector switch CN2
+                                           Lit: Each terminal of the X20-3F is ON.
+                                           Unlit: Each terminal of the X20-3F is OFF.
+                                     ● 64-point digital output unit
+                                        • Display selector switch CN1
+       (3)   0-1F     Green                Lit: Each terminal of the Y0-1F is ON.
+                                           Unlit: Each terminal of the Y0-1F is OFF.
+                                        • Display selector switch CN2
+                                           Lit: Each terminal of the Y20-3F is ON.
+                                           Unlit: Each terminal of the Y20-3F is OFF.
+                                     ● 64-point digital I/O unit
+                                        • Display selector switch CN1
+                                           Lit: Each terminal of the X0-1F is ON.
+                                           Unlit: Each terminal of the X0-1F is OFF.
+                                        • Display selector switch CN2
+                                           Lit: Each terminal of the Y0-1F is ON.
+                                           Unlit: Each terminal of the Y0-1F is OFF.
+
+
+
+
+ 3.2.2 Terminal Layout Diagram of the GM1 Digital I/O Unit
+
+   Terminal layout diagram of the 64-point digital input unit
+
+
+
+
+3-12                                                                                  WUME-GM1H-02
+                                                                                     3.2 Expansion Units
+
+
+  Terminal layout diagram of the 64-point digital output unit (sink type)
+
+
+
+
+  Terminal layout diagram of the 64-point digital output unit (source type)
+
+
+
+
+  (Note 1)   The COM terminals in the same connector are connected internally.
+  (Note 2)   Although the positive and negative terminals are connected internally, connect these terminals
+             externally as well.
+
+
+
+
+WUME-GM1H-02                                                                                                  3-13
+3.2 Expansion Units
+
+
+   Terminal layout diagram of the 64-point digital I/O unit (sink type)
+
+
+
+
+   Terminal layout diagram of the 64-point digital I/O unit (source type)
+
+
+
+
+3-14                                                                        WUME-GM1H-02
+                                                                                 3.2 Expansion Units
+
+
+ 3.2.3 Names and Functions of Components of the GM1 Analog I/O Unit
+
+
+
+
+   No.   Name                         Function
+   (1)   Unit connector               This is a connector to which each expansion unit is connected.
+   (2)   Operation monitor LEDs       These LEDs indicate the status of expansion units.
+   (3)   I/O connector                Used to connect input devices or output devices.
+   (4)   Expansion hook               This is a hook used to fix each expansion unit to another.
+   (5)   DIN rail attachment part     This is the part which is attached to the DIN rail.
+   (6)   DIN hook                     Used to fix the Controller to a DIN rail
+
+  ■ Names and functions of each operation monitor LED
+
+
+
+
+   No.   Name             LED color   Function
+                                      Indicates the completion of power processing of the unit.
+                                      Lit: Power supply of the unit is started normally.
+   (1)   Power            Blue
+                                      Unlit: Power is not supplied. Or, there is an error in the power supply
+                                      to the system.
+                                      Indicates that an alarm has occurred in the unit.
+   (2)   Alarm            Red         Lit: Unit error
+                                      Unlit: Normal
+                                      Indicates that an error has occurred in the unit.
+   (3)   ERROR            Red         Lit: Error occurred.
+                                      Unlit: Normal
+
+
+
+WUME-GM1H-02                                                                                              3-15
+3.2 Expansion Units
+
+
+ 3.2.4 Terminal Layout Diagram of the GM1 Analog I/O Unit
+
+   Terminal layout diagram of the Analog Input Unit
+   The terminal used by the analog voltage input is common to that used by the analog current
+   input.
+                            CN1                                          CN2
+                VI0                                               VI4
+   CH0                                                     CH4
+               COM                                               COM
+                VI1                                               VI5
+   CH1                                                     CH5
+               COM                                               COM
+                VI2                                               VI6
+   CH2                                                     CH6
+               COM                                               COM
+                VI3                                               VI7
+   CH3                                                     CH7
+               COM                                               COM
+   (Note 1)   All COM terminals are connected within the unit.
+
+   Terminal layout diagram of the Analog Output Unit
+   The terminal used by the analog voltage output is different from that used by the analog current
+   output.
+                            CN1                                          CN2
+               V0                                                  V2
+   CH0          I0                                         CH2      I2
+              COM                                                COM
+               NC                                                 NC
+               V1                                                 V3
+   CH1          I1                                         CH3      I3
+              COM                                                COM
+               NC                                                 NC
+   (Note 1)   All COM terminals are connected within the unit.
+
+
+
+
+3-16                                                                               WUME-GM1H-02
+                                                                                   3.2 Expansion Units
+
+
+ 3.2.5 Names and Functions of Parts of the GM1 Pulse Output Unit
+
+
+
+
+   No.   Name                           Function
+   (1)   Unit connector                 This is a connector to which each expansion unit is connected.
+   (2)   Operation monitor LEDs         These LEDs indicate the status of expansion units.
+         Operation monitor selection    This switches operation display between the display for axes 1 and
+   (3)
+         switch                         2, and that for axes 3 and 4.
+   (4)   Output connector               This is used to connect an output device.
+   (5)   Expansion hook                 This is a hook used to fix each expansion unit to another.
+   (6)   DIN rail attachment part       This is the part which is attached to the DIN rail.
+   (7)   DIN hook                       Used to fix the Controller to a DIN rail
+
+  ■ Names and functions of each operation monitor LED
+
+
+
+
+   No.   Name               LED color   Function
+                                        Indicates the completion of power processing of the unit.
+                                        Lit: Power supply of the unit is started normally.
+   (1)   Power              Blue
+                                        Unlit: Power is not supplied. Or, there is an error in the power supply
+                                        to the system.
+                                        Indicates that an alarm has occurred in the unit.
+   (2)   Alarm              Red         Lit: Unit error
+                                        Unlit: Normal
+
+   (3)   A                  Green       Indicates the pulse output A signal.(Note 1)
+
+
+WUME-GM1H-02                                                                                                3-17
+3.2 Expansion Units
+
+
+       No.    Name               LED color          Function
+                                                    ● When set to pulse / sign output method
+                                                      Flashing: During pulse output
+                                                      Unlit: During stop
+                                                    ● When set to CW / CCW output method
+                                                      Flashing: During pulse output (Forward)
+                                                      Unlit: During stop (Forward)
+
+                                                    Indicates the pulse output B signal.(Note 1)
+                                                     ● When set to pulse / sign output method
+                                                       Lit: Reverse direction command
+       (4)    B                  Green                 Unlit: Forward direction command
+                                                     ● When set to CW / CCW output method
+                                                       Flashing: During pulse output (Reverse)
+                                                       Unlit: During stop (Reverse)
+                                                    Indicates the counter clear signal output.
+       (5)    CL                 Green              Lit: Output ON
+                                                    Unlit: Output OFF
+
+                                                    Indicates the near home status.(Note 2)
+       (6)    D                  Green              Lit: ON
+                                                    Unlit: OFF
+
+                                                    Indicates the home input state.(Note 2)
+       (7)    Z                  Green              Lit: ON
+                                                    Unlit: OFF
+
+       (8)    PA                 Green              Indicates the pulse input A signal.(Note 3)
+
+       (9)    PB                 Green              Indicates the pulse input B signal.(Note 3)
+                                                    Indicates that an error has occurred in the unit.
+       (10)   ERR                Red                Lit: Error occurred.
+                                                    Unlit: Normal
+
+   (Note 1)        The pulse output signal display LEDs (A and B) blink at the output frequency (speed). For this reason
+                   they may appear to light steadily at high-speed output.
+   (Note 2)        The near home (D) and home input (Z) LEDs light when the respective input becomes valid.
+   (Note 3)        Pulse input signal (PA) and (PB) display the pulse signal input status.
+
+
+
+
+ 3.2.6 Terminal Layout Diagram of the GM1 Pulse Output Unit
+
+
+
+
+3-18                                                                                                    WUME-GM1H-02
+               3.2 Expansion Units
+
+
+
+
+WUME-GM1H-02                  3-19
+(MEMO)
+
+
+
+
+3-20     WUME-GM1H-02
+       4 Installation
+       4.1 Installation of the GM1 Series.............................................................4-2
+          4.1.1 Installation Environment and Space ................................................ 4-2
+          4.1.2 Unit Installation Procedure ............................................................... 4-4
+          4.1.3 Removing the Unit ........................................................................... 4-5
+          4.1.4 Attaching to DIN Rail........................................................................ 4-6
+          4.1.5 Removing from DIN Rail .................................................................. 4-7
+
+
+
+
+WUME-GM1H-02                                                                                                        4-1
+4.1 Installation of the GM1 Series
+
+
+ 4.1 Installation of the GM1 Series
+
+
+ 4.1.1 Installation Environment and Space
+
+      ■ Installation environment
+      Use the unit within the range of the general specifications when installing.
+      ● Ambient temperature: 0 to +55°C
+      ● Ambient humidity: 10 to 95% RH (at 25°C, non-condensing)
+      ● Pollution degree: 2
+      ● Altitude: 2,000 m above sea level or lower
+      ● Overvoltage category: II or less
+      ● Installation place: It is assumed to be used in an environment inside a control panel (metal
+        panel with sufficient strength) that provides a protection rating of IP54 or higher.
+      Do not use it in the following environments.
+      ● Direct sunlight
+      ● Sudden temperature changes causing condensation.
+      ● Inflammable or corrosive gas.
+      ● Excessive airborne dust, metal particles or saline matter.
+      ● Benzine, paint thinner, alcohol or other organic solvents or strong alkaline solutions such as
+        ammonia or caustic soda.
+      ● Direct vibration, shock or direct drop of water.
+      ● Influence from power transmission lines, high voltage equipment, power cables, power
+        equipment, radio transmitters, or any other equipment that would generate high switching
+        surges. (100 mm or more)
+
+      ■ Handling instructions
+      ● Do not directly touch connector pins directly to prevent electrostatic discharge failure.
+      ● Always rid yourself of any static electricity before handling this product.
+      ● Do not connect a unit other than our GM1 series to the side connector on the unit.
+      ● Use copper wires with a temperature rating of 80°C.
+
+      ■ Measures regarding heat radiation
+      ● As countermeasures against heat radiation, install the unit in the direction shown below.
+
+
+
+
+      ● Do not install the unit stacked up, horizontally or upside down. Doing so will prevent proper
+        cooling of the unit and cause overheating inside.
+
+
+
+
+4-2                                                                                     WUME-GM1H-02
+                                                         4.1 Installation of the GM1 Series
+
+
+
+
+  ● Do not install the unit above devices which generate heat such as heaters, transformers or
+    large scale resistors.
+
+  ■ Installation space
+  ● Install the unit at least 50 mm away from other devices or wiring duct on the left and right
+    sides and top and bottom sides of the unit to provide a ventilation space.
+
+
+
+
+  ● Do not install the unit above devices which generate heat such as heaters, transformers or
+    large scale resistors.
+  ● In order to eliminate any effects from noise emission, power wires and electromagnetic
+    devices should be kept at least 100 mm away from the surfaces of the unit. When installing
+    the unit behind the doors of the control board, be especially careful to secure clearances as
+    above.
+
+
+
+
+  ● Secure a clearance of at least 170 mm from the mounting surface of the GM1 Series for
+    connecting tool software cables.
+
+
+
+
+WUME-GM1H-02                                                                                       4-3
+4.1 Installation of the GM1 Series
+
+
+
+
+ 4.1.2 Unit Installation Procedure
+
+             ● Install the expansion unit between the GM1 Controller (RTEX-compatible / EtherCAT-
+               compatible) and the end unit.
+             ● Make sure to connect an end unit.
+             ● Make sure to turn OFF the power supply before installing the unit.
+             ● Do not directly touch the connector part of the unit.
+             ● Make sure that the connector parts are not stressed when and after installing the unit.
+
+
+
+
+      1. Raise the expansion hooks on the sides of the unit with a screwdriver to release them.
+
+
+
+
+      2. Attach the unit connectors on the side of the unit to those on the the other unit.
+
+
+
+
+4-4                                                                                       WUME-GM1H-02
+                                                      4.1 Installation of the GM1 Series
+
+
+
+
+  3. Lower the expansion hooks to lock the units in place.
+
+
+
+
+ 4.1.3 Removing the Unit
+
+
+
+
+  1. Raise expansion hooks on the sides of the unit with a screwdriver to release them.
+
+
+
+
+WUME-GM1H-02                                                                              4-5
+4.1 Installation of the GM1 Series
+
+
+      2. Slide the unit sideways to remove it.
+
+
+
+
+ 4.1.4 Attaching to DIN Rail
+
+
+
+
+      1. Using a screwdriver, push down the DIN rail attachment lever on the back of each unit.
+
+
+
+
+      2. Fit the top of the unit attachment part into the DIN rail.
+      3. While pressing down the unit attachment part onto the DIN rail, fit the bottom of the unit
+          attachment part into the DIN rail.
+
+
+
+
+4-6                                                                                    WUME-GM1H-02
+                                                          4.1 Installation of the GM1 Series
+
+
+
+
+  4. Push up the DIN rail attachment lever on the back of the unit until it "clicks" to lock.
+
+
+
+
+ 4.1.5 Removing from DIN Rail
+
+
+
+
+  1. Using a screwdriver, push down the DIN rail attachment lever on the back of each unit.
+
+
+
+
+WUME-GM1H-02                                                                                    4-7
+4.1 Installation of the GM1 Series
+
+
+
+
+      2. Pull the bottom of the unit toward you.
+      3. While holding up the unit, remove it from the DIN rail.
+
+
+
+
+4-8                                                                WUME-GM1H-02
+       5 Wiring
+       5.1 Wiring the Power Supply.....................................................................5-2
+          5.1.1 Common Precautions ...................................................................... 5-2
+          5.1.2 Power Supply for the GM1 Controller (RTEX-compatible /
+                EtherCAT-compatible)....................................................................... 5-3
+          5.1.3 Grounding ........................................................................................ 5-3
+       5.2 Wiring of Network................................................................................5-5
+       5.3 Wiring of Input and Output ..................................................................5-7
+          5.3.1 Precautions Common to Input and Output....................................... 5-7
+          5.3.2 Input Wiring ...................................................................................... 5-7
+          5.3.3 High-speed Counter Input Wiring..................................................... 5-8
+          5.3.4 Output Wiring ................................................................................... 5-10
+       5.4 Connection Using the Discrete-wire Connector .................................5-11
+          5.4.1 Specifications of the Discrete-wire Connector ................................. 5-11
+          5.4.2 Wiring the Discrete-wire Connector ................................................. 5-12
+       5.5 Safety Measures .................................................................................5-15
+          5.5.1 General Safety Measures ................................................................ 5-15
+          5.5.2 Momentary Power Failure ................................................................ 5-15
+          5.5.3 Watchdog Timer ............................................................................... 5-15
+
+
+
+
+WUME-GM1H-02                                                                                                              5-1
+5.1 Wiring the Power Supply
+
+
+ 5.1 Wiring the Power Supply
+
+
+ 5.1.1 Common Precautions
+
+      ■ Selection of a power supply
+      ● Use a low noise power supply.
+      ● The inherent noise resistance is sufficient for the noise superimposed on the power wires,
+        however, the noise can be attenuated further by using the isolation transformer / insulated
+        power supply.
+
+      ■ Isolation of power supply systems
+      Wiring to the units, I/O devices, and other power devices should have separate wiring systems.
+
+
+
+
+      ■ Power supply sequence
+      ● Have the power supply sequence such that the power supply of the GM1 Controller (RTEX-
+        compatible / EtherCAT-compatible) turns OFF before the power supply for input and output.
+      ● If the I/O power supplies are turned OFF before the power to the GM1 Controller (RTEX-
+        compatible / EtherCAT-compatible), the GM1 Controller (RTEX-compatible / EtherCAT-
+        compatible) will detect the input fluctuations and may begin an unscheduled operation.
+
+
+
+
+5-2                                                                                   WUME-GM1H-02
+                                                               5.1 Wiring the Power Supply
+
+
+ 5.1.2 Power Supply for the GM1 Controller (RTEX-compatible / EtherCAT-
+ compatible)
+
+  ■ Wiring the Power Supply
+   Unit                   Wiring diagram
+
+
+
+
+   GM1 Controller
+   (RTEX-compatible /
+   EtherCAT-compatible)
+
+
+
+
+  ■ Selection of a power supply
+  ● To protect the system against erroneous voltage from the power supply line, use an insulated
+    power supply with an internal protective circuit (power supply with reinforced insulation or
+    double insulation).
+  ● The regulator on the unit is a non-insulated type.
+  ● Select a power supply larger than the capacity of the units to be connected. In the minimum
+    configuration, select a power supply of 24 W or larger.
+
+  ■ Power supply voltage
+  ● Confirm that the voltage of the power supply to be connected is within the allowable range.
+   Rated input voltage               Allowable voltage range      Rated output capacity
+   24 V DC                           20.4 to 28.8 V DC            24 W or more
+
+  ■ Power supply cable
+  ● Use the power supply cable (Part No.:AFPG805) that comes with the unit to connect the
+    power supply.
+    Brown: 24 V DC, Blue: 0 V, Green: Function earth
+  ● Also, twist the power supply cables to minimize adverse effects from noise.
+
+
+
+ 5.1.3 Grounding
+
+  ■ Use dedicated grounding
+  ● The grounding connection should have a resistance of 100 Ω or less.
+  ● The point of grounding should be as close to the GM1 as possible. The ground wire should
+    be as short as possible.
+  ● Sharing the ground with another device may have an adverse effect. Therefore, be sure that
+    grounding is dedicated.
+
+
+WUME-GM1H-02                                                                                  5-3
+5.1 Wiring the Power Supply
+
+
+
+
+       ● Conversely, depending on your environment, grounding may cause a problem.
+         As for the GM1 Controller (RTEX-compatible / EtherCAT-compatible), since its power
+         supply line is connected to the function earth through a high-voltage capacitor, it is no
+         problem.
+
+
+
+
+       ● Do not ground the function earth when grounding a plus (+) terminal of the power.
+         When grounding a plus terminal of the power supply, prepare a power supply dedicated
+         to the GM1 and do not ground the plus terminal of the GM1 power supply. In some
+         personal computers, the SG terminal of the internal circuit and shielding are connected.
+         Furthermore, since the power supply circuit for the GM1 is not isolated, if the plus
+         terminal of the power supply is grounded, the power supply will be short circuited to
+         cause a breakdown.
+
+
+
+
+5-4                                                                                   WUME-GM1H-02
+                                                                      5.2 Wiring of Network
+
+
+ 5.2 Wiring of Network
+  For the wiring of the network, use the LAN cable of the Category 5e shielded cable type. To
+  prevent the cable from coming off, securely connect the connector of the cable to the network
+  connector (RJ45 connector) of the unit.
+
+  For RTEX communication
+  The length between each node should be within 100 m, and the total length of the
+  communication loop should be within 200 m.
+
+
+
+
+  For EtherCAT communication
+  The length between each node should be within 100 m, and the total length should be within
+  200 m.
+
+
+
+
+WUME-GM1H-02                                                                                   5-5
+5.2 Wiring of Network
+
+
+      ● Connect the cable that is connected to the "TX" of the GM1 Controller (RTEX-compatible /
+        EtherCAT-compatible) to the "X2A Connector (RX) "of the servo amplifier. In the same way,
+        connect between amplifiers from X2B (TX) to X2A (RX).
+      ● Connect them in a loop in such a way that X2B (TX) of the end amplifier is connected to the
+        "RX" of the GM1 Controller (RTEX-compatible / EtherCAT-compatible).
+
+            ● Always use shielded twisted pair (STP) cables that are compatible with category 5e or
+              higher.
+            ● Turn OFF the power to the system before wiring cables.
+            ● The Ethernet hub cannot be used.
+            ● For detailed information of cable specifications and precautions, refer to the data "RTEX
+              Cable" listed on the web page.
+              https://industrial.panasonic.com/ac/j/dl_center/manual/
+
+
+
+
+5-6                                                                                      WUME-GM1H-02
+                                                              5.3 Wiring of Input and Output
+
+
+ 5.3 Wiring of Input and Output
+
+
+ 5.3.1 Precautions Common to Input and Output
+
+  ■ Wiring arrangement
+  Arrange the wiring so that the input and output wiring are separated, and these wirings are
+  separated from the power wiring, as much as possible. Do not route them through the same
+  duct or tie them in a bundle. Separate the I/O wires from the power and high voltage wires by at
+  least 100 mm.
+
+  ■ Selection of wires
+  Be sure to select the thickness (dia.) of the input and output wires while taking into
+  consideration the required current capacity.
+
+  ■ Power supply
+  Wiring should be carried out after the power supply to the GM1 was turned OFF. Also turn OFF
+  the power supply when connecting the GM1 Controller (RTEX-compatible / EtherCAT-
+  compatible) to expansion units. If they are connected during the power supply is on, it may
+  cause the fault or malfunction.
+
+
+
+ 5.3.2 Input Wiring
+
+  ■ Connection of photoelectric sensor and proximity sensor
+  Relay output type
+
+
+
+
+  NPN open collector output type
+
+
+
+
+  Voltage output type
+
+
+
+
+WUME-GM1H-02                                                                                   5-7
+5.3 Wiring of Input and Output
+
+
+      Two-wire output type
+
+
+
+
+      ■ Precaution when using LED-equipped reed switch
+      When a LED is connected in series to an input contact such as LED-equipped reed switch,
+      make sure that the voltage applied to the GM1 input terminal is greater than the ON voltage. In
+      particular, take care when connecting a number of switches in series.
+
+
+
+
+      ■ Precaution when using two-wire type sensor
+      If the input to the GM1 does not turn OFF because of leakage current from the two-wire type
+      photoelectric sensor or proximity sensor, connect a bleeder resistor as shown below.
+
+
+
+
+      ■ Precaution when using LED-equipped limit switch
+      If the input to the GM1 does not turn OFF because of leakage current from the LED-equipped
+      limit switch, connect a bleeder resistor as shown on below.
+
+
+
+
+ 5.3.3 High-speed Counter Input Wiring
+
+             ● For the connection between the count input (phases A, B, Z) and encoder, etc., use
+               shielded twisted-pair cables.
+             ● The length of connected wires should be 10 m or below.
+
+
+
+
+5-8                                                                                     WUME-GM1H-02
+                                                   5.3 Wiring of Input and Output
+
+
+  ■ For line driver of encoder input
+
+
+
+
+  ■ For transistor open collector type of encoder input
+
+
+
+
+WUME-GM1H-02                                                                  5-9
+5.3 Wiring of Input and Output
+
+
+   ■ For sensor input
+
+
+
+
+ 5.3.4 Output Wiring
+
+   ■ Protective circuit for inductive loads
+   With an inductive load, a protective circuit should be installed in parallel with the load.
+
+
+
+
+   ■ Precautions when using capacitive loads
+   When connecting loads with large in-rush currents, to minimize their effect, connect a protection
+   circuit as shown below.
+
+
+
+
+5-10                                                                                    WUME-GM1H-02
+                                   5.4 Connection Using the Discrete-wire Connector
+
+
+ 5.4 Connection Using the Discrete-wire Connector
+  No discrete-wire connector is provided with the unit. Purchase it separately.
+
+ 5.4.1 Specifications of the Discrete-wire Connector
+
+  This is a connector that allows loose wires to be connected without removing the wire’s
+  insulation. Use a special tool for wire connection.
+
+  Discrete-wire connector (40P)
+
+
+
+
+  ■ AFP2801 Discrete-wire Connector (Purchase separately)
+   Manufacturer Composition of parts     Quantity (2 sets)
+   Panasonic    Housing                  1 pc.
+   (AFP2801)    (40P)
+                Semi-cover               2 pcs.
+                (40P)
+                Contact               8 pcs.
+                (For AWG22 and AWG24)
+                5 pins
+
+  ■ Compatible wires (stranded wire)
+   Size    Nominal cross-sectional area Insulation thickness Rated current
+   AWG22 0.3 mm2                        Φ1.5 to Φ1.1         3A
+
+   AWG24 0.2 mm2
+
+
+  ■ Dedicated crimping tool
+   Manufacturer Product No.
+    Panasonic   AXY52000FP
+
+
+
+
+WUME-GM1H-02                                                                                5-11
+5.4 Connection Using the Discrete-wire Connector
+
+
+ 5.4.2 Wiring the Discrete-wire Connector
+
+          ● When performing wiring work, refer to the instruction manual of the crimping tool in order
+            to prevent faulty wiring.
+
+
+
+
+   1. Bend and break the contact, and set it in the crimping tool.
+
+
+
+
+   2. Insert the wire without removing its insulation until it stops, and lightly grip the crimping tool.
+
+
+
+
+   3. The contact appears as shown below after it is crimped. Confirm the following two points.
+       1. The wire must be embraced inside the clamped part.
+       2. The wire must be inserted to the end.
+
+
+
+
+   4. Insert the wire with the contact into the housing.
+
+
+
+5-12                                                                                    WUME-GM1H-02
+                                  5.4 Connection Using the Discrete-wire Connector
+
+
+
+
+  5. When all the wires have been inserted, fit the semi-cover into place.
+
+
+
+
+WUME-GM1H-02                                                                  5-13
+5.4 Connection Using the Discrete-wire Connector
+
+
+
+       ● If there is a wiring mistake or the wire is incorrectly press-fit, use the crimping tool to remove
+         the contact.
+         1. Set the pin of the crimping tool at the position indicated by an arrow.
+
+
+
+
+         2.   Hold the housing with fingers and pull the wire.
+
+
+
+
+5-14                                                                                          WUME-GM1H-02
+                                                                         5.5 Safety Measures
+
+
+ 5.5 Safety Measures
+
+
+ 5.5.1 General Safety Measures
+
+  ■ Precautions regarding system design
+  ● In the system where the GM1 is used, malfunction may occur for the following reasons:
+     • Power on timing differences between the GM1 system and I/O devices or power devices.
+     • Response time lag when a momentary power failure occurs.
+     • Abnormality in the GM1 Controller, external power supply, or other devices.
+    In order to prevent a malfunction resulting in an error or accident of the overall system, take
+    adequate safety measures.
+
+  ■ Installation of an interlock circuit
+  ● When controlling conflicting operations such as the motor rotation in clockwise or counter-
+    clockwise direction, provide an interlock circuit external to the GM1.
+
+  ■ Installation of an emergency stop circuit
+  ● Provide an emergency stop circuit external to the GM1 to turn OFF the power supply of the
+    output device.
+
+  ■ Power supply sequence
+  ● Start the GM1 only after I/O devices and power devices are energized.
+  ● In case of stopping the operation of the GM1, have the I/O devices or power devices turned
+    OFF after the GM1 has stopped operating.
+
+  ■ Grounding
+  ● When installing the GM1 next to devices that generate high voltages from switching, such as
+    inverters, do not ground them together. Connect an exclusive ground with a resistance of
+    100 Ω or less.
+
+
+
+ 5.5.2 Momentary Power Failure
+
+  ■ Operations when a momentary power failure occurs
+  ● If the duration of the momentary power failure is less than 10 ms, the GM1 continues to
+    operate. If the power is off for 10 ms or longer, operation changes depending on the
+    combination of units, the power supply voltage, and other factors. (In some cases, operation
+    may be the same as that for a power supply reset.)
+
+
+
+ 5.5.3 Watchdog Timer
+
+  ● The watchdog timer is a program error and hardware error detection timer.
+
+
+
+WUME-GM1H-02                                                                                    5-15
+5.5 Safety Measures
+
+
+   ● When the watchdog timer is activated, the "Alarm" LED on the front of the Controller is lit.
+     When this occurs, all outputs to the output units are turned OFF and the unit is put in halted
+     state.
+
+
+
+
+5-16                                                                                WUME-GM1H-02
+       6 Checking Wiring
+       6.1 Safety Circuit Design ..........................................................................6-2
+       6.2 Items to Check during Wiring..............................................................6-3
+       6.3 Power ON Operation...........................................................................6-4
+       6.4 Power OFF Operation.........................................................................6-5
+
+
+
+
+WUME-GM1H-02                                                                                                     6-1
+6.1 Safety Circuit Design
+
+
+ 6.1 Safety Circuit Design
+
+      ■ Example of a safety circuit
+      Be sure to create a safety circuit when using this product.
+
+      Installation of over limit switches
+
+
+
+
+      ● Install over limit switches as shown above.
+      ● Connect them to the CW and CCW over-travel inhibit inputs of the parallel I/O connector of
+        the servo amplifier. For the GM1 Controller (RTEX-compatible / EtherCAT-compatible),
+        connect them to the limit input (+) and limit input (-) through the network.
+
+
+             ● Install the safety circuit recommended by the manufacturer of the motor being used.
+
+
+
+
+6-2                                                                                     WUME-GM1H-02
+                                                          6.2 Items to Check during Wiring
+
+
+ 6.2 Items to Check during Wiring
+
+  ■ System configuration example
+
+
+
+
+  (1) Checking connections of each device
+   Check to make sure that each device has been connected as indicated by the design.
+  (2) Checking the installation of the external safety circuit
+   Check to make sure the safety circuit (wiring and installation of over limit switch) based on the
+   external circuit has been installed properly.
+  (3) Checking the settings for power ON sequence
+   Make sure that settings have been entered so that power supplies will be turned ON according
+   to the procedure outlined in "Power ON Operation".
+  (4) Checking the GM1 Controller (RTEX-compatible / EtherCAT-compatible) mode
+  selector switch
+   Set the GM1 Controller (RTEX-compatible / EtherCAT-compatible) to the STOP mode. Setting
+   it in the RUN mode can cause inadvertent operation.
+
+
+
+
+WUME-GM1H-02                                                                                     6-3
+6.3 Power ON Operation
+
+
+ 6.3 Power ON Operation
+      When turning ON the power supply to the system incorporating the GM1 Controller (RTEX-
+      compatible / EtherCAT-compatible), turn ON the power supply in the following order.
+
+            ● Consider the nature and statuses of any external devices connected to the system, and
+              take sufficient care so that turning ON the power supply will not initiate unexpected
+              movements.
+
+
+
+
+      1. Turn ON the power supplies to the I/O devices connected to the GM1 Controller (RTEX-
+         compatible / EtherCAT-compatible).
+
+      2. Turn ON the power supply to the servo amplifier.
+      3. Turn ON the power supply to the GM1 Controller (RTEX-compatible / EtherCAT-
+         compatible).
+
+
+
+
+6-4                                                                                   WUME-GM1H-02
+                                                              6.4 Power OFF Operation
+
+
+ 6.4 Power OFF Operation
+
+
+
+
+  1. Check to make sure the rotation of the motor has stopped, and then turn OFF the power
+     supply to the GM1 Controller (RTEX-compatible / EtherCAT-compatible).
+
+  2. Turn OFF the power supply to the servo amplifier.
+  3. Turn OFF the power supplies to the I/O devices connected to the GM1 Controller (RTEX-
+     compatible / EtherCAT-compatible).
+
+
+
+
+WUME-GM1H-02                                                                                 6-5
+(MEMO)
+
+
+
+
+6-6      WUME-GM1H-02
+       7 Using the SD Memory Card
+         and SDHC Memory Card
+       7.1 Preparation of the SD Memory Card and SDHC Memory Card..........7-2
+       7.2 Inserting the SD Memory Card and SDHC Memory Card ..................7-3
+
+
+
+
+WUME-GM1H-02                                                                         7-1
+7.1 Preparation of the SD Memory Card and SDHC Memory Card
+
+
+ 7.1 Preparation of the SD Memory Card and SDHC Memory Card
+
+      ■ Usable SD memory card and SDHC memory cards
+      We recommend SLC SD Memory Cards and SLC SDHC Memory Cards.
+      Logo printed on the GM1          Usable SD (SDHC) memory cards
+      Controller (RTEX-compatible /
+      EtherCAT-compatible)             Card type                          Capacity
+
+                                       SD memory card                     2 GB
+                                       SDHC memory card                   4 GB to 32 GB
+
+      ■ Precautions on handling the SD memory card and SDHC memory card
+      The data saved in the SD memory card or in the SDHC memory card may be lost in the
+      following cases. We assume no responsibility whatsoever for the loss of saved data.
+       ● When the user or a third party has misused the SD memory card or SDHC memory card
+       ● When the SD memory card or SDHC memory card was affected by any static electricity or
+          electrical noise
+       ● When the SD memory card or SDHC memory card was taken out, or the power supply to the
+          GM1 Controller (RTEX-compatible / EtherCAT-compatible) was turned OFF, while the card
+          was being accessed to save or delete data
+
+            ● It is recommended to save important data in another media for backup.
+            ● Never remove the card or turn OFF the power supply to the GM1 Controller (RTEX-
+              compatible / EtherCAT-compatible) while the "SD" LED on the GM1 Controller (RTEX-
+              compatible / EtherCAT-compatible) is lit (data is being read from or written into the card).
+              Data may be damaged.
+            ● Do not use an SD memory card or SDHC memory card that has a memory capacity
+              larger than the usable capacity. Data in the card may be damaged.
+
+      ■ Formatting the SD memory card and SDHC memory card
+      In principle, the SD memory card and SDHC memory card have been formatted by the time of
+      purchase, and no formatting by the user is required. If formatting becomes necessary,
+      download the SD formatter software from the SD association site and format the memory card.
+
+
+
+       ● The SD memory card or SDHC memory card file system formatted by PC’s standard formatting
+         software does not satisfy the SD memory card or SDHC memory card specifications. Please
+         use the dedicated formatting software.
+
+
+
+
+7-2                                                                                        WUME-GM1H-02
+                         7.2 Inserting the SD Memory Card and SDHC Memory Card
+
+
+ 7.2 Inserting the SD Memory Card and SDHC Memory Card
+
+         ● Do not apply an excessive force to the card cover when opening or closing it or when the
+           cover is left open. Otherwise, the cover attachment part will be deformed to cause
+           malfunction in the cover switch mounted inside the product.
+
+
+
+
+  1. Insert the tip of a flat blade screw driver into the cavity on the card cover to open the cover.
+
+
+
+
+  2. Insert the SD memory card or SDHC memory card into the SD memory card slot until it is
+      locked in place.
+
+
+
+
+  3. Close the SD memory card cover.
+
+
+
+
+WUME-GM1H-02                                                                                       7-3
+7.2 Inserting the SD Memory Card and SDHC Memory Card
+
+
+
+      When removing the SD memory card or SDHC memory card, make sure that the "SD" LED on the
+      GM1 Controller (RTEX-compatible / EtherCAT-compatible) is not lit.
+
+
+
+
+7-4                                                                             WUME-GM1H-02
+       8 Device Reset
+       8.1 Device Reset by GM1 Controller Operation........................................8-2
+
+
+
+
+WUME-GM1H-02                                                                                     8-1
+8.1 Device Reset by GM1 Controller Operation
+
+
+ 8.1 Device Reset by GM1 Controller Operation
+      Controller information on the GM Programmer can be deleted (initialized) from the GM1
+      Controller.
+
+
+
+
+      1. Confirm that the power supply is turned OFF, set the mode selector switch to "STOP", and
+         set SW2 (reset bit) of the DIP switch to "ON".
+
+      2. When the power supply is turned ON, the [RUN] [STOP] [ERROR] LEDs are lit and a
+         device reset is executed.
+
+      3. When the [RUN] [STOP] [ERROR] LEDs go out, the device reset is completed.
+         When the device reset is completed, turn "OFF" the power supply, and set the reset bit to
+         "OFF".
+
+
+
+           Device reset can be executed from the GM1 Controller as well as from GM Programmer. For
+           details on the device reset, refer to the GM1 Controller RTEX User’s Manual (Operation) or
+           GM1 Controller EtherCAT User’s Manual (Operation).
+
+
+
+
+8-2                                                                                    WUME-GM1H-02
+       9 Troubleshooting
+       9.1 Self-diagnostic Function......................................................................9-2
+       9.2 Operation Status at the Time of Error .................................................9-3
+       9.3 What to Do If an Error Occurs.............................................................9-4
+          9.3.1 ERROR LED Flashes on the Control Unit ....................................... 9-4
+          9.3.2 ALARM LED Lights on the Control Unit ........................................... 9-4
+          9.3.3 POWER LED Does not Light on the Control Unit ............................ 9-5
+          9.3.4 Desired Output Is Not Obtained: Checking when the Output Does
+                Not Turn ON / OFF ........................................................................... 9-5
+          9.3.5 Desired Input Is Not Obtained: Checking when the Input Does Not
+                Turn ON / OFF .................................................................................. 9-6
+          9.3.6 If the ALARM LED Is Lit on the Expansion Unit ............................... 9-6
+          9.3.7 If the ALARM LED Is Unlit on the Expansion Unit ........................... 9-7
+
+
+
+
+WUME-GM1H-02                                                                                                           9-1
+9.1 Self-diagnostic Function
+
+
+ 9.1 Self-diagnostic Function
+      The GM1 Controller (RTEX-compatible / EtherCAT-compatible) has a self-diagnostic function
+      which identifies errors and stops operation if necessary.
+      Indications concerning self-diagnosis are as follows.
+
+      ■ LEDs related to self-diagnostic errors
+      ●: Lit, ▲: Flashing, ○: Unlit, －: Indefinite (Lit or unlit)
+                LED display                                                                            Operation
+                                                                    Description
+                RUN         STOP        ERROR        ALARM                                             status
+
+      Normal    ●           〇           〇            〇              Normal operation                   Operating
+                〇           ●           〇            〇              STOP mode                          Stopped
+      Error     ●           〇           ▲            〇              When a self-diagnostic error       Operating
+                                                                    occurs (Operation continues.)
+                〇           ●           ▲            〇              When a self-diagnostic error       Stopped
+                                                                    occurs (Operation stops.)
+                〇           ●           -            ●              System error                       Stopped
+
+
+
+
+9-2                                                                                                 WUME-GM1H-02
+                                              9.2 Operation Status at the Time of Error
+
+
+ 9.2 Operation Status at the Time of Error
+
+  ■ PLC parameter setting
+  Operation mode at the time of error can be set to continue operation or stop operation in the
+  PLC parameter setting.
+
+
+
+
+WUME-GM1H-02                                                                                      9-3
+9.3 What to Do If an Error Occurs
+
+
+ 9.3 What to Do If an Error Occurs
+
+
+ 9.3.1 ERROR LED Flashes on the Control Unit
+
+      ■ Condition
+      A self-diagnostic error has occurred.
+
+      ■ Solution
+      Check the condition according to the following procedure.
+
+      1. On the GM Programmer, select Online>Status and check the error content (error code).
+      2. Switch to the STOP mode.
+      3. On the Status screen of the GM Programmer, check the error information.
+          In case of an operation continue error, the error can be resolved by RTEX Reset / Error
+          Clear.
+
+
+
+
+      4. Cancel the situation in accordance with the error code.
+
+
+           ● For the error codes, refer to the , GM1 Controller RTEX User’s Manual (Operation) or GM1
+             Controller EtherCAT User’s Manual (Operation).
+
+
+
+ 9.3.2 ALARM LED Lights on the Control Unit
+
+
+
+9-4                                                                                   WUME-GM1H-02
+                                                               9.3 What to Do If an Error Occurs
+
+
+  ■ Condition
+  The system watchdog timer has been activated and the operation of the Controller has stopped.
+
+  ■ Solution
+  1. Set the control unit to STOP mode and restart the power supply.
+      If the ALARM LED lights again, there may be a problem with the unit.
+      If it goes out, the problem may have been caused by primary factors such as a noise.
+
+  2. Check the surrounding environment if there is an influence of noise.
+      If there is no problem with the program, there might be a problem with the surrounding
+      environment.
+      Check the wiring including installation wiring.
+      Particularly, check if wiring to the control unit is routed too close to the power line wiring and
+      also check if necessary shield processing has been performed.
+
+
+
+ 9.3.3 POWER LED Does not Light on the Control Unit
+
+  ■ Condition
+  It is possible that sufficient power is not supplied.
+
+  ■ Solution
+  1. Power off the unit and double-check the wiring status. (e.g. Is there any loose terminal?)
+  2. Check if the output of the power supply to the control unit does not exceed the rating.
+      If the 24-V power supply is not sufficient, review the power supply configuration.
+      Disconnect the power supply wiring to the other devices if the power supplied to the control
+      unit is shared with them.
+
+
+
+ 9.3.4 Desired Output Is Not Obtained: Checking when the Output Does Not
+ Turn ON / OFF
+
+  ■ Condition
+  Both software factors such as program or I/O allocation and hardware factors such as wiring or
+  power supply can be assumed.
+
+  ■ Solution
+  1. Check if the output display LED of the unit is lit.
+      If it is lit, proceed to the following step. If it is not lit, proceed to step 4.
+
+  2. Recheck the wiring of the loads for loose terminals, etc.
+  3. Check if proper voltage is applied to the loads.
+
+WUME-GM1H-02                                                                                         9-5
+9.3 What to Do If an Error Occurs
+
+
+          If the voltage is properly applied to the load, there is probably an abnormality in the load.
+          If the voltage is not applied to the load, there is probably an abnormality in the output
+          section of the unit.
+
+      4. Using the GM Programmer, check the monitor function by forcibly setting or resetting the
+          output.
+          If the output LED of the unit changes, it is possible that the output has been overwritten in
+          the program.
+          If the LED does not change, there is probably an abnormality in the output section of the
+          unit.
+
+
+
+ 9.3.5 Desired Input Is Not Obtained: Checking when the Input Does Not Turn
+ ON / OFF
+
+      ■ Condition
+      Both software factors such as program or I/O allocation and hardware factors such as wiring or
+      power supply can be assumed.
+
+      ■ Solution
+      1. If the input display LED is unlit, proceed to the following step. If it is lit, proceed to step 4.
+      2. Recheck the wiring of the input devices for loose terminals, etc.
+      3. Check if the voltage is properly applied to the input terminals.
+          If the voltage is properly applied to the input terminals, there is probably an abnormality in
+          the unit’s input part.
+          If the voltage is not applied to the input terminal, there is probably an abnormality in the
+          power supply or the input device.
+
+      4. Using the GM Programmer, monitor the input state.
+          If the monitored state is OFF, there is probably an abnormality with the input unit.
+          If the monitored state is ON, there is probably an abnormality with the program.
+
+
+
+ 9.3.6 If the ALARM LED Is Lit on the Expansion Unit
+
+      ■ Condition
+      If the ALARM LED is lit on the expansion unit, there may be a system failure.
+
+      ■ Solution
+      1. Turn the system OFF and then ON.
+      2. If the system is not reset, there may be a hardware failure. Please consult your Panasonic
+          representative.
+
+
+
+9-6                                                                                          WUME-GM1H-02
+                                                           9.3 What to Do If an Error Occurs
+
+
+ 9.3.7 If the ALARM LED Is Unlit on the Expansion Unit
+
+  ■ Condition
+  It can be assumed that a system error has occurred in the expansion unit connected to the
+  control unit or in the control unit.
+
+  ■ Solution
+  Clarify the situation in the following procedure.
+
+  1. Check if an end unit is connected to the last expansion unit.
+  2. Check the wiring of the cables connected to the expansion units and wiring of the power
+      supply.
+
+  3. Clear the self-diagnosis error of the control unit.
+  4. Restart the power supply of the control unit.
+
+
+
+
+WUME-GM1H-02                                                                                   9-7
+(MEMO)
+
+
+
+
+9-8      WUME-GM1H-02
+       10 Maintenance and Inspection
+       10.1 Inspection..........................................................................................10-2
+
+
+
+
+WUME-GM1H-02                                                                                                       10-1
+10.1 Inspection
+
+
+ 10.1 Inspection
+   To always use the unit in optimal conditions, carry out routine or periodic inspections.
+
+   Inspection items
+       Inspection item       Inspection details              Criterion                    Related page
+                             Mounting on DIN rail,
+                                                             The unit must have been
+       Installation status   looseness, and unit looseness                                "P.4-4"
+                                                             installed properly.
+                             and backlash
+                                                             Each connector must not be
+       Connection status     Connector looseness                                          "P.6-3"
+                                                             loose.
+                             Ambient temperature (in-panel
+                                                             0 to +55℃
+                             temperature)
+                                                             10 to 95%RH
+       Usage conditions      Ambient humidity (in-panel                                   "P.11-4"
+                             humidity)                       Free of dust and corrosive
+                                                             gases
+                             Atmosphere
+
+
+
+
+10-2                                                                                         WUME-GM1H-02
+       11 Specifications and
+          Dimensions
+       11.1 General Specifications ......................................................................11-2
+       11.2 Specifications of the GM1 Controller.................................................11-4
+          11.2.1 High-speed Counter Input Specifications of the GM1 Controller.... 11-4
+          11.2.2 Input Specifications of the GM1 Controller..................................... 11-4
+          11.2.3 Output Specifications of the GM1 Controller (Sink Type) .............. 11-5
+          11.2.4 Output Specifications of the GM1 Controller (Source Type) .......... 11-6
+       11.3 Specifications of Expansion Units .....................................................11-8
+          11.3.1 Input Specifications of the 64-point Digital Input Unit .................... 11-8
+          11.3.2 Output Specifications of the 64-point Digital Output Unit (Sink
+                Type) ................................................................................................. 11-9
+          11.3.3 Output Specifications of the 64-point Digital Output Unit (Source
+                Type) ................................................................................................. 11-11
+          11.3.4 I/O Specifications of the 64-point Digital I/O Unit (Sink Type) ........ 11-12
+          11.3.5 I/O Specifications of the 64-point Digital I/O Unit (Source Type).... 11-15
+          11.3.6 Input Specifications of the Analog Input Unit ................................. 11-18
+          11.3.7 Output Specifications of the Analog Output Unit ............................ 11-19
+          11.3.8 Performance Specifications of the Pulse Output Unit .................... 11-20
+       11.4 Communication Specifications ..........................................................11-24
+          11.4.1 Specifications of the USB Port ....................................................... 11-24
+          11.4.2 Specifications of the COM Port (RS-232C) .................................... 11-24
+          11.4.3 Specifications of the LAN Port........................................................ 11-25
+          11.4.4 Specifications of the RTEX Port ..................................................... 11-25
+          11.4.5 Specifications of the EtherCAT Port .............................................. 11-26
+       11.5 Performance Specifications ..............................................................11-27
+       11.6 Dimensions .......................................................................................11-28
+          11.6.1 Dimensions of the GM1 Controller ................................................. 11-28
+          11.6.2 Dimensions of the GM1 Expansion Unit......................................... 11-29
+
+
+
+
+WUME-GM1H-02                                                                                                               11-1
+11.1 General Specifications
+
+
+ 11.1 General Specifications
+
+       Item                                 Specifications
+       Rated voltage                        24 V DC
+       Operating voltage range              20.4 to 28.8 V DC
+       Allowable momentary power failure
+                                            10 ms
+       time
+       Operating ambient temperature        0 to +55℃
+       Storage ambient temperature          -40 to +70℃
+       Operating ambient humidity           10 to 95% RH (at +25℃, no condensation or icing)
+       Storage ambient humidity             10 to 95% RH (at +25℃, no condensation or icing)
+                                            500 V AC for one minute (Between input terminals, all output terminals
+       Dielectric strength                  and power supply terminal, all function earths,
+       (Leakage current: 5 mA)              between all input terminals and all output terminals, between all general-
+                                            purpose input terminals and all counter input terminals)
+                                            100 MΩ or more (Between input terminals, all output terminals and power
+       Insulation resistance                supply terminal, all function earths,
+       (Test voltage: 500 V DC)             between all input terminals and all output terminals, between all general-
+                                            purpose input terminals and all counter input terminals)
+                                            Compliant with JIS B 3502, IEC 61131-2
+                                            5 to 8.4 Hz, half amplitude 3.5 mm,
+       Vibration resistance
+                                            8.4 to 150 Hz acceleration 9.8 m/s2
+                                            10 sweeps each in X, Y and Z directions (1 octave/min)
+                                            Compliant with JIS B 3502, IEC 61131-2
+       Shock resistance
+                                            147 m/s2, 3 times each in the X, Y, Z directions
+                                            1000 V [p-p] with pulse widths of 1 µs and 50 ns (using a noise simulator)
+       Noise resistance
+                                            (Power supply terminal)
+       Atmosphere                           Free of corrosive gases No excessive dust
+                                            EMC Directive: EN 61131-2
+       EU Directive applicable standard
+                                            RoHS Directive: EN IEC 63000
+       Overvoltage category                 Category II
+       Pollution degree                     2
+
+   List of weights (main units)
+       Unit type                                Weight (main unit)
+       RTEX-compatible
+                              AGM1CSRX16T       Approx. 370 g (including the terminal block and end cover)
+       GM1 Controller
+       EtherCAT-              AGM1CSEC16T
+       compatible GM1                           Approx. 370 g (including the terminal block and end cover)
+       Controller             AGM1CSEC16P
+
+                              AGM1X64D2         Approx. 160 g (including the terminal block)
+                              AGM1Y64T          Approx. 160 g (including the terminal block)
+       Digital I/O Unit
+                              AGM1Y64P          Approx. 160 g (including the terminal block)
+                              AGM1XY64D2T       Approx. 160 g (including the terminal block)
+
+
+11-2                                                                                                 WUME-GM1H-02
+                                                                  11.1 General Specifications
+
+
+   Unit type                         Weight (main unit)
+                       AGM1XY64D2P   Approx. 160 g (including the terminal block)
+                       AGM1AD8       Approx. 150 g (including the terminal block)
+   Analog I/O Unit
+                       AGM1DA4       Approx. 150 g (including the terminal block)
+                       AGM1PG04T     Approx. 160 g (including the terminal block)
+   Pulse Output Unit
+                       AGM1PG04L     Approx. 160 g (including the terminal block)
+
+  List of consumption current
+   Unit type                         Consumption current
+   RTEX-compatible
+                       AGM1CSRX16T   400 mA or less
+   GM1 Controller
+   EtherCAT-           AGM1CSEC16T   400 mA or less
+   compatible GM1
+   Controller          AGM1CSEC16P   400 mA or less
+
+                       AGM1X64D2     90 mA or less
+                       AGM1Y64T      160 mA or less
+                       AGM1Y64P      160 mA or less
+                       AGM1XY64D2T   120 mA or less
+   Expansion Units     AGM1XY64D2P   120 mA or less
+                       AGM1AD8       130 mA or less
+                       AGM1DA4       160 mA or less
+                       AGM1PG04T     100 mA or less
+                       AGM1PG04L     100 mA or less
+
+
+
+
+WUME-GM1H-02                                                                             11-3
+11.2 Specifications of the GM1 Controller
+
+
+ 11.2 Specifications of the GM1 Controller
+
+
+ 11.2.1 High-speed Counter Input Specifications of the GM1 Controller
+
+                                           Specifications
+                                           Input A, B, Z signals
+       Item                                                        5 V DC
+                                           24 V DC                 Open collector             Line driver
+                                                                   connection                 connection
+       Insulation method                   Optical coupler
+       Rated input voltage                 12 V DC to 24 V DC      5 V DC
+                                                                                              Equivalent to
+                                           10.8 V DC to 26.4 V                                AM26LS31
+       Operating voltage range                                     3.5 V DC to 5.5 V DC
+                                           DC
+       Input points per common             Independent common for each point
+       Min. ON voltage / Min. ON current   10 V DC / 4 mA          3 V DC / 4 mA
+       Max. OFF voltage / Max. OFF
+                                           2 V DC / 2 mA           1 V DC / 0.5 mA
+       current
+       Input impedance                     Approx. 3.9 kΩ          Approx. 560 Ω
+       Operating mode indicator            6-point LED display
+
+
+
+
+ 11.2.2 Input Specifications of the GM1 Controller
+
+   ■ Input specifications
+       Item                                Specifications
+       Insulation method                   Optical coupler
+       Rated input voltage                 24 V DC
+       Rated input current                 Approx. 3 mA (at 24 V DC)
+       Input impedance                     Approx. 6.8 kΩ
+       Operating voltage range             21.6 to 26.4 V DC
+       Min. ON voltage / Min. ON current   19.2 V / 6 mA
+       Max. OFF voltage / Max. OFF
+                                           2.4 V / 1 mA
+       current
+                                           135 µs max. (Possible to change by using the input time constant
+                           OFF→ON
+                                           selection function)
+       Response time
+                                           135 µs max. (Possible to change by using the input time constant
+                           ON→OFF
+                                           selection function)
+       Input points per common             16 points/1 common
+       Operating mode indicator            16-point LED display (Lit when ON, SW selection)
+       External connection method          Connector connection (Compliant with the MIL standard, 40P)
+
+
+
+11-4                                                                                               WUME-GM1H-02
+                                                  11.2 Specifications of the GM1 Controller
+
+
+  ■ Internal circuit diagram of the GM1 Controller input section
+
+
+
+
+  ■ Limitations on the number of simultaneous input ON points of the GM1
+      Controller
+
+
+
+
+ 11.2.3 Output Specifications of the GM1 Controller (Sink Type)
+
+  ■ Output specifications (sink type)
+   Item                           Specifications
+   Insulation method              Optical coupler
+   Output type                    NPN open collector
+   Rated load voltage             5 to 24 V DC
+   Allowable load voltage range   4.75 to 26.4 V DC
+   Max. load current              0.3 A
+   Common restrictions            3.2 A/common
+   Max. inrush current            1.0 A
+   OFF state leakage current      1 µA or less
+   ON state max. voltage drop     0.7 V or less
+                        OFF→ON    6 µs or less (at an ambient temperature of 25℃)
+   Response time
+                        ON→OFF    15 µs or less (at an ambient temperature of 25℃)
+   External power       Voltage   4.75 to 26.4 V DC
+   supply
+
+
+WUME-GM1H-02                                                                           11-5
+11.2 Specifications of the GM1 Controller
+
+
+       Item                                Specifications
+                            Current        35 mA/common (at 24 V)
+       Surge absorber                      Zener diode
+
+       Short-circuit protection            Provided (to automatically protect every eight points)(Note 1)
+       Input points per common             16 points/1 common
+       Operating mode indicator            16-point LED display (Lit when ON, SW selection)
+       External connection method          Connector connection (Compliant with the MIL standard, 40P)
+
+   (Note 1)      When the maximum inrush current is exceeded, eight output points in the same protection block are
+                 turned OFF simultaneously.
+
+   ■ Internal circuit diagram of the GM1 Controller (sink type) output section
+
+
+
+
+   ■ Limitations on the number of simultaneous output ON points of the GM1
+           Controller (Sink Type)
+
+
+
+
+ 11.2.4 Output Specifications of the GM1 Controller (Source Type)
+
+   ■ Output specifications (source type) (EtherCAT-compatible GM1 Controller only)
+       Item                                Specifications
+       Insulation method                   Optical coupler
+       Output type                         PNP open collector
+       Rated load voltage                  24 V DC
+
+
+
+
+11-6                                                                                                 WUME-GM1H-02
+                                                       11.2 Specifications of the GM1 Controller
+
+
+   Item                                Specifications
+   Allowable load voltage range        21.6 to 26.4 V DC
+   Max. load current                   0.3 A
+   Max. inrush current                 1.0 A
+   OFF state leakage current           2 µA or less
+   ON state max. voltage drop          0.7 V or less
+                       OFF→ON          6 µs or less (at an ambient temperature of 25°C)
+   Response time
+                       ON→OFF          15 µs or less (at an ambient temperature of 25°C)
+
+   External power      Voltage         21.6 to 26.4 V DC
+   supply              Current         30 mA/common (at 24 V)
+   Surge absorber                      Zener diode
+
+   Short-circuit protection            Provided (to automatically protect every eight points)(Note 1)
+   Input points per common             16 points/1 common
+   Operating mode indicator            16-point LED display (Lit when ON, SW selection)
+   External connection method          Connector connection (Compliant with the MIL standard, 40P)
+
+  (Note 1)   When the maximum inrush current is exceeded, eight output points in the same protection block are
+             turned OFF simultaneously.
+
+  ■ Internal circuit diagram of the GM1 Controller Output section
+
+
+
+
+  ■ Limitations on the number of simultaneous output ON points of the GM1
+       Controller
+
+
+
+
+WUME-GM1H-02                                                                                                11-7
+11.3 Specifications of Expansion Units
+
+
+ 11.3 Specifications of Expansion Units
+
+
+ 11.3.1 Input Specifications of the 64-point Digital Input Unit
+
+   ■ Input specifications
+       Item                                Specifications
+       Insulation method                   Optical coupler
+       Rated input voltage                 24 V DC
+       Rated input current                 Approx. 2.7 mA (at 24 V DC)
+       Input impedance                     Approx. 6.8 kΩ
+       Operating voltage range             20.4 to 26.4 V DC
+       Min. ON voltage / Min. ON current   19.2 V / 2.5 mA
+       Max. OFF voltage / Max. OFF
+                                           5 V / 1.5 mA
+       current
+                                           0.2 ms max. (Possible to change by using the input time constant
+                           OFF→ON
+                                           selection function)
+       Response time
+                                           0.2 ms max. (Possible to change by using the input time constant
+                           ON→OFF
+                                           selection function)
+       Input points per common             32 points/1 common
+                                           Operating mode indicator: 32-point LED display (Lit when ON, SW
+       Operating mode indicator
+                                           selection)
+                                           Connector connection (Compliant with the MIL standard, 40P, two pieces
+       External connection method
+                                           used)
+
+   ■ Internal circuit diagram of the 64-point digital input unit
+
+
+
+
+11-8                                                                                              WUME-GM1H-02
+                                                    11.3 Specifications of Expansion Units
+
+
+  ■ Limitations on the number of simultaneous input ON points of the 64-point
+       digital input unit
+
+
+
+
+ 11.3.2 Output Specifications of the 64-point Digital Output Unit (Sink Type)
+
+  ■ Output specifications (sink type)
+   Item                           Specifications
+   Insulation method              Optical coupler
+   Output type                    Open collector
+   Rated load voltage             5 to 24 V DC
+   Allowable load voltage range   4.75 to 26.4 V DC
+   Max. load current              0.3 A (20.4 to 26.4 V DC), 30 mA (4.75 V DC)
+   Common restrictions            3.2 A/common
+   Max. inrush current            0.6 A
+   OFF state leakage current      1 µA or less
+   ON state max. voltage drop     0.5 V or less
+                        OFF→ON    0.1 ms or less (Load current: 2 mA or more)
+   Response time
+                        ON→OFF    0.3 ms or less (Load current: 2 mA or more)
+
+   External power       Voltage   4.75 to 26.4 V DC
+   supply               Current   70 mA/common (at 24 V)
+   Surge absorber                 Zener diode
+   Short-circuit protection       None
+   Input points per common        32 points/1 common
+                                  32-point LED display (Lit when ON, selection using the display selector
+   Operating mode indicator
+                                  switch)
+                                  Connector connection (Compliant with the MIL standard, 40P, two pieces
+   External connection method
+                                  used)
+
+
+
+
+WUME-GM1H-02                                                                                            11-9
+11.3 Specifications of Expansion Units
+
+
+   ■ Internal circuit diagram of the 64-point digital output unit (sink type)
+
+
+
+
+   ■ Limitations on the load current of the 64-point digital output unit (sink type)
+   The load current is limited as shown in the following figure depending on the voltage of the
+   external power supply.
+
+
+
+
+   ■ Limitations on the number of simultaneous output ON points of the 64-point
+        digital output unit (sink type)
+
+
+
+
+11-10                                                                               WUME-GM1H-02
+                                                      11.3 Specifications of Expansion Units
+
+
+ 11.3.3 Output Specifications of the 64-point Digital Output Unit (Source Type)
+
+  ■ Output specifications (source type)
+   Item                            Specifications
+   Insulation method               Optical coupler
+   Output type                     Open collector
+   Rated load voltage              5 to 24V DC
+   Allowable load voltage range    4.75 to 26.4V DC
+   Max. load current               0.3A (20.4 to 26.4V DC), 30mA (4.75V DC)
+   Common restrictions             3.2 A/common
+   Max. inrush current             0.6 A
+   OFF state leakage current       1 µA or less
+   ON state max. voltage drop      0.5 V or less
+                        OFF→ON     0.1 ms or less (Load current: 2 mA or more)
+   Response time
+                        ON→OFF     0.5 ms or less (Load current: 2 mA or more)
+
+   External power       Voltage    4.75 to 26.4V DC
+   supply               Current    90 mA/common (at 24 V)
+   Surge absorber                  Zener diode
+   Short-circuit protection        None
+   Input points per common         32 points/1 common
+                                   32-point LED display (Lit when ON, selection using the display selector
+   Operating mode indicator
+                                   switch)
+                                   Connector connection (Compliant with the MIL standard, 40P, two pieces
+   External connection method
+                                   used)
+
+  ■ Internal circuit diagram of the 64-point digital output unit (source type)
+
+
+
+
+  ■ Limitations on the load current of the 64-point digital output unit (source type)
+  The load current is limited as shown in the following figure depending on the voltage of the
+  external power supply.
+
+
+WUME-GM1H-02                                                                                            11-11
+11.3 Specifications of Expansion Units
+
+
+
+
+   ■ Limitations on the number of simultaneous output ON points of the 64-point
+        digital output unit (source type)
+
+
+
+
+ 11.3.4 I/O Specifications of the 64-point Digital I/O Unit (Sink Type)
+
+   ■ I/O specifications (sink type)
+    Item                                Specifications
+              Insulation method         Optical coupler
+              Rated input voltage       24 V DC
+              Rated input current       Approx. 2.7 mA (at 24 V DC)
+              Input impedance           Approx. 6.8 kΩ
+    Input     Operating voltage range   20.4 to 26.4 V DC
+    specifica
+    tions     Min. ON voltage / Min.
+                                        19.2 V / 2.5 mA
+              ON current
+              Max. OFF voltage / Max.
+                                        5 V / 1.5 mA
+              OFF current
+
+              Response                  0.2 ms max. (Possible to change by using the input time constant
+                           OFF→ON
+              time                      selection function)
+
+
+
+11-12                                                                                          WUME-GM1H-02
+                                                          11.3 Specifications of Expansion Units
+
+
+   Item                                 Specifications
+                                        0.2 ms max. (Possible to change by using the input time constant
+                           ON→OFF
+                                        selection function)
+             Input points per common    32 points/1 common
+             Insulation method          Optical coupler
+             Output type                Open collector
+             Rated load voltage         5 to 24 V DC
+             Allowable load voltage
+                                        4.75 to 26.4 V DC
+             range
+             Max. load current          0.3 A (20.4 to 26.4 V DC), 30 mA (4.75 V DC)
+             Common restrictions        3.2 A/common
+             Max. inrush current        0.6 A
+             OFF state leakage
+   Output                               1 µA or less
+             current
+   specifica
+   tions     ON state max. voltage
+                                        0.5 V or less
+             drop
+
+             Response      OFF→ON       0.1 ms or less (Load current: 2 mA or more)
+             time          ON→OFF       0.3 ms or less (Load current: 2 mA or more)
+             External      Voltage      4.75 to 26.4 V DC
+             power
+             supply        Current      70 mA/common (at 24 V)
+
+             Surge absorber             Zener diode
+             Short-circuit protection   None
+             Input points per common    32 points/1 common
+                                        32-point LED display (Lit when ON, selection using the display selector
+   Operating mode indicator
+                                        switch)
+                                        Connector connection (Compliant with the MIL standard, 40P, two pieces
+   External connection method
+                                        used)
+
+  ■ Internal circuit diagram of the 64-point digital I/O unit (sink type)
+  Input section (32 points)
+
+
+
+
+WUME-GM1H-02                                                                                                 11-13
+11.3 Specifications of Expansion Units
+
+
+   Output section (32 points)
+
+
+
+
+   ■ Limitations on the load current of the 64-point digital I/O unit (sink type)
+   The load current is limited as shown in the following figure depending on the voltage of the
+   external power supply.
+
+
+
+
+   ■ Limitations on the number of simultaneous input ON points (max. number of
+        points: 32) of the 64-point digital I/O unit (sink type)
+
+
+
+
+11-14                                                                               WUME-GM1H-02
+                                                         11.3 Specifications of Expansion Units
+
+
+  ■ Limitations on the number of simultaneous output ON points (max. number of
+      points: 32) of the 64-point digital I/O unit (sink type)
+
+
+
+
+ 11.3.5 I/O Specifications of the 64-point Digital I/O Unit (Source Type)
+
+  ■ I/O specifications (source type)
+   Item                                Specifications
+             Insulation method         Optical coupler
+             Rated input voltage       24 V DC
+             Rated input current       Approx. 2.7 mA (at 24 V DC)
+             Input impedance           Approx. 6.8 kΩ
+             Operating voltage range   20.4 to 26.4 V DC
+
+   Input     Min. ON voltage / Min.
+                                       19.2 V / 2.5 mA
+   specifica ON current
+   tions
+             Max. OFF voltage / Max.
+                                       5V / 1.5 mA
+             OFF current
+                                       0.2 ms max. (Possible to change by using the input time constant
+                           OFF→ON
+             Response                  selection function)
+             time                      0.2 ms max. (Possible to change by using the input time constant
+                           ON→OFF
+                                       selection function)
+             Input points per common   32 points/1 common
+             Insulation method         Optical coupler
+             Output type               Open collector
+             Rated load voltage        5 to 24 V DC
+             Allowable load voltage
+                                       4.75 to 26.4 V DC
+   Output    range
+   specifica
+   tions     Max. load current         0.3 A (20.4 to 26.4 V DC), 30 mA (4.75 V DC)
+             Common restrictions       3.2 A/common
+             Max. inrush current       0.6 A
+             OFF state leakage
+                                       1 µA or less
+             current
+
+
+
+
+WUME-GM1H-02                                                                                              11-15
+11.3 Specifications of Expansion Units
+
+
+    Item                                 Specifications
+              ON state max. voltage
+                                         0.5 V or less
+              drop
+
+              Response      OFF→ON       0.1 ms or less (Load current: 2 mA or more)
+              time          ON→OFF       0.5 ms or less (Load current: 2 mA or more)
+              External      Voltage      4.75 to 26.4 V DC
+              power
+              supply        Current      90 mA/common (at 24 V)
+
+              Surge absorber             Zener diode
+              Short-circuit protection   None
+              Input points per common    32 points/1 common
+                                         32-point LED display (Lit when ON, selection using the display selector
+    Operating mode indicator
+                                         switch)
+                                         Connector connection (Compliant with the MIL standard, 40P, two pieces
+    External connection method
+                                         used)
+
+   ■ Internal circuit diagram of the 64-point digital I/O unit (source type)
+   Input section (32 points)
+
+
+
+
+   Output section (32 points)
+
+
+
+
+   ■ Limitations on the load current of the 64-point digital I/O unit (source type)
+   The load current is limited as shown in the following figure depending on the voltage of the
+   external power supply.
+
+11-16                                                                                            WUME-GM1H-02
+                                              11.3 Specifications of Expansion Units
+
+
+
+
+  ■ Limitations on the number of simultaneous input ON points (max. number of
+     points: 32) of the 64-point digital I/O unit (source type)
+
+
+
+
+  ■ Limitations on the number of simultaneous output ON points (max. number of
+     points: 32) of the 64-point digital I/O unit (source type)
+
+
+
+
+WUME-GM1H-02                                                                    11-17
+11.3 Specifications of Expansion Units
+
+
+ 11.3.6 Input Specifications of the Analog Input Unit
+
+   ■ Input specifications
+    Item                                 Specifications
+    No. of input points                  8 ch
+    Input range              Voltage     -10 to +10 V DC (Resolution: 1/64,000)
+    (resolution)                         0 to +10 V DC (Resolution: 1/32,000)
+                                         -5 to +5 V DC (Resolution: 1/64,000)
+                                         0 to +5 V DC (Resolution: 1/32,000)
+                                         +1 to +5 V DC (Resolution: 1/25,600)(Note 1)
+                             Current     0 to +20 mA (Resolution: 1/32,000)
+                                         +4 to +20 mA (Resolution: 1/25,600)(Note 1)
+    Conversion speed                     50 μs/ch
+    Exceeding the rated range            Possible to output up to the rated value ± 2%
+                                         With the 0 to 20 mA range, the lower limit is not supported for exceeding the
+                                         rated range. (Note 2)
+    Total accuracy                       ±0.2%F.S. or less (at +25℃)
+                                         ±0.4%F.S. or less (at 0 to +55℃)
+    Input impedance                      Voltage input: Approximately 1 MΩ; current input: Approximately 250 Ω
+    Absolute max. input                  Voltage input: -15 V to +15 V; current input: -30 mA to +30 mA
+    Insulation method                    Between input terminals and internal circuit: Photocoupler and isolated
+                                         DC/DC converter
+                                         Between channels: Non-insulated
+    Execution / Non-execution            Possible to make non-converted channel settings.
+    channel settings
+    Input range selection                Possible to make settings on a channel-by-channel basis
+    Average                  Number of   Setting range of 2 to 60,000 times
+    processing               averaging
+                             times
+                             Time        Time setting range of 1 to 1,500 ms
+                             average
+                             Moving      Setting range of 2 to 2,000 times
+                             average
+    Offset / Gain settings               A desired value within the digital output range can be set for the offset
+                                         value.
+                                         Setting range: -3000 to +3000
+                                         A desired value within the digital output range can be set for the gain value.
+                                         Setting range: +9,000 to +11,000 (90% to 110%)
+    Scale conversion settings            A desired value within the digital output range can be set for the scale
+                                         conversion setting value.
+                                         Setting range: -32768 to +32767
+    Upper limit / lower limit            Output if the value is outside the preset upper limit or lower limit.
+    comparison                           Setting range: -32768 to +32767
+    Max. / Min. hold                     Holding max. / min. values sampled
+
+
+
+11-18                                                                                                  WUME-GM1H-02
+                                                           11.3 Specifications of Expansion Units
+
+
+   Item                                Specifications
+   Disconnection detection             Disconnection detection is possible for the following ranges. Possible to
+                                       select auto or manual resetting
+                                       ● 1 to 5 V range (Detection level: 0.7 V or less)
+                                       ● 4 to 20 mA range (Detection level: 2.8 mA or less.)
+
+  (Note 1)    The full scale (F.S.) on the accuracy of an analog voltage input range from +1 to +5 V and that of an
+              analog current input range from +4 to +20 mA are 0 to +5 V and 0 to +20 mA, respectively.
+  (Note 2)    When a value exceeding the rated value ±2% is set, the output is rounded to a value equivalent to the
+              rated value ±2%.
+
+
+
+
+ 11.3.7 Output Specifications of the Analog Output Unit
+
+  ■ Output specifications
+   Item                                  Specifications
+   No. of output points                  4ch
+   Output range              Voltage     -10 to +10 V DC (Resolution: 1/64,000)
+   (resolution)(Note 1)                  0 to +10 V DC (Resolution: 1/32,000)
+                                         -5 to +5 V DC (Resolution: 1/64,000)
+                                         0 to +5 V DC (Resolution: 1/32,000)
+                                         +1 to +5 V DC (Resolution: 1/25,600)
+                             Current     0 to +20 mA (Resolution: 1/32,000)
+                                         +4 to +20 mA (Resolution: 1/25,600)
+   Conversion speed                      50 μs/4ch
+   Exceeding the rated range             Possible to output up to the rated value ± 2%
+                                         With the 0 to 20 mA range, the lower limit is not supported for exceeding
+                                         the rated range. (Note 2)
+   Total accuracy                        ±0.2%F.S. or less (at +25℃)
+                                         ±0.4%F.S. or less (at 0 to +55℃)
+   Output impedance (voltage output)     0.5 Ω or less
+   Maximum output current (voltage       10 mA
+   output)
+   Output allowable load resistance      500 Ω or less
+   (current output)
+   Insulation method                     Between output terminals and internal circuit: Photocoupler and isolated
+                                         DC/DC converter
+                                         Between channels: Non-nsulated
+   Conversion execution / non-           Possible to make non-converted channel settings.
+   execution channel settings
+   Clipping function                     Upper and lower output limits can be set for digital input values.
+                                         Setting range: -32,640 to +32,640
+   Scale conversion settings             A desired value within the digital input range can be set for the scale
+                                         conversion setting value.
+                                         Setting range: -32768 to +32767
+
+
+
+WUME-GM1H-02                                                                                                       11-19
+11.3 Specifications of Expansion Units
+
+
+    Item                                   Specifications
+    Offset / Gain settings                 A desired value within the digital input range can be set for the offset
+                                           value.
+                                           Setting range: -3,000 to +3,000
+                                           A desired value within the digital input range can be set for the gain value.
+                                           Setting range: +9,000 to +11,000 (90% to 110%)
+    Analog output hold                     A desired output value while in STOP mode can be set as a digital value.
+    (in STOP mode)                         Setting range: -32640 to +32640
+
+   (Note 1)    The full scale (F.S.) on the accuracy of an analog voltage output range from +1 to +5 V and that of an
+               analog current output range from +4 to +20 mA are 0 to +5 V and 0 to +20 mA, respectively.
+   (Note 2)    When a value exceeding the rated value ±2% is set, the output is rounded to a value equivalent to the
+               rated value ±2%.
+
+
+
+
+ 11.3.8 Performance Specifications of the Pulse Output Unit
+
+   ■ Performance specifications
+    Item                                   Specifications
+    Product No.                            AGM1PG04T                                AGM1PG04L
+    Output type                            Transistor                               Line driver
+    Number of axes controlled              4 axis, independent
+
+    Position             Command unit      Pulse unit (for increment or absolute)
+    command              Max. pulse count Signed 32 bits (-2,147,483,648 to +2,147,483,647 pulses)
+                                           1 pps to 500 kpps                        1 pps to 4 Mpps
+    Speed command Command range
+                                           (can be set in 1 pps.)                   (can be set in 1 pps.)
+                         Acceleration /
+    Acceleration /                         Linear acceleration / deceleration, S-shaped acceleration / deceleration
+                         deceleration
+    deceleration                           control
+                         method
+    command
+                         S-shape pattern   Sine curve, Cubic curve (can be select)
+                         Home return
+                                           Speed setting possible (changes return speed and search speed)
+                         speed
+    Home return
+                         Input signal      Home input, near home input, over limit input (+), over limit input (-)
+                         Output signal     Deviation counter clear signal
+                                           ● E-point control (Linear and S-shaped acceleration / deceleration)
+                                           ● P-point control (Linear and S-shaped acceleration / deceleration)
+                                           ● Home return (Home search)
+                                           ● JOG operation(Note 1)
+    Operation mode
+                                           ● JOG positioning
+                                           ● Pulser input operation(Note 2)
+                                             Transfer multiplication ratio (x1, x2, x5, x10, x50, x100, x500, x1000)
+                                           ● Real-time frequency change function
+    Startup time                           0.001ms / 0.005ms / 0.02ms
+    Output interface     Output mode       Pulse / Sign, CW / CCW
+
+
+
+11-20                                                                                                 WUME-GM1H-02
+                                                            11.3 Specifications of Expansion Units
+
+
+   Item                                  Specifications
+   Product No.                           AGM1PG04T                                 AGM1PG04L
+                      Counting range     Signed 32 bits (-2,147,483,648 to +2,147,483,647 pulses)
+   Feedback                              2-phase input, direction identification input, individual input (transfer
+                      Input mode
+   counter                               multiple available for each mode)
+   function(Note 2)                      4 MHz (2-phase input)
+                      Max. counting
+                      speed              1 MHz (Direction distinction input and individual input)
+                                          ● Built-in over limit input (+) and over limit input (-)
+   Other functions
+                                          ● Servo ON output incorporated
+
+  (Note 1)    When Linear acceleration/deceleration operation is selected, the target speed can be changed during
+              an operation.
+  (Note 2)    "Pulser input operation" and "Feedback counter" use the same pulse input terminal. Either function of
+              the two can only be used.
+
+  ■ I/O specifications
+  ● The Pulse Output Unit uses two connectors. The signal pins for two axes are assigned to
+    one connector.
+  ● AX1 and 2, and AX3 and 4 connectors have the completely same pin assignments.
+    Therefore, the same pin number functions the same.
+  ● Between the Transistor type and the Line driver type, the output terminal performance is
+    different. However, the specifications of the input terminal and the power supply terminal are
+    the same for both types.
+
+  Transistor output type (AGM1PG04T)
+   Pin No.            Signal name       Circuit                                        Specifications
+   Axis      Axis
+   1/3       2/4
+   A1        A10      Pulse output A:                                        Output     ● Output type:
+                      5 VDC output                                                        Open collector
+   B1        B10      Pulse output A:                                                   ● Operating voltage range:
+                      Open collector                                                      4.75 to 26.4 V DC
+   A2        A11      Pulse output B:                                                   ● Max. load current:
+                      5 VDC output                                                        15 mA
+   B2        B11      Pulse output B:                                                   ● ON state max. voltage drop:
+                      Open collector                                                      0.6 V
+
+  Line driver output type (AGM1PG04L)
+   Pin No.            Signal name       Circuit                                        Specifications
+   Axis      Axis
+   1/3       2/4
+   A1        A10      Pulse output A:                                        Output     ● Line driver output
+                      Line driver (+)                                                     Equivalent to AM26C31
+   B1        B10      Pulse output A:
+                      Line driver (-)
+   A2        A11      Pulse output B:
+                      Line driver (+)
+
+
+
+WUME-GM1H-02                                                                                                         11-21
+11.3 Specifications of Expansion Units
+
+
+    Pin No.          Signal name       Circuit           Specifications
+    Axis      Axis
+    1/3       2/4
+    B2        B11    Pulse output B:
+                     Line driver (-)
+
+   Common
+    Pin No.          Signal name       Circuit           Specifications
+    Axis      Axis
+    1/3       2/4
+    A3        A12    Home input: 24              Input   ● Operating voltage range:
+                     VDC, SELV and                         21.6 to 26.4 V DC
+                     LIM (+)
+                                                         ● Min. ON voltage / current:
+                                                           19.2 V DC / 5.5 mA
+                                                         ● Max. OFF voltage / current:
+                                                           2.0 V DC / 2.0 mA
+                                                         ● Input impedance:
+                                                           Approx. 3.9 kΩ
+                                                         ● Pulse width:
+                                                           100 μs or more
+    A4        A13    Home input: 5                       ● Operating voltage range:
+                     VDC, SELV and                         3.5 to 5.25 V DC (5 V DC,
+                     LIM (+)                               Line driver specifications)
+    B3        B12    Home input (-)                      ● Min. ON voltage / current:
+                                                           3.0 V DC / 4 mA
+                                                         ● Max. OFF voltage / current:
+                                                           1.0 V DC / 0.5 mA
+                                                         ● Input impedance:
+                                                           Approx. 560 Ω
+                                                         ● Pulse width:
+                                                           100 μs or more
+    B4        B13    COM [24V DC                 Input   ● Operating voltage range:
+                     SELV and LIM                          21.6 to 26.4 V DC
+                     (+)]
+                                                         ● Min. ON voltage / current:
+    A5        A14    Near home                              • Near home input (DOG)
+                     input (DOG)
+                                                              19.2 V DC / 5.0 mA
+    A6        A15    Limit input (+)                        • Limit input (+)
+    B6        B15    Limit input (-)                          Limit input (-)
+                                                              Positioning control start
+    A19       B19    Timing input
+                                                              input (Timing input)
+                                                              19.2 V DC / 2.6 mA
+                                                         ● Max. OFF voltage / current:
+                                                           2.0 V DC / 1.5 mA
+                                                         ● Input impedance:
+                                                            • Near home input (DOG)
+                                                              Approx. 3.6 kΩ
+                                                            • Limit input (+)
+                                                              Limit input (-)
+
+
+
+11-22                                                                 WUME-GM1H-02
+                                                  11.3 Specifications of Expansion Units
+
+
+   Pin No.          Signal name         Circuit                     Specifications
+   Axis      Axis
+   1/3       2/4
+                                                                         Positioning control start
+                                                                         input (Timing input)
+                                                                         Approx. 6.8 kΩ
+                                                                    ● Pulse width:
+                                                                      500 μs or more
+   B5        B14    Servo ON                               Output   ● Output type:
+                    output (+)                                        Open collector
+   A7        A16    Deviation                                       ● Operating voltage range:
+                    counter clear                                     4.75 to 26.4 V DC
+                    (+)
+                                                                    ● Max. load current:
+   B7        B16    COM                                               10 mA
+                                                                    ● ON state max. voltage drop:
+                                                                      1.0 V
+   A8        A17    Pulse input A                          Input    ● Operating voltage range:
+                    (+)                                               3.5 to 5.25 V DC (5 V DC,
+   B8        B17    Pulse input A (-)                                 Line driver specifications)
+                                                                    ● Min. ON voltage / current:
+   A9        A18    Pulse input B
+                    (+)                                               3.0 V DC / 3.2 mA
+                                                                    ● Max. OFF voltage / current:
+   B9        B18    Pulse input B (-)
+                                                                      1.0 V DC / 0.5 mA
+                                                                    ● Input impedance:
+                                                                      Approx. 560 Ω
+                                                                    ● Pulse width:
+                                                                      0.5 μs or more (Each phase
+                                                                      Max. 1 MHz）
+   A20              External power                         Power    ● Supplied power range:
+                    supply input: 24                       supply     21.4 to 26.4 V DC
+                    VDC, SELV and
+                    LIM (+)                                         ● Consumption current:
+                                                                      90 mA or less
+   B20              External power
+                    supply input: 24
+                    VDC, SELV and
+                    LIM (-)
+
+
+
+
+WUME-GM1H-02                                                                                   11-23
+11.4 Communication Specifications
+
+
+ 11.4 Communication Specifications
+
+
+ 11.4.1 Specifications of the USB Port
+
+    Item                                      Specifications
+    Standard                                  USB2.0 Fullspeed
+    Connector shape                           USB MiniB type
+
+
+
+
+ 11.4.2 Specifications of the COM Port (RS-232C)
+
+    Item                                      Specifications
+    No. of channels                           1
+    Physical layer                            RS-232C, three-wire system (non-isolated)
+    Transmission distance                     MAX. 15 m
+    Communication mode                        1:1 communication
+    Communication method                      Half-duplex transmission
+    Transmission line                         Multicore shielded wire
+    Baud rate                                 9600 / 19200 / 38400 / 57600 / 115200 bps
+                          Data length         7 bit / 8 bit
+                          Parity              None, odd, even
+    Communication
+                          Stop bit            1 bit / 2 bit
+    format
+                          Start code          None
+                          End code            None
+    Connector shape                           Removable terminal block (5-pin)
+
+   ■ Terminal layout of the COM port
+
+
+
+
+    Terminal no. Signal name Function
+    1                SD                Send data
+    2                RD                Receive data
+    3                SG                Signal ground
+    4                N.C.              -
+    5                N.C.              -
+
+
+
+
+11-24                                                                                     WUME-GM1H-02
+                                                               11.4 Communication Specifications
+
+
+ 11.4.3 Specifications of the LAN Port
+
+   Item                                  Specifications
+   Number of ports                       2
+   Communication interface               Ethernet 100BASE-TX / 10BASE-T
+   Baud rate                             100 Mbps / 10 Mbps, automatic negotiation
+
+   Max. segment length                   100m(Note 1)
+                                         100BASE-TX 2 segments
+   Max. distance between nodes
+                                         10BASE-T 5 segments
+   Communication cable                   Shielded twisted pair (TIA/EIA-568B CAT5e or higher)
+   Communication protocol                TCP/IP UDP
+                       LAN1              Maximum 16 units (System connection: 1 unit, user connection: 15 units)
+   No. of
+   simultaneous                          Max. 32 units, general-purpose: 16 units
+   connections         LAN2              A cycle restriction is applied depending on the total number of
+                                         connections.
+   Communication method                  Full-duplex / half-duplex communication
+   TCP/IP protocol                       TCP/IP compliant (IPV4)
+                                         ● Modifying or holding the network settings (IP, Subnet, Gateway)
+   Functions                             ● Possible to set the same or different networks between Ethernet ports.
+                                         ● Routing between Ethernet ports is not performed.
+                                         Lit when connection is established with the device on the Ethernet
+                       LINK
+                                         network.
+   LED display
+                                         Flashes when some communication is performed such as transmitting
+                       ACT
+                                         commands and responses with the devices with established connections.
+
+  (Note 1)     The standards cite 100m as the maximum, but noise resistance measures such as attaching a ferrite
+               core may be necessary in some cases, depending on the usage environment. Also, it is recommended
+               to position a hub near the control board, and limit the length within 10m.
+
+
+
+
+ 11.4.4 Specifications of the RTEX Port
+
+   Item                                  Specifications
+   Baud rate                             100 Mbps
+   Physical layer                        100BASE-TX full duplex (IEEE 802.3u)
+   Cable                                 Shielded twisted pair (TIA/EIA-568B CAT5e or higher)
+   Topology                              Ring
+   Insulation method                     Pulse transformer
+   Connector                             8-pin RJ45
+   Maximum cable length                  Between nodes: 100 m, total length: 200 m
+   Communication cycle                   500 µs to 2 ms
+   Command update period                 500 µs to 4 ms
+
+
+
+WUME-GM1H-02                                                                                                  11-25
+11.4 Communication Specifications
+
+
+    Item                     Specifications
+    Operation command        Profile position, cyclic position / speed / torque
+
+
+
+
+ 11.4.5 Specifications of the EtherCAT Port
+
+    Item                     Specifications
+    Baud rate                100 Mbps
+    Physical layer           100BASE-TX full duplex (IEEE 802.3u)
+    Cable                    Shielded twisted pair (TIA/EIA-568B CAT5e or higher)
+    Topology                 Daisy chain (No branching)
+    Insulation method        Pulse transformer
+    Connector                8-pin RJ45
+    Transmission distance    Between nodes: Max. 100 m
+    Communication cycle      500 us or more
+    Operation command        Profile position, cyclic position / speed / torque
+
+
+
+
+11-26                                                                               WUME-GM1H-02
+                                                                   11.5 Performance Specifications
+
+
+ 11.5 Performance Specifications
+
+   Item                                 Specifications
+                                        SD memory card, SDHC memory card
+                      Support media
+                                        Max. 32G
+                      Supported
+                                        Conforms to SD standard.
+                      format standard
+   SD (SDHC)
+   memory card        Operating mode
+                                        LED display (Flashes when accessed.)
+                      indicator
+                      Detection when
+                      the cover is      Available
+                      open
+                      Use               Hold variables
+   Hold memory
+                      Capacity          192 kB
+                                        95 seconds max. per month (at 0℃)
+                      Clock accuracy    15 seconds max. per month (at +25℃)
+                                        130 seconds max. per month (at +55℃)
+
+   Clock / calender   Holding time
+                      maintained by
+                      the internal                                (Note 1)
+                      capacitor when a 14 days or more (at +25°C)
+                      power failure
+                      occurs
+
+  (Note 1)   The power-ON time of five minutes or longer is required.
+
+
+
+
+WUME-GM1H-02                                                                                  11-27
+11.6 Dimensions
+
+
+ 11.6 Dimensions
+
+
+ 11.6.1 Dimensions of the GM1 Controller
+
+
+
+
+ RTEX-compatible GM1 Controller
+
+
+
+
+   Unit: mm
+
+ EtherCAT-compatible GM1 Controller
+
+
+
+
+11-28                                      WUME-GM1H-02
+                                               11.6 Dimensions
+
+
+
+
+  Unit: mm
+
+ 11.6.2 Dimensions of the GM1 Expansion Unit
+
+
+
+
+ Digital I/O unit
+
+
+
+
+WUME-GM1H-02                                              11-29
+11.6 Dimensions
+
+
+
+
+   Unit: mm
+
+ Analog I/O Unit
+
+   Applicable model: AGM1AD8 and AGM1DA4
+
+
+
+
+   Unit: mm
+
+11-30                                      WUME-GM1H-02
+                     11.6 Dimensions
+
+
+ Pulse Output Unit
+
+
+
+
+  Unit: mm
+
+
+
+
+WUME-GM1H-02                    11-31
+(MEMO)
+
+
+
+
+11-32    WUME-GM1H-02
+       Appendix Warranty / Cautions
+                for Proper Use
+       Warranty ....................................................................................................App-2
+         Warranty Period ......................................................................................... App-2
+         Warranty Scope ......................................................................................... App-2
+       Cautions for Proper Use ............................................................................App-3
+
+
+
+
+WUME-GM1H-02                                                                                                        App-1
+Warranty
+
+
+ Warranty
+
+
+ Warranty Period
+
+   Warranty period shall be 12 months from the ex-factory date or 18 months from the date of
+   manufacturing.
+   This Warranty shall be exempted in the following cases,
+   1. Defects resulting from misuse and/or repair or modification by the customer.
+   2. Defects resulting from drop of the Product or damage during transportation.
+   3. Defects resulting from improper usage of the Product beyond the Specifications.
+   4. Defects resulting from fire, earthquake, lightening, flood, damage from salt, abnormal
+       voltage or other Act of God, or other disaster.
+   5. Defects resulting from the intrusion of foreign material to the Product, such as water, oil or
+       metallic particles.
+       Parts exceeding their standard lifetime specified in this document are excluded.
+
+
+
+ Warranty Scope
+
+   Panasonic warrants the replacement of the defected parts of the Product or repair of them
+   when the defects of the Product occur during the Warranty Period, and when the defects are
+   under Panasonic responsibility.This Warranty only covers the Product itself and does not cover
+   any damage incurred by such defects.
+   Panasonic in accordance with 'Warranty Period' records,in any case,the machine state is
+   poor,and cause damage to your company and the third party,all liability,Panasonic is not
+   responsible.
+   1. The machines are not assembled in accordance with the instructions or precautions noted
+       in this specification.
+   2. When the machine does not match the product assembled in the machine.
+   3. This specification does not depend on your company.
+   4. When the machine condition is not caused by Panasonic reasons.
+
+
+
+
+App-2                                                                                WUME-GM1H-02
+                                                                  Cautions for Proper Use
+
+
+ Cautions for Proper Use
+
+  ● Practical considerations for exporting the product or assembly containing the product
+    When the end user of the product or end use of the product is associated with military affair
+    or weapon, its export may be controlled by the Foreign Exchange and Foreign rade Control
+    Law. Complete review of the product to be exported and export formalities should be
+    practiced.
+  ● This product is intended to be used with a general industrial product, but not designed or
+    manufactured to be used in a machine or system that may cause personal death when it is
+    failed.
+  ● Installation, wiring, operation, maintenance, etc., of the equipment should be done by
+    qualified and experienced personnel.
+  ● Install a safety equipments or apparatus in your application, when a serious accident or loss
+    of property is expected due to the failure of this product.
+  ● This product is designed for general industrial equipments.Don´t use this product under
+    special conditions such as nuclear energy control, aerospace equipments, transportation,
+    medical equipment, various safety equipments or special equipments.
+  ● The wiring condition(earth wire method and cables length and shield cable condition of signal
+    lines) may affect the noise resistance,please confirm the noise resistance of the machine.
+  ● Failure of this product depending on its content, may generate smoke of about one cigarette.
+    Take this into consideration when the application of the machine is clean room related.
+  ● Product overload can cause the goods to fall,please follow the marking.
+  ● Do not use benzine, thinner, alcohol, acidic cleaner and alkaline cleaner because theycan
+    discolor or damage the exterior case.
+  ● This product shall be treated as industrial waste when you dispose.
+  ● This product related standards,laws and the user is responsible for matching between
+    machine and components in terms of configuration, dimensions, life expectancy,
+    characteristics, when installing the machine or changing specification of the machine. The
+    user is also responsible for complying with applicable laws and regulations.
+  ● The product will not be guaranteed when it is used outside its specification limits.
+  ● Parts are subject to minor change to improve performance.
+
+
+
+
+WUME-GM1H-02                                                                               App-3
+(MEMO)
+
+
+
+
+App-4    WUME-GM1H-02
+ Revision History
+  The manual code is shown at the bottom of the cover page.
+
+   Date of issue           Manual code              Revision details
+   February 2021           WUME-GM1H-01             First edition
+   August 2021             WUME-GM1H-02             2nd Edition
+                                                    ● Added the following models.
+                                                       • EtherCAT-compatible GM1
+                                                         Controller
+                                                       • Digital I/O unit (Source type)
+                                                       • Analog I/O Unit
+                                                       • Pulse Output Unit
+
+
+
+
+WUME-GM1H-02
+(MEMO)
+
+
+
+
+         WUME-GM1H-02
+(MEMO)
+
+
+
+
+WUME-GM1H-02
+Panasonic Corporation 2021
+August 2021
+                             WUME-GM1H-02
+

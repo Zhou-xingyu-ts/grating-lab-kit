@@ -1,0 +1,66 @@
+﻿{
+  "simulation_only": true,
+  "hardware_disabled": true,
+  "hardware_interfaces_imported": [],
+  "output_root": "D:\\清华\\清华-科研横向\\光栅尺运动控制调研\\01_研究主线\07_开题研究\\outputs\\2026-07_阶段D_研究主线与模型V0",
+  "disclaimer": "离线模型结果，不代表真实台架性能",
+  "baseline_case_count": 20,
+  "sensitivity_case_count": 55,
+  "b_default_parameters": {
+    "mass_kg": 0.8,
+    "viscous_n_s_m": 4.0,
+    "coulomb_forward_n": 0.1,
+    "coulomb_reverse_n": 0.13,
+    "velocity_epsilon_m_s": 0.0002,
+    "disturbance_n": 0.0,
+    "velocity_loop_gain": 1.0,
+    "velocity_loop_tau_s": 0.02,
+    "quantization_m": 5e-07,
+    "measurement_noise_std_m": 2.5e-07,
+    "communication_delay_steps": 1,
+    "velocity_limit_m_s": 0.02,
+    "acceleration_limit_m_s2": 0.2
+  },
+  "d_default_parameters": {
+    "natural_frequency_rad_s": 125.66370614359172,
+    "damping_ratio": 0.9,
+    "closed_loop_gain": 1.0,
+    "communication_delay_steps": 1,
+    "measurement_quantization_m": 5e-07,
+    "measurement_noise_std_m": 2.5e-07
+  },
+  "controllers": {
+    "P": {
+      "kp": 14.0,
+      "ki": 0.0,
+      "kd": 0.0,
+      "kv": 0.0,
+      "ka": 0.0,
+      "integral_limit": 0.02
+    },
+    "PI": {
+      "kp": 12.0,
+      "ki": 22.0,
+      "kd": 0.0,
+      "kv": 0.0,
+      "ka": 0.0,
+      "integral_limit": 0.02
+    },
+    "PI_VFF": {
+      "kp": 12.0,
+      "ki": 22.0,
+      "kd": 0.0,
+      "kv": 1.0,
+      "ka": 0.0,
+      "integral_limit": 0.02
+    },
+    "PID_VFF_AFF": {
+      "kp": 12.0,
+      "ki": 22.0,
+      "kd": 0.002,
+      "kv": 1.0,
+      "ka": 0.018,
+      "integral_limit": 0.02
+    }
+  }
+}

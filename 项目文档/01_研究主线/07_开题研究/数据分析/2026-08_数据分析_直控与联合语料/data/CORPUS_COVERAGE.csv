@@ -1,0 +1,25 @@
+﻿session,cohort,role,cycles,rate_hz,checksum,motion_segments
+194409,V0.2,静止基线,500,50.0,not_available,0
+195810,V0.2,仅使能状态,1500,50.0,not_available,0
+195923,V0.2,有效运动,1500,50.0,not_available,2
+200422,V0.2,无运动,3000,50.0,not_available,0
+200718,V0.2,有效运动,2250,50.0,not_available,10
+201224,V0.2,有效运动,1750,50.0,not_available,6
+201548,V0.2,采样能力测试,987,98.6,not_available,0
+201745,V0.2,采样能力测试,1017,101.6,not_available,0
+201831,V0.2,采样能力测试,2000,199.9,not_available,0
+202216,V0.2,无运动,7969,199.2,not_available,0
+202323,V0.2,有效运动,5980,199.3,not_available,2
+202749,V0.2,部分运动,7999,200.0,not_available,6
+202943,V0.2,部分运动,4998,199.9,not_available,2
+203414,V0.2,有效运动,11986,199.8,not_available,2
+static,V7,静止基线,2934,195.6,match,0
+a300-static,V7,零运动（无效）,11549,194.2,match,0
+sysid-01,V7,有效运动,40294,134.3,match,6
+sysid-02,V7,有效运动,24464,135.9,match,6
+speed-1000,V7,部分往返,10120,134.9,match,5
+speed-5000,V7,部分往返,12213,135.7,match,5
+dc-232113,DC,NMT 失败证据,96,48.1,match,
+dc-233253,DC,bit12 失败证据,97,48.5,match,
+dc-233615,DC,回程恢复（仅命令）,,0.0,n/a,
+dc-233700,DC,正式 Run ±5000,316,48.2,match,

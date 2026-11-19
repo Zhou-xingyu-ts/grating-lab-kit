@@ -1,0 +1,84 @@
+objective: "基于光栅尺负载侧反馈的精密运动平台建模、控制与三轴扩展研究"
+status: "self-developed-encoder-interface-diagnosis"
+updated: "2026-10-22"
+directory_role: "开题级技术研究唯一主工作区"
+
+current_mode:
+  name: "沿用 Route A；优先定位自研尺 A/B 正交相位偏差，上位机维持自用最小范围"
+  scope: "以下布尔值描述本次资料诊断，不禁止后续经具体授权的现场工作"
+  lab_contact: false
+  advisor_contact_required: false
+  new_hardware_required: false
+  new_experiment_required: false
+
+verified_proxy_basis:
+  platform: "现有 Renishaw Ri0040 单轴 Z 轴平台"
+  drive: "DINGS DS-BVM"
+  current_canopen: "Node 1，1 Mbps；2026-08-01 Windows-PCAN 固定 PPM 往返及采集已验证，PASS_WITH_LIMITATIONS；不代表任意运动放行"
+  data_available: "09-18 已有分析报告覆盖 23 个会话、54 个运动段；正式直控往返仅 1 次，不能视为重复性证明"
+  temporary_scale: "1 count≈0.5 μm，仅为工程换算，未完成外部长度基准标定"
+
+self_developed_encoder:
+  source: "用户 2026-10-22 转述师姐意见，并明确语音中的'11点'实际指'还差十几度'"
+  reported_issue: "A/B 两路方波相位差偏离目标 90°约十几度；实际是超前还是滞后、具体角度未给出"
+  verified_waveform: false
+  unknowns: "原始模拟信号与整形后方波的对应波形、测量速度/方向、占空比、相位随速度变化、输出电气形式、驱动器允许误差"
+  next_evidence: "已有同屏 A/B 波形或原始示波器 CSV，以及整形链路电路图；若有模拟前级，同时获取对应波形"
+  action_boundary: "本次仅资料审查和文档修订，未授权或执行硬件测量、接线、烧录或运动"
+
+completed_stages:
+  - "当前系统、官方手册、历史论文与固件证据基线审计"
+  - "研究主线与最小模型 V0，以及 D1 技术校正"
+  - "参数可辨识性、标定链、时间合同和实验协议设计"
+  - "阶段 F 路线组织及阶段 FR 反证修订"
+  - "师兄论文机构模型审计"
+  - "2021—2026 近五年论文与控制方向调研"
+  - "现有数据对 D1—D3 的可行性审计"
+  - "G0 离线基线审计（2026-08-02 实质完成：代码、测试 184 全过、旧日志与 manifest、数据完整性）"
+  - "8.1 现场采集与 Windows-PCAN 直连闭环（2026-08-01，PASS_WITH_LIMITATIONS）"
+  - "赖建君论文精读与 8.1 数据联合分析（2026-08-03）"
+  - "工作区顶层 7 目录重组（2026-08-09）"
+
+research_route:
+  thesis_candidate: "D1 权限受限商业闭环的低频等效模型与可辨识边界"
+  support_layers:
+    - "D2 方向、换向及工况依赖"
+    - "D3 有限模型竞争与域外失效检测"
+    - "D4 时间语义、同步、标定与证据门"
+  route_frozen: false
+  deferred_extensions:
+    - "CSP/PDO/SYNC 写控制"
+    - "STM32 CANopen 主站"
+    - "EtherCAT/GM1"
+    - "外部位置环与双反馈"
+    - "自研光栅尺正式替换进入驱动器闭环（先完成当前信号诊断与接口验收）"
+    - "三轴同步与轮廓控制"
+
+current_evidence_gates:
+  passed:
+    - "现有日志完整性和有限模型审计"
+    - "PC USB/COM 运动与 USB-CAN SDO 只读并行事实基线"
+    - "2026-08-01 Windows-PCAN 固定单轴 PPM 往返及采集"
+  open:
+    - "对象级时间语义和命令事件边界"
+    - "下一轮实验的实际配置、反馈源、时间口径记录（不重新生成已停用的哈希账本）"
+    - "自研尺相位偏差根因与 DS-BVM 电气/计数兼容性"
+    - "平衡独立重复和跨批次验证"
+    - "外部长度基准正式标定"
+
+stage_g:
+  role: "历史离线准备阶段，保留方法与证据，不再规定当前只能离线或优先扩展三支路"
+  status: "G0 与既有分析已完成；当前优先自研尺输出信号诊断"
+  next_action: "先核对整形前后波形，区分源信号非正交、阈值/占空比问题与两路延迟，再选最小校正方案；见 README.md"
+  stop_boundary: "实机烧录/接线/运动前，须逐项满足 39/40/46 与 bring-up 门（docs/gui_v8_0/V8_0_HARDWARE_BRINGUP_ENTRY.md）"
+
+evidence_boundary:
+  - "现有 Renishaw 数据是商业代理平台预实验数据"
+  - "现有数据分析已达到当前证据上限；不继续模型增阶或补偿器设计"
+  - "暂定换算不能写成外部标定精度"
+  - "现有结果不能证明自研光栅尺、三轴平台或写控制链的最终性能"
+
+current_outputs: "outputs/30_当前阶段/"
+evidence_outputs: "outputs/10_证据与现状/"
+route_outputs: "outputs/20_路线与方法演进/"
+historical_outputs: "outputs/90_历史阶段/"

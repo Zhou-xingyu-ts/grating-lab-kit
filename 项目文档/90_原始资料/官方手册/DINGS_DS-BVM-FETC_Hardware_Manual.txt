@@ -1,0 +1,502 @@
+DS-BVM-FETC/FCAO Hardware Manual
+
+
+
+
+                                     Hardware Manual
+                           VER 1.0
+
+
+
+
+                                          DS-BVM-FETC/FCAO
+
+
+
+
+                                                        page│1
+Contents
+
+
+
+
+      Table of contents                        Click to return to table of contents
+
+
+
+
+      1.   Technical Information…………………………………….……………………………..…………3
+           1.1   Mechanical Data…………………………………….………………………….………...3
+           1.2   Electrical Data…………………………………….………………………………………...4
+      2.   Wiring……….……………………………………………...………………………………………..5
+           2.1   Tools…………………………………….…………………………………………………...5
+           2.2   Connections…………………………………….…………………………………………..5
+           2.3   Main Power…………………………………….…………………………………………6
+           2.4   UVW…………………………………….…………………………………………………... 7                               .
+
+
+
+
+           2.5   Digital Encoder…………………………………….………………………………………..8
+           2.6   Analog Encoder…………………………………….……………………………………….9
+           2.7   USB…………………………………….…………………………………………………..10
+           2.8   Serial Encoder…………………………………….……………………………………… 11                      .
+
+
+
+
+           2.9   Digital I/O…………………………………….…………………………………………….12
+           2.10 EtherCAT…………………………………….……………………………………………..13
+           2.11 CAN…………………………………….…………………………………………………...14
+
+
+
+
+                                                                                  page│2
+Technical Information
+
+
+
+
+     1. Technical Information
+          1.1   Mechanical Data
+
+
+
+
+                        Item        Unit   Description
+
+                 SIZE (L x W x H)   mm     40 x 55 x 25
+                    Fastener        M2
+
+
+
+
+                                                          page│3
+Technical Information
+
+
+
+
+          1.2   Electrical Data
+                                              DS-BVM-FETC/FCAO
+
+                           Motors        DC/BLDC/PMSM/VCM
+                       Communication     USB + CANopen + EtherCAT(CoE, FoE)
+                             GUI         DINGS' Servo Studio
+             Basic
+                                         Incremental Encoder
+                                         Shared/Separated Hall Sensor
+                       Position Sensor   Analog Hall Sensor
+                                         Sin/Cos Encoder
+                                         SSI/Biss-C Serial Encoder
+                                         Quantity              1
+
+                         Analog Input    Voltage Range         Analog ±10 VDC differential
+
+                                         Input Resolution      14 bit
+
+                                         Quantity              6 (with STO)
+
+            Inputs       Digital Input   Signal                Configurable. Opto-isolated
+              &
+            Outputs                      Voltage               24V
+
+                                         Quantity              2
+
+                                         Signal                Configurable. Opto-isolated. Open collector
+                        Digital Output
+                                         Voltage               24V
+
+                                         Max. Output Current   50mA
+
+                           General       Supply Voltage        5VDC
+                                                               A-quad-B with or without index, shared digital
+                                         Signal                hall sensor, RS422, Differential
+                         Incremental
+                           Encoder       A-quad-B Max Input
+                                                            10MHz (before quadrature)
+                                         Frequency
+
+                           Digital       Signal                Differential-ended
+                         Hall Sensor
+                                         Type                  Separated and shared hall sensor
+              Motor
+            Feedback                     Signal                0~5V, Single-ended
+                           Analog
+                         Hall Sensor     Sampling Frequency 24KHz
+
+                           Sin/Cos       Signal                -0.7~+0.7V at 2.5V
+                           Encoder       Sampling Frequency 24KHz
+                                         Type                  SSI, Biss-C
+                        Serial Encoder
+                                         Bite rate             0.5Mbps, 1Mbps, 2Mbps, 2.5Mbps, 5Mbps
+
+                                                                                                         page│4
+Wiring
+
+
+
+     2. Wiring
+         2.1   Tools
+                     Tool        Manufacturer   Part Number
+
+               Hand crimp Tool     MOLEX        638275600
+               Hand crimp Tool     MOLEX        2002180300
+
+
+
+
+         2.2   Connections
+
+
+
+
+          M1, M2 → CAN
+          M3 → USB
+          M4 → Motor Power
+          M5 → Main Power
+          M6 → Digital Encoder
+          M7 → Analog Encoder
+          M8 → Serial Encoder
+          M9 → Digital I/O
+          M10 →EtherCAT Output
+          M11 →EtherCAT Input
+
+
+
+                                                              page│5
+Wiring
+
+
+
+
+         2.3   Main Power
+
+
+
+
+                  Molex_105307-1203       Molex 1053002100
+
+
+
+
+                   MOLEX 105313-1103            J1
+
+                   Pin                 Signal
+
+                    1                  VCC
+
+                    2                  GND
+
+                    3                   FG
+
+
+
+
+                                                             page│6
+Wiring
+
+
+
+
+         2.4   UVW
+
+
+
+
+                 Molex_105307-1204         Molex 1053002100
+
+
+
+
+                 MOLEX 105313-1104             J101
+
+                     Pin             Signal
+
+                     1                 U
+
+                     2                 V
+
+                     3                 W
+
+                     4                FG
+
+
+
+
+                                                              page│7
+Wiring
+
+
+
+
+         2.5   Digital Encoder
+
+
+
+
+                   Molex_505565_1501       Molex 5054311000
+
+
+
+
+                   MOLEX 505567-1571                J201
+                   Pin                   Signal
+                    1                     5V
+
+                    2                    GND
+
+                    3                  Encoder A+
+
+                    4                  Encoder A-
+
+                    5                  Encoder B+
+
+                    6                  Encoder B-
+
+                    7                  Encoder I+
+
+                    8                  Encoder I-
+
+                    9                   HALL U+
+
+                    10                  HALL U-
+
+                    11                  HALL V+
+
+                    12                  HALL V-
+
+                    13                 HALL W+
+
+                    14                  HALL W-
+
+                    15                    FG
+
+                                                              page│8
+Wiring
+
+
+
+
+         2.6   Analog Encoder
+
+
+
+
+                  Molex_505565_1401            Molex 5054311000
+
+
+
+
+                   MOLEX 505567-1471                  J901
+                   Pin                       Signal
+                    1              SIN+
+
+                    2              SIN-
+
+                    3              COS+
+
+                    4              COS-
+
+                    5              REF+
+
+                    6              REF-
+
+                    7              5V
+
+                    8              GND
+
+                    9              FG
+
+                   10              AHALL_U
+
+                   11              AHALL_V
+
+                   12              AHALL_W
+
+                   13              AIN+
+
+                   14              AIN-
+
+                                                                  page│9
+Wiring
+
+
+
+
+         2.7    USB
+
+
+
+
+               USB-Mini Type B (Keystone Model:937)            J101
+                       Pin                            Signal
+                        1                 VBUS
+
+                        2                 DM
+
+                        3                 DP
+
+                        4                 ID
+
+                        5                 GND
+
+                        6                 SHIELD
+
+
+
+
+                                                                      page│10
+Wiring
+
+
+
+
+         2.8   Serial Encoder
+
+
+
+
+                   Molex_505565_0801                     Molex 5054311000
+
+
+
+
+                    Molex 505567-0871                         J801
+                   Pin                               Signal
+                    1                   BISS_DATA+
+
+                    2                   BISS_DATA-
+
+                    3                   BISS_CLK+
+
+                    4                   BISS_CLK-
+
+                    5                   5V
+
+                    6                   GND
+
+                    7                   RS485_RTX+
+
+                    8                   RS485_RTX-
+
+
+
+
+                                                                            page│11
+Wiring
+
+
+
+
+         2.9   Digital I/O
+
+
+
+
+                   Molex_505565_1001                         Molex 5054311000
+
+
+
+
+                    Molex 505567-1071                             J13
+                    Pin                                  Signal
+                     1                  STO
+
+                     2                  NEGATIVE_LIMIT
+
+                     3                  POSITIVE_LIMIT
+
+                     4                  HOME
+
+                     5                  GPI 0
+
+                     6                  GPI 1
+
+                     7                  GPI_COMMON
+
+                     8                  GPO 0
+
+                     9                  GPO 1
+
+                    10                  GPO_COMMON
+
+                                                                                page│12
+Wiring
+
+
+
+
+         2.10   EtherCAT
+
+
+
+
+                  Molex_505565_0501                      Molex 5054311000
+
+
+
+
+                   Molex 505567-0571                           J10, J11
+                   Pin                                Signal
+
+                   1                   EtherCAT Tx+
+
+                   2                   EtherCAT Tx-
+
+                   3                   EtherCAT Rx+
+
+                   4                   EtherCAT Rx-
+
+                   5                   NCs
+
+
+
+
+                                                                            page│13
+Wiring
+
+
+
+
+         2.11   CAN
+
+
+
+
+                  Molex_505565_0301              Molex 5054311000
+
+
+
+
+                   Molex 505567-0371                   J8, J9
+                  Pin                         Signal
+
+                      1                HIGH
+
+                      2                LOW
+
+                      3                GND
+
+
+
+
+                                                                    page│14
+      +86-0519-8517 7825
+
+      +86-0519-8517 7807
+
+
+      No.9, Lijiang Road, New District, Changzhou
+
+      Jiangsu, China [Zip Code 213022]
+
+       www.dingsmotion.com
+
+
+It is prohibited to copyright or replication of the part or whole of user manual without permission.
+
+
+                                                                                            page│15
+

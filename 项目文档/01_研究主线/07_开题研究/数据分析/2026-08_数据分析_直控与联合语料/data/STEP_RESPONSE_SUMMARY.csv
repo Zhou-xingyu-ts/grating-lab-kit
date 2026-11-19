@@ -1,0 +1,2 @@
+﻿session,cycles,records,failed_reads,actual_rate_hz,deadline_miss_count,fe_absmax_counts,fe_min_counts,fe_peak_sample_seq,fe_peak_elapsed_s,demand_slope_max_counts_per_s,final_actual_counts,final_demand_counts,return_zero_deviation_counts,phase_times_elapsed
+dc-233700,316,2212,0,48.217459456337146,0,632,-570,215,4.548331,84143.31999237656,30,29,1,"{'preflight': -10.3867, 'enabling': 2.0663, 'forward': 2.0893, 'forward_dwell': 2.4523, 'returning': 4.4543, 'final_capture': 4.6313, 'completed_enabled': 6.6343}"

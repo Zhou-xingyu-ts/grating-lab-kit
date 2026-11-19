@@ -1,0 +1,70 @@
+﻿{
+  "analysis_id": "dc-v7-v02-20260803",
+  "output_directory": "D:\\清华\\清华-科研横向\\光栅尺运动控制调研\\01_研究主线\07_开题研究\\outputs\\30_当前阶段\\2026-08_数据分析_直控与联合语料",
+  "generated_at": "2026-08-03T01:40:06+08:00",
+  "scripts": {
+    "01_step_response.py": "0ADC3896706C68145C2296B6838EEDA14016B70D87A6B896795CC262B75B7190",
+    "02_system_identification.py": "95544E05A24694FA1A3640B56F77987EEA5AF94217445C9C166EFF9E285BC8A9",
+    "03_comparative_metrics.py": "5089C129176832131703A9E436D74A9F0C3F0CB9E16D5DBD7A2434BB3B8055E5",
+    "04_merged_report.py": "2E8F1E7DCB43CFAD9C38CFE1EBB6647DC0FAE9A898C4C1543DBA246FE60853AF"
+  },
+  "runtime": {
+    "python": "3.12.2",
+    "numpy": "2.5.1",
+    "pandas": "2.2.3",
+    "matplotlib": "3.8.4"
+  },
+  "assertions": {
+    "dc233700_cycles_316": true,
+    "dc233700_object_reads_2212": true,
+    "dc233700_failed_reads_0": true,
+    "dc233700_fe_abspeak_632": true,
+    "dc233700_final_actual_30": true,
+    "dc233700_final_demand_29": true,
+    "dc233700_return_zero_deviation_plus1": true,
+    "dc233700_rate_approx_48_22": true,
+    "dc233700_deadline_miss_0": true,
+    "dc233700_error_code_all_zero": true,
+    "checksum_ledger_entries_48": true,
+    "checksum_all_match": true,
+    "sysid_segment_counts_6_6_5_5": true,
+    "v7_a300_static_zero_motion": true,
+    "dc233700_phase_sequence": true,
+    "derived_step_response_summary_exists": true,
+    "derived_step_response_phases_exists": true,
+    "derived_step_response_steps_exists": true,
+    "derived_sysid_fits_exists": true,
+    "derived_comparison_metrics_exists": true,
+    "figure_png_count_ge_25": true,
+    "figure_pdf_png_balanced": true,
+    "report_00_总览与执行摘要.md_exists": true,
+    "report_01_直控闭环分析报告.md_exists": true,
+    "report_02_系统辨识报告.md_exists": true,
+    "report_03_速度与跟随误差关系报告.md_exists": true,
+    "report_04_加减速参数对比报告.md_exists": true,
+    "report_05_方向不对称报告.md_exists": true,
+    "report_06_误差分解与时间质量报告.md_exists": true,
+    "joint_paired_pairs_23": true,
+    "joint_v7speed5000_fe_peak_115": true,
+    "joint_inventory_20_sessions": true,
+    "joint_v7_checksum_all_match": true,
+    "joint_enhanced_improvement_range": true
+  },
+  "all_assertions_pass": true,
+  "details": {
+    "dc233700_fe_abspeak_632": "observed 632 at seq 215",
+    "checksum": "48/48 verified; failures=[]",
+    "sysid_segment_counts": "[6, 6, 5, 5]",
+    "v7_a300_static_segments": "0",
+    "dc233700_phase_sequence": "['preflight', 'preflight', 'enabling', 'enabling', 'forward', 'forward_dwell', 'returning', 'final_capture', 'completed_enabled']",
+    "figure_png_count": "28",
+    "joint_enhanced_improvement": "MAE 9.12%, RMSE 8.87%"
+  },
+  "data_caveats": [
+    "raw counts authoritative; 1 count≈0.5 μm uncalibrated",
+    "sequential SDO uploads are not hard real-time (direct ≈48 Hz; V7 5 ms request, 135–195 Hz actual)",
+    "error vs (demand−actual) ±9 counts sequential-read artifact (D1–D3 audit)",
+    "0x603F all-zero throughout; direct runs are PPM relative only",
+    "internal cross-validation is not independent generalization; association is not causation"
+  ]
+}

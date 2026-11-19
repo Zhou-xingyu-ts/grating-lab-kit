@@ -1,0 +1,3319 @@
+   
+
+
+  ()
+
+          
+          
+          
+             
+
+                  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+       Research on High-Precision
+  Three-Dimensional Reconstruction
+Method of Surface Contours Based on
+
+              Spectral Confocal
+
+                      Thesis submitted to
+                     Tsinghua University
+          in partial fulfillment of the requirement
+                for the professional degree of
+          Master of Mechanical Engineering
+
+                                by
+                          Lai Jianjun
+               (Intelligent Manufacturing)
+
+        Thesis Supervisor : Professor Wang Xiaohao
+
+                           May, 2025
+  
+
+     
+
+     
+
+                        
+                        
+                        
+                        
+                    
+                        
+               
+                
+
+
+       
+       
+ 1
+ 2
+ 
+ 
+3
+       
+
+   
+    
+                                                        
+
+                                   
+
+       PCB2040 
+
+ PCB 
+
+
+--
+
+
+      
+ CANopen 
+STM32H7 MCU  PDO 
+
+±0.27 µm
+
+      
+
+ BEADS 
+
+ RANSAC  DBSCAN 
+
+
+      
+ -3 µm9 µm -3 %9 % ±0.4 µm ±1 %
+PCB  ±10 %
+ BEADS 
+
+ PCB 
+ MEMS 
+
+
+
+                                                            I
+                                                        Abstract
+
+                                  Abstract
+
+      With the development of high multilayer PCB (20 to 40 layers) and the rapid devel-
+opment of flexible printed circuit boards, laser drilling instead of mechanical drilling has
+become the mainstream processing solutions. With the improvement of chip integration
+and the used of advanced packaging technology, the blind holes present a trend of minia-
+turisation. Blind hole drilling accuracy affects the electrical performance of PCBs, and
+the precision inspection of its processing quality has become a key challenge to ensure
+the reliability of circuit interconnection. Traditional measurement methods are limited
+by speed, accuracy and cost, and it is difficult to meet the demand for micro-blind hole
+morphology detection. To this end, this study designs and implements a high-speed and
+high-precision surface profile 3D reconstruction system based on spectral confocal sen-
+sors, which provides an efficient solution for blind hole quality inspection through the
+synergistic optimisation of machinery-control-algorithm.
+
+      In terms of system construction, a rotary motor-driven ball screw three-axis motion
+stage is designed in this study. The mechanical design is optimised to reduce the error
+motion theoretically the real-time control system based on the STM32H7 MCU is con-
+structed using the CANopen protocol, and the transmission delay is reduced by the timer-
+triggered PDO communication. The tracking accuracy and performance of the motion
+stage is improved by the full-state feedback control method (with the repetition accuracy
+up to ±0.27 µm), which provides a stable and reliable hardware foundation for the high-
+speed scanning.
+
+      In the design of algorithms, for the noise interference in spectral confocal scanning
+data, a bidirectional window detection algorithm is proposed to eliminate outliers, adap-
+tive Kalman filtering is used to enhance robustness under dynamic conditions, and the im-
+proved BEADS baseline drift correction algorithm combined with parabolic subtraction
+is used to inhibit the nonlinear signal aberrations. For the lack of positional information in
+the semiclosed-loop system, a multilevel alignment framework incorporating kinematic
+constraints is designed to optimize the temporal and spatial consistency of data. In sur-
+face reconstruction, the RANSAC algorithm is used to quickly fit the surface primitives of
+copper foils, and the DBSCAN clustering segmentation and optimisation method is used
+to achieve the minimum outer circle fitting of the blind hole point cloud, so as to solve
+
+                                                            II
+                                                        Abstract
+
+the diameter and depth features.
+      Experimental validation shows that the system exhibits great performance in copper
+
+foil blind hole array detection: the deviation of diameter solving is -3 µm to 9 µm(-3 %
+to 9 %), and the deviation of depth is ±0.4 µm(±1 %), which meets the stringent require-
+ments of high-density PCBs on blind hole processing quality (typical tolerance ±10 %).
+Compared with the traditional median filtering, morphological filtering, wavelet decom-
+position and empirical modal decomposition, the improved BEADS algorithm can be ap-
+plied to different types of complex surfaces in baseline drift correction, which is more
+universal. The results show that the system can effectively support the blind hole topog-
+raphy inspection of high multilayer PCBs and flexible circuit boards, providing a reliable
+technical means for the optimisation of precision electronics manufacturing processes,
+and has the potential to be extended to scenarios such as the inspection of MEMS devices
+and wafer-level surface analysis.
+Keywords: chromatic confocal 3-axis motion stage feedforward control surface recon-
+struction blind via array detection
+
+                                                           III
+                                                        
+
+                                   
+
+ ................................................................................................I
+Abstract............................................................................................. II
+ ..............................................................................................IV
+ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . VI
+ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . VIII
+ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . IX
+ 1   ..................................................................................... 1
+
+   1.1  ................................................................... 1
+   1.2  ................................................. 2
+
+      1.2.1 .......................................................................... 3
+      1.2.2 ....................................................................... 4
+      1.2.3 .................................................................... 6
+   1.3  ....................................................... 7
+      1.3.1 ............................................................................. 8
+      1.3.2 ......................................................................10
+   1.4  .................................................................. 11
+ 2   .....................................................................13
+   2.1  ............................................................13
+   2.2  ........................................................................14
+      2.2.1 ......................................................................14
+      2.2.2 ...................................................................17
+   2.3  ........................................................................20
+      2.3.1 .............................................................20
+      2.3.2 ......................................................................23
+      2.3.3 PID  ...................................................................26
+      2.3.4 ...................................................................28
+   2.4  ........................................................................31
+   2.5  .................................................................................32
+
+                                                           IV
+                                                        
+
+ 3   .........................................................33
+   3.1  .....................................................................33
+      3.1.1 .................................................34
+      3.1.2 ...................................................................35
+      3.1.3 ................................................................38
+      3.1.4 ................................................................40
+   3.2  ........................................................................43
+   3.3  .....................................................................47
+      3.3.1 .........................................................................47
+      3.3.2 ................................................................49
+   3.4  .................................................................................51
+
+ 4   .....................................................................52
+   4.1  ........................................................................52
+      4.1.1 .............................................................53
+      4.1.2 ..........................................................55
+   4.2  ...............................................................56
+   4.3  ............................................................58
+   4.4  .................................................................................61
+
+ 5   ...........................................................................63
+   5.1  ...........................................................................63
+   5.2  .................................................................................64
+
+ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 65
+ ..............................................................................................69
+ ..............................................................................................70
+ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 71
+ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 72
+ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 73
+
+                                                            V
+                                                       
+
+                                  
+
+ 1.1 BGA  CSP ............................................................................. 1
+ 1.2 BGA  PCB  .................................................... 2
+ 1.3 [6] ............................................................... 2
+ 1.4 [11] ............................. 5
+ 1.5 [14] ................................... 6
+ 1.6 [15] ................. 7
+ 1.7 [35] ................................................................ 11
+ 2.1  LSM 900  ...........................................13
+ 2.2  ...............................................13
+ 2.3  ..................................................15
+ 2.4  .....................................................16
+ 2.5  .................................................................17
+ 2.6  .................................................................17
+ 2.7  ...........................................................18
+ 2.8  ...........................................................18
+ 2.9  ....................................................................19
+ 2.10 ...................................................................20
+ 2.11  ................................................................21
+ 2.12 ......................................................................22
+ 2.13  STM32H7  CANopen .......................................23
+ 2.14 [43] ..................................................... 24
+ 2.15 [43] ......................................... 25
+ 2.16 ..........................................................26
+ 2.17 -...................................................26
+ 2.18 PID  .............................................................27
+ 2.19  PID  ....................................28
+ 2.20 ............................29
+ 2.21  PID  .....................30
+ 2.22 .............................................................31
+ 2.23 ...................................................................32
+
+                                                           VI
+                                                       
+
+ 3.1  ................................34
+ 3.2  .........................................34
+ 3.3  ..................................................35
+ 3.4  ..............................................................35
+ 3.5  ...........................................................36
+ 3.6  .................................................................37
+ 3.7  ...............................................37
+ 3.8  .....................................................38
+ 3.9 LKF  AKF  .........................................................39
+ 3.10 ................................................................40
+ 3.11  .......................................................42
+ 3.12  BEADS  ..............................................42
+ 3.13 ..........................................................44
+ 3.14 ................................................................47
+ 3.15  3D ....................................................................48
+ 3.16 RANSAC  ................................................49
+ 3.17 Hough  ....................................................50
+ 4.1 - ..............................................52
+ 4.2  .................................................................53
+ 4.3  .......................................................................54
+ 4.4  ...............................................54
+ 4.5  ...............................................55
+ 4.6  ....................................................................56
+ 4.7  .............................................................................56
+ 4.8 BEADS ...........................................57
+ 4.9  ..............................................................58
+ 4.10 ..............................................59
+ 4.11  .......................................................59
+ 4.12  -  .....................................60
+ 4.13 ..................................61
+
+                                                           VII
+      
+
+      
+
+ 1.1   ....................................... 3
+ 1.2   ....................................... 5
+ 1.3   ............................................................... 9
+ 2.1   ......................................14
+ 2.2  30ZWWC60  .................................................15
+ 2.3  E-KBS0602-70  ..............................................16
+ 2.4   ..............................................................21
+ 2.5   ..............................................................23
+ 2.6   ....................................................................28
+ 3.1   ............................................40
+ 4.1   .................................................................61
+ 4.2   ..............................................................62
+
+      VIII
+AFM                         
+AKF
+BEADS            
+
+BGA     Atomic Force Microscopy
+CLM     Adaptive Kalman Filter
+CMM     Baseline Estimation And Denois-
+CSP     ing using Sparsity
+FOC     Ball Grid Array
+FPGA    Confocal Laser Microscopy
+HT      Coordinate Measuring Machine
+LHI     Chip Scale Package
+LKF     Field-Oriented Control
+LQR     Field Programmable Gate Array
+MCU     Hough Transform
+MM      Laser Holographic interferometer
+PCB     Linear Kalman Filter
+PDO     Linear Quadratic Regulator
+PLC     Micro-Controller Unit
+PZT     Mathematical Morphology
+RANSAC  Printed Circuit Board
+RTOS    Process Data Object
+SLS     Programmable Logic Controller
+SYNC    Lead Zirconate Titanate
+TIN     RANdom SAmple Consensus
+        Real-Time Operate System
+        Structured Light Scanner
+        SYNC frame
+        Triagnulated Irregular Network
+
+        IX
+                                                       1  
+
+                                 1  
+
+ 1.1 
+
+       
+ Printed Circuit Board, PCB
+ High Density Interconnector, HDIFlexible Printed Circuit,
+ FPC 3nm
+  45 nm  350 
+  4 nm  1.6  45.7 I/O 
+ 
+  PCB [1] 
+
+                                               1.1 BGA  CSP
+       Ball Grid
+ Array, BGAChip Scale Package, CSP
+  1.1
+ [2]  PCB 
+ PCB 46  20  40 
+ 
+ 
+       (1) 
+ 
+       (2)  BGA  CSP 
+ 1.2
+ [3] 
+
+                                                              1
+                                                     1  
+
+                                 1.2 BGA  PCB 
+      
+
+ 1.3 100 µm
+40 µm
+ FPC 
+
+ PCB [4] 
+ BGA  PCB 
+ BGA [5] 
+ PCB 
+
+                                       1.3 [6]
+
+1.2 
+
+      
+
+
+[7] 
+
+                                                            2
+                                                     1  
+
+ 1.1 
+                          1.1 
+
+       
+
+       
+
+       
+
+       
+
+       
+
+  CMM, AFM CLM, LHI, SLS
+
+      
+
+
+
+
+      
+
+
+
+
+
+
+
+
+1.2.1 
+
+      Coordinate Measuring Machine, CMM
+
+
+
+
+[8] CMM 
+Mohammadi [9] 
+iMMC-SVM
+CMM
+Kondo [10] 
+
+  3
+                                                     1  
+
+ CMM-CMM
+ 21 
+
+      Atomic Force Microscopy, AFM
+
+AFM 
+
+ AFM 
+
+
+
+1.2.2 
+
+Confocal Laser Microscopy,
+
+CLMLaser Holographic interferometer, LHI
+
+Structured Light Scanner, SLS 1.2
+
+
+
+            0.61   =  0.61    1.1
+             sin       NA     1.2
+
+              1.4     =  1.4
+            (sin )2      NA2
+
+  
+
+ 
+
+ sin  NA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SLS 
+
+
+
+
+
+ 1.4 
+
+
+
+            4
+                                           1  
+                  1.2 
+
+                       CLM            LHI            SLS
+ 
+                                                           
+                   < 0.1 µm                          
+
+                 
+ 
+                   
+
+                                                     
+
+                                                     
+                                                          
+
+                                      
+
+                                                     
+                                                     
+                                                      
+                                   
+
+
+CLM 
+CLM 
+CLM Lead Zirconate Titanate, PZT
+
+ PZT 1 Introduction 
+
+
+
+Wide eld                                             Camera
+
+          Focal Objective   Dichroic           Tube          Detector
+                             mirror   Filter lens    Pinhole
+          plane  lens
+
+Confocal
+
+    Figure 1.2: Schematic1.i4llustrationof a widefieldandaconfocal micr[o11s]cope with
+    their essential elements. Excitation light is shown in green. Fluorescence from the
+    focal plane is shown in red and from out-of-foc5us in orange.
+
+This causes reduced image contrast when imaging thick samples.
+A method to exclude this undesired background is confocal microscopy [7], whose
+                                                     1  
+
+1.2.3 
+
+      Molesini [12] 
+ 1.5 
+
+
+
+
+
+
+[13] 
+
+
+073706-2 Chun, Kim, and Gweon
+
+                                    Polychromatic light         500 and 600 nm, a
+
+                                    Spatial filter              the central wavelen
+
+                                                                A broadband p
+
+                        Pinhole                                 romatic 10 OL A
+Spectrum analyzer                                               Optics, 46-433 is
+                                                                of the detection be
+
+                                                                the working range
+
+                                    Beam splitter               Edmund Optics, 4
+
+                                                                mated beam is prop
+
+                                                                mirrors GM1 and
+
+d                                1                              for lateral scans be
+                                                                optics composed o
+                                 d  Axial chromatic dispersion  CVI Laser, PLCX
+                                     Sample                     lenses is compose
+Wavelength decoding              n
+
+FI1G.5. 1.Principleof chromatic confocal microscopy[1.4]        radius of curved su
+                                                                3.8 mm. The dista
+
+Lishchenko [15]  1.6 CL1 and the first
+
+croscope is theoreticallysimilar to thescann0in.3g4bµymaN11ip.6kµomwconstitutes the one
+disk, whichisakindofmoving pinhole scannin1g0,%andalsolength d. This pa
+hasthe disadvantageof lowlightefficiency. optics between an
+prevAiomusolnygmtheenttihorneeed,tytpheesionfcotrrapnosrvaetirosWne asnocgfantnh[ie1n6g]chmroemthaotdicswofhgicahlvaarneomcloetseerlyma
+depthscanning andthemovingbeamscanningforthree-0.53 µthmesecond galvano
+dimensionalsurface measur0e.0m4eµnmt has not beenreportedyet. CL1 is 50.6 mm.
+                                                                     After the pair
+This moving beam scanning o6r beam scanning is popularly        the beam incident
+used for commercial confocal microscopes due to its benefit
+                                                                verging angle decr
+of high efficiency and relatively high measurement speed.
+
+In this experiment, a beam scanning chromatic confocal The beam has a m
+
+microscope was constructed with galvanometer mirrors, and wavelength, 0 at th
+                                                     1  
+
+Pillarz [17] 
+ 6.5 µm
+ CMM Gear Measuring Instrument, GMI
+Wu [18] 
+ 16° 
+ 25 µm 
+
+               1.6 [15]
+
+1.3 
+
+      ""
+
+
+
+[19] 
+
+                                                            7
+                                                       1  
+
+       
+ Delaunay [20] Poisson [21] 
+
+ 
+ 
+ PointNet[22] AtlasNet[23] 
+ 
+ [24] 
+
+       (1) 
+ 
+
+       (2) 
+ 
+
+       (3) 
+
+ 1.3.1 
+
+       
+ (1) 
+ (2) 
+ 
+ (3) 
+ (4) 
+ 
+
+       
+ 
+
+       Mathematical Morphology,
+ MM[25] [26-27] [28] 
+ Triagnulated Irregular Network, TIN[29] 
+ [30] 
+
+       erosion
+ dilation
+ 
+ 
+ Zhang [31] 
+  LiDAR 
+ Balado [25] 
+
+                                                              8
+                                                     1  
+
+
+
+
+
+      
+
+
+[32] 
+
+[33-34] 
+
+
+
+      
+
+[30] 
+
+
+
+       1.3 
+
+
+ TIN 
+
+
+
+
+
+                                      1.3 
+
+          
+
+          
+          
+          
+
+        
+
+   
+
+   
+
+          
+
+    9
+                     1  
+       1.3 
+
+                          
+
+                  
+                  
+        
+                            
+      
+                  
+                  
+       
+                  
+                  
+                
+
+1.3.2 
+
+      
+
+
+ 1.7 
+
+
+      (1) 
+
+
+      (2) 
+
+
+      Region-Growing MethodAc-
+cumulation Method
+
+
+
+ K 
+
+
+
+      Hough
+Transform, HT[36] 
+Ballard [37] 
+
+
+
+                                                           10
+IEEE JOURNAL OF SELECTED TOPICS IN APPLIED EARTH OBSERVATIONS AND REMOTE SENSING, VOL. 13, 2020
+
+                                                                         1  
+
+point clouds [21] or estimate
+
+[22]. However, performing
+
+equired in most applications.
+
+a cameras, registration, and
+
+ore, most lidar point clouds
+
+with 2-D images obtained
+
+ptured by equipment, such as
+
+o Tablet. In such unorganized
+
+p between neighboring points
+
+indexed by row or column
+
+of lidar data in most contexts
+
+processing unorganized and
+
+nly 3-D coordinates.
+
+essing is to infer geometric
+
+d unordered points. The ba-
+
+th groups of points forming
+
+eometric primitives into two
+
+structure primitives. Shape
+
+ht and curved lines), surfaces
+
+es (e.g., cubes and cylinders).
+
+tons, 2-D outlines, and 3-D
+
+because primitives in this cat- Fig. 1. Classification o1f.g7eometric primitives inlidar[3p5o]int clouds.
+
+bject profiles. These structure
+
+advanced primitives derived
+
+contours are also regardedasproposed arigorous self-calibration algorithm basedoncylinder 
+ images [23] and 3-D point detection in a scene. The authors found that cylinder-based cali-
+in shape primitives andthebrationoutperformed plane-basedcalibration in several aspec[t3s8;] 
+
+es look similar, they arequiteinparticular,the former method reliedless onobservations than
+
+eraotebjseucrtfsascuecshaansdpvoowluemrleitnreicsthe3l-aDtteerdmgeesthiond.pointclouds arealsousefulfor registering
+
+cenarios. For example, utilitypointclouds.For example, theextracted crest curves of objects 
+
+tives, which are beingusedinbecomethe basis forregistration [40]. Linetal. [41]presenteda 
+modeled by edges contribute registration method for outdoor point clouds using line segments
+nomous driving. Fig. 1showsdetectedfrom edges. Theirmethod identifies corresponding 
+
+f primitives. matchesandrefines thematches using theiterative closest point 
+cially human-made ones, can algorithm. For the registration of images and lidar point clouds,
+c primitives and their com-Habib et al. [42] proposedamethodusing linear edge primitives
+
+nd curved lines often model estimated from plane intersections. Some registration techniques
+
+ tted by a series of piecewise have used other shape primitives. Rabbani et al. [43] proposed a
+
+y curve model [28].1V.4olumet-point cloud registration framework with no artificial targets and
+
+ate streetlight poles  iannodbtjreecetTinhciosrpmoerathteoddpfirirmstitsievgems,esnutcshpaosinptlacnleosu,dssphinertoes,reagnidoncsy,liwndheircsh. 
+primitives are useful
+
+and reconstruction. For in-arefitted usingpredefined models.Subsequently, registration 
+
+shapes, such   agsracpyhlinmdaetrcshainndgpisapraemrfeotremrseidnbdyifmfeirneinmtsizcianngstohrethd"eifofertrheong-coesnabled"twisetaennctehbeemtwoedeenl 
+probabilistic
+e [31]. Furthermore,planarthepointsandfitted models.VonHansen[44] presented a 
+
+[34], and 3-D edges [35] areplane-based registration methodfor ground-basedlidarpoint 
+g various man-made objects. clouds. The method first divides point clouds into voxels, whose
+
+asks, geometric primitives are dominant planes are estimated 1u1sing random sample consensus
+
+cations. For ground filtering, (RANSAC). The neighboring coplanar planes are then merged
+
+fied and removed by estimat- into larger shape primitives. Subsequently, the registration is
+
+point clouds [36]. For ground conducted in two steps. The first step consists of finding matched
+
+point clouds are the basis for primitives using an exhaustive search, and in the second step,
+                                                     1  
+
+
+      (1) 
+      
+
+
+ STM32H7 
+CANopen  PDO 
+
+
+
+      (2) 
+      
+
+
+
+
+RANSAC 
+
+      (3) 
+      
+
+
+
+
+                                                           12
+                                             2  
+
+                        2  
+
+2.1 
+
+      
+ CLM 
+ 2.1  LSM 
+PZT 
+"
+-"
+
+ 2.1  LSM 900 
+
+        
+                               
+ 
+          
+  
+          
+
+        
+
+                               2.2 
+
+      
+
+
+
+ PZT 
+
+
+    13
+                                             2  
+
+
+ 2.1
+
+                          2.1 
+
+                                              
+                                             
+
+                                        
+           6.35 mm × 6.35 mm                 20 mm × 20 mm
+                  18 s/a                          60 sb
+ 
+                                       
+                                        
+           6144 px × 6144 px
+                                                 
+             
+                                             10 
+            100 
+
+             a 
+             b  10 mm × 10 mm 
+
+      
+
+
+
+2.2 
+
+      
+
+  
+
+
+
+2.2.1 
+
+ 2.3   
+
+10 µm 10 mm × 10 mm  120 s  
+
+ 0.1 s  
+
+
+
+      max  =       =   10 mm     =  150  mm/s,              2.1
+              eff     0.1 s × 2                             2.2
+
+              max     3
+              acc
+           =       =  150 mm/s      =  1500  mm/s2.
+                         0.1 s
+
+                      14
+                                             2  
+
+ = 10 mm   eff 
+
+  ...         y
+                    x
+
+                                 2.3 
+        = 1 mm    max = 150 mms-1
+  = max × 60/ = 9000 r  min-1
+ 8000 r  min-1  = 2 mm 
+ 4500 r  min-1
+ 30ZWWC60  2.2
+      (1) 
+
+
+      (2) 
+
+
+
+                                2.2 30ZWWC60 
+
+           
+
+           2
+
+       
+
+           65 W
+
+       90 mN  m
+
+ 6900 r  min-1
+
+ 23.38 mN  m  A-1
+
+       28 g  cm2
+
+       400 µm
+ ±200 µm  
+
+/ 
+ JIS B
+
+       15
+                               2  
+
+1192  2.4 C5  40 mmFUTURE MONOZUKURI
+
+ 7 µm                                                                               Blog
+
+
+      (1)   20 µm
+      (2) /  40 mm
+      (3) 
+       E-KBS0602-70  2.3
+
+
+                          c)    b)
+            1
+                                                         a)
+                                     300
+
+JIS B 1192      2.4 
+             2.3 E-KBS0602-70 
+
+                                                          
+
+                                                          2 mm
+
+                                                          70 mm
+
+                                                          C5
+
+                                                          0.75 kN
+                                                          1.2 kN
+                                                       1
+
+                              
+
+                                                          0.005 mm 
+
+      
+
+ 2.5
+
+
+
+
+
+
+ 0.0010.003
+
+
+
+
+                                                                                 2
+
+                                                           163
+
+                                                      a
+
+                              b                           300mm
+                                   300mm
+                                             2  
+
+
+
+
+         2.5 
+
+2.2.2 
+
+       2.6     
+       
+ 5 
+
+
+geo =  sin  +  sin    + .           2.3
+
+ , , ,  
+ geo 
+
+         z           y
+        Z
+                      
+              
+                Y
+        O       
+
+                         x
+                  X
+
+                                        2.6 
+      
+
+ installation
+[39] 
+
+        installation = abbe + cos.  2.4
+
+       2.7  
+
+
+abbe =  +  =  tan  +  tan    + .    2.5
+
+        17
+                              2  
+
+        z
+
+     Z          y                                                x-y 
+                                                                           
+                          x
+
+             Y
+
+             
+
+     O                 x
+                X
+
+                                  Lz           L
+                                                          
+
+                                           Lx
+
+                           2.7 
+
+  
+
+ ,  
+[40] [39] 
+
+ ,  
+       2.8 
+
+ 1- 2-  1, 2 
+
+ scale 
+
+                             1    =   arcsin  (  1      )  ,                    2.6a
+                                                 scale                          2.6b
+
+                             2    =   arcsin  (  2      )  .
+                                                 scale
+
+      z               y                                                h1
+     Z                                                        lxy l
+                          
+                                                                        1
+                Y
+     O
+                
+
+                          x
+
+                   X
+
+                                                                    
+                           2.8 
+
+  
+
+
+
+cos  =       +        =      -    +     -     =    (     1    +     1   - 2) .  2.7
+                                                      cos 1      cos 2
+
+2.62.7 1, 2 
+
+                                           18
+                                             2  
+
+
+  
+
+
+      
+
+2.5 2.9(a)  2.9(b)
+  
+     33 mm 
+ 24.5 mm 25.76 %
+
+
+
+
+(a) -       (b) - 
+
+(c)         (d)  
+
+ 2.9 
+
+
+
+        19
+                                             2  
+
+ PCB 
+GP1S092HCPIF  4.5 mm × 2.6 mm × 2.9 mm
+ 50 µs IO 
+ VSSOP-8  LM393 
+PCB  0603
+/ 10 mil/10 mil 2.10 
+ PCB  32 mm × 8 mm × 1 mm 0.8 mm 
+PCB 
+-
+
+                                         2.10 
+
+2.3 
+
+       2.11 
+
+
+
+
+
+2.3.1 
+
+      
+ CANopenEtherCATPROFIBUSModbus  DeviceNet
+ 2.3 
+CABopen 
+
+
+                                                           20
+                    2  
+
+                           FOC   
+                                  
+
+                                 
+
+            2.11 
+
+      (1) CANopen  1 Mbps 
+ EtherCAT
+
+
+      (2) CANopen 
+CANopen  Arm Cortex  MCU 
+
+
+      (3) CANopen  EtherCAT  PROFIBUS
+
+
+                                       2.4 
+
+  a                        
+
+CANopen    1 Mbps        
+                                    
+
+EtherCAT 100 Mbps        Windows 
+                            
+
+PROFIBUS   12 Mbps       
+  Modbus   500 kbps
+DeviceNet  500 kbps    
+
+                         
+
+a 
+
+      EtherCAT 100 Mbps
+ EtherCAT
+ Windows 
+ 50 msModbus
+ DeviceNet < 500 kbps
+PROFIBUS 
+
+
+                     21
+                                             2  
+
+       CANopen 
+Process Data Object, PDOSYNC
+ 2.12  CANopen 
+ 1 Mbps 
+
+
+      (1)  PDO 47 µs + 64 µs = 111 µs
+      (2) 47 µs
+      47 µs 64 µs  8 
+ PLC  (111 + 111) × 3 + 47 = 713 µs
+ 111 × 3 = 333 µs 53.3 %
+
+
+  SYNC                              1 ms
+                     
+  PDO                
+            
+                    PDO 
+  PDO 
+
+  (a)  PLC          (b) 
+
+             2.12 
+
+       2.5STMicroelectronics
+STM32H7  Cortex-M7  480 MHz
+Floating Point Unit, FPU
+
+
+ MCU Cortex-M4 50 % 
+DSPSTM32H7  CAN-FD 
+5 MHz  CANopen 
+
+
+      STM32H7  STM32Cube 
+HAL CANopenNode 
+ STM32CubeMX Verilog/VHDL
+ FPGA  DSPSTM32H7 
+ 30 % FPGA  20 %30 %
+ 200 mW
+
+
+ CANopen  2.13 Real
+
+              22
+              2  
+          2.5 
+
+                         
+
+ARM Cortex-M7               
+                            
+ARM Cortex-M4               
+                         
+FPGA            
+
+DSP             
+
+Time Operate System, RTOS
+
+
+
+      (1) 
+ PDO 1 ms
+ STM32H7  CAN /
+
+
+      (2) 
+ SDO Network Management Telegram, NMT
+Heartbeat
+ 5 ms
+
+      (3) 
+ I/O
+
+
+ CAN                           
+                1 ms     
+
+ CAN-ID                  SDO 
+
+                         
+                PDO      
+ CANopen OD
+
+       2.13  STM32H7  CANopen 
+
+2.3.2 
+      
+
+
+
+                  23
+                                             2  
+
+
+
+
+       2.14 
+
+[41] [42] 
+
+
+
+
+
+1  23  4         5     6
+
+          7         8
+
+      1- 2- 3- 4- 5-- 6- 7- 8-
+                                  2.14 [43]
+
+      -
+-
+
+
+
+
+
+       2.15 -
+
+
+  
+-1  2 
+1 2 
+1  2  
+   1  2 
+
+
+             24
+      2  
+
+  J                                  M
+
+    
+
+        (a) -
+
+    x1                           x2
+
+    m1                           m2
+
+                d1                             d2
+
+                (b) -
+ 2.15 [43]
+
+      Field-Oriented Control, FOC Clark
+ Park  - 
+     
+ 
+ - 
+[39] 
+
+  e = f,                                           2.8a
+
+        =  q  d     +   e  +  s  .                 2.8b
+              d
+
+f e  
+
+s    
+
+
+
+-
+
+    f = c  sgn () + v  .                           2.9
+
+c v 
+ sgn() 
+
+-- 2.16 
+
+
+
+    d2     +    d   +      =  e  -  f.             2.10
+    d2          d
+
+ 2.17(a)  c 
+
+                    25
+                                           2  
+
+                                                           y
+                                                 B
+
+                        Ff                                    Fe
+
+                                                       K
+
+                                    2.16 
+
+
+
+ 1 
+
+
+                                                  Ce
+
+                                                                            s
+                                                                                   y
+                    +­                        Kf       ­
+                Kc                                    +
+
+                                          (a) 
+
+                                                                  s
+                                                                         y
+                        
+
+                                           ­
+                                       1  +
+
+                                                   (b) 
+                                 2.17 -
+
+2.3.3 PID 
+
+       2.18(a) 
+
+
+ PI 
+ vp  vi 
+
+ P  pp 
+
+                                              26
+                       2  
+
+      Kpp                Kvi              ++            Kvp                   
+
+  +­           +­
+
+                   v
+
+               s                                                       f (u)
+                                                                    
+
+                                                             ­+
+
+               (a) 
+
+   R(s)  E(s)                           U(s)                  Y(s)
+           +­               C (s)                    G (s)
+
+                         PID                      
+
+               (b) PID 
+                2.18 PID 
+
+ 2.17(b) 
+
+                                       1
+
+               ()     =          2     +  + 
+                               v               1
+                         1  +                     +                           2.11
+                                       2 + 
+
+                      =                1             .
+
+                         2 + ( + v)  + 
+
+ 2.2  2.6  Simulink 
+
+ 2.19  ()  0.2
+
+ 15 s  80 %
+
+PID  p 
+ p 
+
+
+(1) 
+
+      (2)   ()  p 
+
+
+
+
+ PID 
+
+ 2.18(b)   ()  () =  () - () 
+
+  ()
+
+
+
+ 2.3.4  PID 
+
+                                   27
+           2  
+          2.6 
+
+                                    
+
+                                  0.5 kg
+                           0.5 N  (m  s-1)-1
+ 
+ v                                   5
+                          1 × 10-3 N  s  m-1
+
+ i = 0.2897  d = 0.6471   = 376.1
+           2.19  PID 
+
+2.3.4 
+
+       PID 
+ 2.17(b) 
+
+
+            1() = (),                                2.12a
+
+            2()    =  d1()   =   dd() .              2.12b
+                        d
+
+                             ()  =  [  e()  ]2.9
+                                        
+
+2.10
+
+d1()  =  d()   ,                                     2.13a
+  d       d                                          2.13b
+
+d2()  =  d2()
+  d       d2
+
+      =  1     [e  -   v  d()    -     d()  -   ()]
+                           d            d
+
+      =  ()  -    v +     d()    -     ().
+                           d        
+
+                         28
+                                2  
+
+2.122.13 () 
+
+                               d()  =  ()      +  (),                                  2.14a
+                                d
+
+                                  () = () + ().                                        2.14b
+
+                                 1()                               0              1
+                    ()      =  [2()]                            =                      
+                                                                   -           v +     
+                                                                            -          
+
+  = [0 1]
+
+  = [1 0]
+
+  = [0]
+
+
+
+ 2.20  () =  d + e()  d 
+feedforward
+
+e() 
+
+
+                                                          D
+
+             F
+
++    e(t)    Ke         ++          B              dz(t)              z(t)  C        ++ y(t)
+ -                                                   dt
+                            u(t)
+                                              ++
+
+                                                          A
+
+               2.20 
+ d [= 1d, 0] 1d
+
+()   =     d  +  e()        =  [-      -  v +             1d       +  e().             2.15
+                                                        [0]
+                                                     ]
+
+
+
+d()  =()      -  d      -   ()
+ d
+
+        0             1             1()       0                1              1d
+     =              v +           [2()]   -                  v +            [0]   -
+        -        -                            -           -            
+                                                                       
+
+          0                    v +          1d                           1()           2.16
+        [1]                               [0]                          [2()])
+              ([-           -          ]          +  [e1          e2]
+
+        0                           1            1()
+     =                      - v +              [2()]         .
+        -        -  e1                 -  e2
+                                 
+
+                                          29
+   2  
+
+ [0, 0]
+
+Linear Quadratic Regulator, LQR
+
+ e   
+
+
+
+                                  2.17
+
+e = arg min  = 0 ()() + ()() d.
+
+  1()  2()  
+
+ () 
+
+ 11 
+ 11 
+
+
+       2.21 ""PID 
+PID  Ziegler-
+Nichols 
+
+                  2.21  PID 
+      LQR  PID 
+PID  6.6 % LQR  4.5 % ,  
+ PID  5 s 2 %LQR 
+1.88 sLQR 
+ , ,   Stribeck 
+
+
+                                                           30
+       2  
+
+2.4 
+
+        Qt 
+ 
+ 2.22 
+ 
+
+      
+
+      
+      
+
+
+
+
+                                      2.22 
+
+      
+
+ RS232  CANopen 
+ 2 kHz  460 800 bps
+ 10 Hz Qt-OpenGL 
+
+
+
+       2.23
+ 
+csv 
+
+ 1 µm
+
+      31
+                                             2  
+
+                                         2.23 
+
+2.5 
+
+      
+
+
+
+
+CANopen 
+ PDO  53 %
+ PID  PID 
+
+
+
+
+
+
+
+                                                           32
+                                       3  
+
+                  3  
+
+      "      "
+
+
+
+Iterative
+Closest PointICP
+
+
+      
+
+
+
+""
+
+3.1 
+
+      
+ kHz 
+
+
+      (1) 
+
+
+      (2) 
+
+
+      (3) 
+
+
+      
+
+
+
+ 3.3 
+
+
+
+                                                           33
+                                       3  
+
+3.1.1 
+
+      
+ () = 01 + (/)2 
+ 3.1
+
+ 3.2 
+
+
+
+
+                            
+
+ 3.1 
+
+ 3.2 
+
+
+
+
+
+
+
+ {}   
+
+
+forward = | - forward| ,    forward  =  1    -1  ;  3.1a
+                                        
+                                            
+
+                                           =-
+
+backward = | - backward| ,  backward    =  1   +    3.1b
+                                           
+                                                .
+
+                                              =+1
+
+ forward    forward  th1 <
+forward < th2    forward
+
+  34
+                                       3  
+
+ backward  backward  3.3
+
+
+                                 3.3 
+
+3.1.2 
+       3.4 
+
+ 0.042 m 0.256 m
+-
+
+
+
+(a)       (b) 
+
+ 3.4 
+
+      Linear Kalman Filter, LKF
+[44] 
+
+[45] 
+
+
+
+
+
+
+
+      35
+ 3  
+
+3.2
+3.3
+
+[] = [-1] + [-1] + [-1],  3.2
+[] = [][] + [].           3.3
+
+ []    [] 
+  []   (0, ) process
+ noise[] 
+ [] []   (0, ) 
+measurement noise
+
+       
+
+ 3.5
+
+      (1)   
+[]  0[]  -[]
+
+
+      (2)  [-] 
+ []  -1[] 
+- 1 [] 
+
+       ,  
+
+
+
+
+
+                     
+1.      1. 
+
+2.      2. 
+        3. 
+
+                                     3.5 
+        []   - 1  [-1] 
+ []
+
+
+                                                           36
+                                         3  
+
+   (2)   (3)
+ 
+
+       
+ 3.4(b) []
+
+  < 0.1
+ 
+  1 × 10-5
+ 
+
+[] = [-1] + [],                3.4
+
+[] = [] + [].                  3.5
+
+  = [2]  = 0.042 µm 3.6
+ 0.042 µm  0.011 µm
+
+ 73.8 %
+
+ 3.7
+
+ 3.6 
+
+ 3.7 
+                           37
+                                       3  
+
+3.1.3 
+
+      
+    
+    
+ 3.8
+
+
+      (1)   
+      (2)   
+      (3) 3.4
+
+(a) max = 500 r/min          (b) max = 1000 r  min-1
+
+(c) max = 1500 r  min-1      (d) max = 2000 r  min-1
+
+
+
+
+
+ 3.8 
+
+  
+
+  
+
+Adaptive Kalman Filter, AKF
+ ,  
+
+                      [] = [-1] + (1 - ) ([][] - [][-][]) .  3.6
+ [] = [] - [][-]  
+
+                         38
+                                       3  
+
+       3.9  3.1
+
+  
+  
+ ,  
+ 16 %30 % 
+
+
+
+
+                             (a) 
+
+                           (b) 
+                                    3.9 LKF  AKF 
+
+                                                           39
+           3  
+   3.1 
+
+      
+
+ / RPM 100 200 300 400 500 600 700 800 900 1000
+  0.60 0.58 0.52 0.54 0.49 0.48 0.48 0.47 0.46 0.47
+
+ AKF 0.47 0.49 0.43 0.44 0.39 0.36 0.36 0.36 0.34 0.34
+
+ / % 20.8 16.2 17.4 17.6 18.9 24.2 24.6 24.2 25.9 27.6
+
+ / RPM 1100 1200 1300 1400 1500 1600 1700 1800 1900 2000
+  0.45 0.46 0.45 0.46 0.46 0.49 0.45 0.49 0.44 0.48
+
+ AKF 0.31 0.32 0.33 0.33 0.32 0.38 0.33 0.39 0.32 0.38
+
+ / % 30.3 30.2 27.1 28.2 29.3 22.4 26.7 20.3 26.9 20.9
+
+3.1.4 
+
+      
+ 3.10
+
+
+Baseline Estimation
+And Denoising using Sparsity, BEADS
+
+                                       3.10 
+      BEADS 
+BEADS 
+[46] 
+
+
+   () =  () +  () +  () .  3.7
+
+  40
+ 3  
+
+ ()  ()  () 
+
+
+
+      (1)   () 
+
+
+      (2)   () 
+      (3)  (0) =  ( )
+      BEADS 
+
+0  - ( + )22 + 1 21 + 2 () .         3.8
+
+ - ( + )22 data fidelity  +  
+  2 21 
+baseline sparsity constraint2  1 
+
+ () 
+
+optional signal sparsity constraint
+
+0, 1, 2 
+ 2 = 0   () = 0
+
+       BEADS Navarro-Huerta [47] 
+
+
+
+   () = 2 +  + .                     3.9
+
+
+
+ = min (),                           3.10a
+                                     3.10b
+        0T                           3.10c
+
+  =  1  ( (0)  +     (T)  -  2 )  ,
+     2
+
+ =  - (0).
+
+        BEADS 
+ 3.11 
+ 3.12(a) ()  () = () - ()BEADS 
+
+ 
+  3.12(b)
+  BEADS   () 
+   () 3.12(c)
+ 
+
+               41
+ 3  
+
+(a)  0       (b)  0 
+
+     (c)  0 
+ 3.11 
+
+(a)  0 
+
+(b)  0       (c)  0 
+
+ 3.12  BEADS 
+
+         42
+                                       3  
+
+       BEADS 
+3.8
+
+  
+
+
+      (1)   
+
+
+      (2)   
+
+
+      
+  
+
+3.2 
+
+  
+
+ 
+
+  
+
+     
+
+
+
+(1) ICP 
+
+
+
+(2) -  
+
+  
+
+ 3.13
+
+  
+
+
+
+ 2.3  ,   
+
+  
+
+  
+ 1, 2   
+
+
+                                            3.11
+
+  [] =  (1[] - 1 ) (2 [( + ) mod ] - 2 ) .
+
+             =1
+
+1 , 2   [-, ]   [] 
+
+      43
+          3  
+
+                                                         
+  1.                              1. 
+                                  
+  2. 
+                                  2. 
+
+  3.                              3. 
+
+          3.13 
+
+ peak   
+
+
+
+
+ peak 
+  [ - 1] ,  [] ,  [ + 1]
+
+         =  1    [   [ - 1] -  [   + 1]     1]  .        3.12
+            2       - 1] - 2 [] +   [ +
+
+   (-0.5, 0.5)
+
+
+
+                       = peak.                           3.13
+
+
+
+    init 
+    { []}=-1 1 
+  
+
+                                                         3.14
+
+  comp [] =     [] ,  = 1,  ,  - 1.
+
+                                 =1
+
+ opt = init + comp 
+
+
+
+
+
+ d [] = comp [] - comp []    
+ d = d  
+
+  shift  =  round  (  d []  )  =  round  (  d []   )  .  3.15
+                      step                  step
+
+round
+
+                      44
+   3  
+
+
+
+(al)ign = z [shift   ] - z+1 [1   - shift + 1]22 .  3.16
+
+ overlap 
+
+
+
+
+
+
+  2 [] =  [ - 1] - 2 [] +  [ + 1] .                 3.17
+
+
+
+                -1    2
+
+                     
+                     2 []                           3.18
+  smooth  =                    .
+               
+                 =1
+
+  
+
+
+
+                       -1                           3.19
+
+  arg min  =  (al)ign + smooth.
+
+                       =1
+
+Trust Region reFlective, TRF[48]  Huber 
+
+[49]  3.1 
+
+
+
+
+
+ 3.14(a) 
+
+
+
+(1) 
+
+
+
+(2) 
+
+
+
+(3) 
+
+
+
+ 3.14(b) 
+
+
+
+
+
+               45
+                                  3  
+
+ 3.1 
+
+ data  ×    y 
+    step   
+
+ {(, , )   = 0,  ,  - 1;  = 0,  ,  - 1}
+
+Step 1: Preprocessing
+
+ = [0, step, 2step,  , ( - 1)step]
+init = linspace (0, , )
+
+Step 2: Local Displacement Estimation
+
+Set [0]  0
+
+for  = 0 to  - 2 do
+
+1  data[] - mean(data[])
+
+2  data[ + 1] - mean(data[ + 1])
+
+Compute cross-correlation:   (1, 2)
+
+Find peak index: peak  arg max()
+
+if 1 < peak < length() - 1 then
+
+  1              [peak -1]- [peak +1]
+
+        2 [peak-1]-2 [peak]+[peak+1]
+
+peak  peak + 
+
+end if
+
+   [ + 1]  peak -  + 1
+end for
+
+0  init + CumulativeSum()
+
+Step 3: Global Optimization Registration
+
+for  = 0 to  - 2 do
+
+d  [ + 1] - []
+
+dtheory  d
+
+shift  round (dtheory/step)
+if shift > 0 then
+           -shift -1                                         shift])2
+              =0             (data[][]  -  data[  +  1][  +
+
+else if shift < 0 then                                    shift])2
+
+           -1             (data[][]  -  data[  +  1][  +
+               =|shift |
+else
+  =-0 1 (data[][] - data[ + 1][])2
+
+end if
+
+   Append  to 
+end for
+
+Add smoothness constraint: for each , compute 2 []  [ + 2] - 2[ + 1] + [] and append
+
+smooth  (=-0 2  2         2  to  .
+
+                   [])
+
+Solve for opt: opt  arg min 2 with initial guess 0
+
+                                                     46
+                                         3  
+
+                                                  (a) 
+
+                                                  (b) 
+                                         3.14 
+
+ 3.3 
+
+       
+ 
+
+ 
+  3.15
+ 
+ 
+
+       (1) 5 µm
+ 200 µm
+
+       (2) 
+ 
+
+       (3) 
+ 3.3.1 
+
+       
+ RANdom SAmple Consensus,
+ RANSACoutliers
+ 
+ 
+
+                                                             47
+ 3  
+
+ 3.15  3D 
+
+inliersRANSAC 
+ 1 = (1, 1, 1)
+2 = (2, 2, 2)  3 = (3, 3, 3)
+
+1 = 2 - 1,                        3.20a
+2 = 3 - 1.                        3.20b
+
+  = 1 × 2 = (, , )
+
+ ( - 1) +  ( - 1) +  ( - 1) = 0.  3.21
+
+ (, , )
+
+point = | +  +  + | .             3.22
+             2 + 2 + 2
+
+ RANSAC 
+
+   3.16 
+
+
+
+     
+
+  = 3
+
+ = log (1 - ) .                   3.23
+      log (1 - (1 - )3)
+
+
+
+
+
+48
+           IEEE TRANSACTIONS ON INDUSTRIAL INFORMATICS, VOL. 13, NO. 3, JUNE 2017
+
+                                           3  
+
+           3.3.2          Fig. 7. Illustratio3n.1o6f thReAthNrSeAshCold valuedeterminedby RANSAC algo-
+                          rithm to detect outliers.
+
+                         
+
+           There arethree parameters that play animportant role in the
+
+           performanceof theRANSACalgorithm. Here,theseparameters
+           aasre3fi0r.sTtfhoeunndumembepriroicfailtleyr.aTtihoensnuamrebseertotfos1u0b0sa0m. Tplhees-tihsrcehsohsoelnd
+            (, i)schosen as0.2.Thefitted linesusing RANSACintegrated
+
+           LSfor theon-stateresistance variation in log scale are shown in
+
+                Fig. 8. The outliersdeterminedbytheusedRANSACalgorithm
+           Tarheersehoawrensienvecriraclleosu,tlwiehresrperienHsleoineurtgshinartehemafirrksetdpawrtithof"txh"esdiganta. 
+           whichcausenonlinearity. Particularly,R2,R5, R8, andR9
+
+           containa highnumber ofoutliers in thefirst200cycles. These
+
+           outlierssignificantlyaffectthe RULestim atio+n astheyeither   
+             clihna[e0n.,gTeh)tuhse, siltoips3e.e1cx7opeefcfitceidentotag,eotriomffpsreotvceodefefisctiimenattbioon(fat,hcec)ufirtatecyd
+
+           forthese samples. 
+machine vision litera-
+liers in estimating the     In order  ttoheobRsUerLveist=heestiicmmopsarteo+dveamtsieennvte.riyn  the  accycculera, cwyhoicfhthies3.24
+                         estimation,                                                              5th
+ve when data contains equaltothesampling frequencyof the data points,after the
+should be  RatAleNaSstA5C0%is fiesrtsitm3a0tiodnataanpdotihnetsa(cctourarleRspUoLndwinigthtores1p5e0ctthtocyacgleinsg).
+ormance.                                                                                                                 The RUL
+                                                                                                                         cycles are
+e the model parameters shown forboth withandwithout outlierremoval inFig.9. The
+data. For examplefor bHlaocukghdottedlineshowsthe actual RUL, whereas blue and red
+two unknown parame- linesindicatethe RU L× incaseall data points areusedan=d ou/1t-80
+ilneinmeaeldssutbosbame tpwleosda1an°tdaloiue rtlsieerxscsliugdneidfi,carnestlpyecimtivperloyv.eAssthietaccacnurbaecys,epeanr,tirceumlaorvlyinegfftehce-
+AC can be summarized                      tfhreomRUthLeem s=tiidm-raetgioi2on+ncduar2tva,e
+                         tive  beginning                                                    points. When outliers3.25
+                         are   excluded,                                                    approaches to actual
+le from observeddata; RUL curvefaster.  
+ubsample;
+                         In Fig. 9, a 10% RUL warning threshold is drawn to in-
+d model using a thresh- vestigate the feasibility of an4e9arly warning system. In all of
+less than the defined the samples except R2, the error is minimum at the 10% RUL
+s an inlier and the fit- threshold. For R2, the error between the RUL of the RANSAC
+it is considered as an filtered data and actual RUL remains high. Even though the out-
+     3  
+     y
+
+               P0 (x0, y0)
+
+            r               P (x, y)
+                                              x
+             
+       O
+
+   3.17 Hough 
+
+ Canny 
+ {(, )}=1 (, )3.24
+  (, )
+ (, )  (, )
+
+
+         (, )   (, ) + 1.                        3.26
+
+  
+ (, )
+
+      
+
+
+
+ - 
+  K-meansDBSCAN
+  
+   {(, )}=1
+
+      
+
+
+
+ (, )   
+
+    2   =   max  [(  -  )2     +  (   -  )2] .   3.27
+
+           1
+
+ 2 
+
+
+
+    (,  )  =    max  [(     -  )2  +  (  -  )2]  3.28
+
+               1
+
+ (, )  (, ) 
+
+                     50
+ 3  
+
+
+
+0  =  1          0  =  1      3.29
+                       
+          ,                .
+
+         =1               =1
+
+ L-BFGS-B 
+
+ (, )   
+  =   
+
+
+
+
+
+
+
+
+
+3.4 
+
+      
+
+
+      (1) 
+
+
+
+ BEADS 
+
+
+      (2) 
+
+
+
+      (3)  RANSAC
+
+
+
+      
+
+
+             51
+                                             4  
+
+                        4  
+
+      - 4.1
+
+
+
+
+
+
+  
+  
+  
+  
+
+    z
+
+                                                        x-y
+                                                      
+
+                               4.1 -
+
+4.1 
+
+      
+
+
+
+
+
+
+                                                           52
+                                             4  
+
+4.1.1 
+
+       HEI-
+DENHAIN RCLC A-9404-2030 20 µm
+ 4.2  -10 mm10 mm  0.5 mm 
+- 4.3  (a)(c) 
+ (b)(d) 
+
+
+ 
+
+
+       
+
+                                  4.2 
+m
+
+  cos1 = -1.774 × 10-32 - 0.5639,       4.1a
+  cos2 = -1.830 × 10-33 - 0.3859.       4.1b
+
+ <1 %
+ 200  0.1 µm 
+
+
+
+   cos = -1.8 × 10-3.                   4.2
+
+
+
+ -5 µm7.5 µm 
+2 mm 4.4
+
+
+
+
+
+
+
+
+
+   53
+ 4  
+
+(a)  1      (b)  1
+
+(c)  2      (d)  2
+
+ 4.3 
+
+(a)  1      (b)  2
+
+ 4.4 
+
+        54
+     4  
+
+ 4.5 
+
+ {1()}  {2()} 
+
+ =   (1() - 1 ) (2() - 2 )                  .  4.3
+
+      (1()  -        2    ((2)  -        2
+
+               1 )                 2 )
+
+  = 0.999999 < 0.001 1
+
+-
+
+ ±1 µm 4.5
+
+
+
+4.1.2 
+
+      
+
+
+
+
+ 4.6  4.7 
+
+       13  0.09 µm
+ 99.7 % 3  ±0.27 µm
+
+ 5  0.5 µm
+ 5 
+ 0.06 µm 0.1 µm 4.7(b)
+ 0.1 µm 
+
+
+               55
+       4  
+
+
+
+       4.6 
+
+(a)                                (b) 
+       4.7 
+
+4.2 
+
+      
+
+
+    · 
+    · 
+    · 
+ 4.8 BEADS 
+
+       4.8(d) 
+
+ 4.9
+
+
+                                                           56
+      4  
+
+(a)        (b)
+
+(c)        (d)
+
+ 4.8 BEADS 
+
+
+
+
+
+
+
+
+       BEADS 
+
+ EMD BEADS 
+ EMD 
+
+
+
+     57
+       4  
+
+(a)         (b) 
+
+(c)         (d) EMD
+
+ 4.9 
+
+4.3 
+
+       4.10  100 µm
+ 40 µm   10 mm  0.02 mm
+
+
+BEADS 
+
+       4.11(a)  4.11(b) - 
+
+
+ ±0.2 mm
+ 4.11(c)  4.11(d)
+
+
+      RANSAC 
+
+
+      58
+              4  10
+        : mm
+
+                              10
+
+ 4.10 
+
+(a)  1          (b)  2
+
+(c)  1          (d)  2
+
+ 4.11 
+
+            59
+   4  
+
+  (a) 
+
+                          (b) 
+ 4.12  - 
+
+
+
+
+
+  
+
+ 1 + 1 + 1 + 1 = 0,
+
+  2 + 2 + 2 + 2 = 0,                 4.4
+
+              
+
+  +   +   +  = 0.
+
+  = /   
+
+    =      ,                         4.5
+                                     4.6
+
+   =   ,
+          
+
+ 5 
+
+ = 0.0 - 1.27 × 10-3 + 5.10 × 10-3.  4.7
+
+       4.13 
+DBSCAN  = 0.1 mm min = 20
+ 7 ""
+ 4.1  100 µm 40 µm
+ -3 µm9 µm -3 %9 %
+
+       60
+                                             4  
+
+
+       (-3.9 ± 0.7) % 
+
+BEADS 
+ 4.2
+ ±0.4 µm ±1 %
+
+
+    4.13 
+                   4.1 
+
+ mm mm  µm 
+
+1  (0.511, 0.300)  0.102  2.2 %   38.2  -4.5 %
+
+2  (1.211, 0.275)  0.105  4.7 %   38.7  -3.2 %
+
+3  (1.929, 0.253)  0.105  5.1 %   38.2  -4.5 %
+
+4  (2.616, 0.231)  0.097  -2.9 %  38.3  -4.3 %
+
+5  (3.322, 0.209)  0.107  7.0 %   38.4  -4.0 %
+
+6  (4.036, 0.190)  0.109  8.8 %   38.6  -3.5 %
+
+7  (4.714, 0.162)  0.107  6.5 %   38.6  -3.5 %
+
+4.4 
+
+      
+
+
+                                                           61
+     4  
+ 4.2 
+
+ µm 
+
+1  39.7  -0.7 %
+
+2  40.2  0.5 %
+
+3  39.7  -0.7 %
+
+4  39.8  -0.5 %
+
+5  39.9  -0.3 %
+
+6  40.1  0.3 %
+
+7  40.1  0.3 %
+
+ 0.5 µm 
+±1 µm  ±0.27 µm 
+ BEADS 
+
+
+
+      
+ -3 µm9 µm -3 %9 %
+ -0.3 µm0.2 µm -0.7 %0.5 %
+ PCB 
+
+
+   62
+                                                5  
+
+                           5  
+
+5.1 
+
+      
+
+
+      (1) 
+
+
+ CANopen 
+ PDO 
+
+ 0.5 µm ±1 µm  ±0.27 µm 
+
+
+      (2) 
+
+ BEADS
+
+
+ RANSAC
+
+
+
+      (3) 
+
+ BEADS 
+
+ -3 µm9 µm-3 %9 %±0.4 µm±1 %
+
+
+      
+ BEADS
+
+
+
+
+                                                           63
+   5  
+
+
+
+5.2 
+
+      
+
+
+
+
+      (1) 
+
+
+  
+
+
+
+      (2) 
+
+
+
+
+
+
+      (3) 
+
+
+ MEMS 
+
+
+      
+
+
+  64
+                                                       
+
+                                  
+
+[1] Singh M, John F. Sargent J, Sutter K M. Semiconductors and the Semiconductor Industry.[J].
+        Congressional Research Service (CRS) Reports and Issue Briefs, 2023: R47508-R47508.
+
+[2] Mallik D, Radhakrishnan K, Jiangqi He, et al. Advanced Package Technologies for High-
+        Performance Systems[J/OL]. Intel Technology Journal, 2005, 9(4): 259-271. DOI: 10.153
+        5/itj.0904.01.
+
+[3] Lau J H. Recent Advances and Trends in Advanced Packaging[J/OL]. IEEE Transactions on
+        Components, Packaging and Manufacturing Technology, 2022, 12(2): 228-252. DOI: 10.110
+        9/TCPMT.2022.3144461.
+
+[4] Zhang M S, Li Y S, Jia C, et al. Signal integrity analysis of the traces in electromagnetic-
+        bandgap structure in high-speed printed circuit boards and packages[J/OL]. IEEE Transactions
+        on Microwave Theory and Techniques, 2007, 55(5): 1054-1062. DOI: 10.1109/TMTT.2007.
+        895413.
+
+[5] Lorenz E, Niemann N, Koyuncu M, et al. Reliability characterization of blind-hole vias for a
+        System-in-Foil[C/OL]//Proceedings of the 5th Electronics System-integration Technology Con-
+        ference (ESTC). Helsinki, Finland: IEEE, 2014: 1-6. DOI: 10.1109/ESTC.2014.6962764.
+
+[6] , , , . [J]. 
+        , 2023, 60(17): 266-273.
+
+[7] Yang Y, Dong Z, Meng Y, et al. Data-Driven Intelligent 3D Surface Measurement in Smart
+        Manufacturing: Review and Outlook[J/OL]. Machines, 2021, 9(1): 13. DOI: 10.3390/machin
+        es9010013.
+
+[8] Echerfaoui Y, El Ouafi A, Chebak A. Experimental Investigation of Dynamic Errors in Co-
+        ordinate Measuring Machines for High Speed Measurement[J/OL]. International Journal of
+        Precision Engineering and Manufacturing, 2018, 19(8): 1115-1124. DOI: 10.1007/s12541-018
+        -0132-x.
+
+[9] Mohammadi F, Mirhashemi M, Rashidzadeh R. A Coordinate Measuring Machine with Error
+        Compensation in Feature Measurement: Model Development and Experimental Verification
+        [J/OL]. The International Journal of Advanced Manufacturing Technology, 2022. DOI: 10.100
+        7/s00170-021-08362-y.
+
+[10] Kondo Y, Hirai A, Youichi B. Two-point diameter calibration of a sphere using a micro-
+        coordinate measuring machine at NMIJ[J/OL]. Metrologia, 2022, 59(2): 024005. DOI:
+        10.1088/1681-7575/ac579e.
+
+[11] Alt P. RESOLFT nanoscopy with water-soluble synthetic fluorophores[D]. 2018.
+[12] Molesini G, Pedrini G, Poggi P, et al. Focus-Wavelength Encoded Optical Profilometer[J/OL].
+
+        Optics Communications, 1984, 49(4): 229-233. DOI: 10.1016/0030-4018(84)90179-2.
+[13] , , . [J]. 
+
+        , 2023, 60(8): 137-148.
+
+                                                           65
+                                                       
+
+[14] Chun B S, Kim K, Gweon D. Three-dimensional surface profile measurement using a beam
+        scanning chromatic confocal microscope[J/OL]. Review of Scientific Instruments, 2009, 80(7):
+        073706. DOI: 10.1063/1.3184023.
+
+[15] Lishchenko N, O'Donnell G E, Culleton M. Contactless Method for Measurement of Surface
+        Roughness Based on a Chromatic Confocal Sensor[J/OL]. Machines, 2023, 11(8): 836. DOI:
+        10.3390/machines11080836.
+
+[16] Wang Y, Bai J, Huang G, et al. High precision roundness measurement with two chromatic
+        confocal sensors[C/OL]//Ehret G, Chen B, Han S. Optical Metrology and Inspection for Indus-
+        trial Applications VIII: Vol. 11899. Bellingham: Spie-Int Soc Optical Engineering, 2021: 42.
+        DOI: 10.1117/12.2602211.
+
+[17] Pillarz M, Von Freyberg A, Stöbener D, et al. Gear Shape Measurement Potential of Laser
+        Triangulation and Confocal-Chromatic Distance Sensors[J/OL]. Sensors, 2021, 21(3): 937.
+        DOI: 10.3390/s21030937.
+
+[18] Wu J, Jiang X, Jiang L, et al. Surface bilateral profile measurement of curved transparent
+        components based on chromatic confocal sensor[C/OL]//Zhang X, Kong L, Zhang D, et al.
+        Advanced Optical Manufacturing Technologies and Applications 2022 and 2nd International
+        Forum of Young Scientists on Advanced Optical Manufacturing (AOMTA and YSAOM 2022).
+        Changchun, China: SPIE, 2023: 14. DOI: 10.1117/12.2653438.
+
+[19] Huang Z, Wen Y, Wang Z, et al. Surface reconstruction from point clouds: A survey and a
+        benchmark[J/OL]. IEEE Transactions on Pattern Analysis and Machine Intelligence, 2024, 46
+        (12): 9727-9748. DOI: 10.1109/TPAMI.2024.3429209.
+
+[20] Lee D T, Schachter B J. Two algorithms for constructing a delaunay triangulation[J/OL].
+        International Journal of Computer & Information Sciences, 1980, 9(3): 219-242. DOI:
+        10.1007/BF00977785.
+
+[21] Kazhdan M, Bolitho M, Hoppe H. Poisson surface reconstruction[C]//SGP '06: Proceedings
+        of the Fourth Eurographics Symposium on Geometry Processing. Goslar, DEU: Eurographics
+        Association, 2006: 61-70.
+
+[22] Qi C R, Su H, Mo K, et al. PointNet: Deep Learning on Point Sets for 3D Classification
+        and Segmentation[C]//Proceedings of the IEEE Conference on Computer Vision and Pattern
+        Recognition. 2017: 652-660.
+
+[23] Vakalopoulou M, Chassagnon G, Bus N, et al. AtlasNet: Multi-atlas Non-linear Deep Networks
+        for Medical Image Segmentation[C/OL]//Frangi A F, Schnabel J A, Davatzikos C, et al. Med-
+        ical Image Computing and Computer Assisted Intervention ­ MICCAI 2018. Cham: Springer
+        International Publishing, 2018: 658-666. DOI: 10.1007/978-3-030-00937-3_75.
+
+[24] , , . 3D [J]. , 2024, 51(S2):
+        206-218.
+
+[25] Balado J, van Oosterom P, Díaz-Vilariño L, et al. Mathematical morphology directly applied
+        to point cloud data[J/OL]. ISPRS Journal of Photogrammetry and Remote Sensing, 2020, 168:
+        208-220. DOI: 10.1016/j.isprsjprs.2020.08.011.
+
+[26] VOSSELMAN G. Slope Based Filtering of Laser Altimetry Data[J]. IAPRS, 2000, 3: 935-942.
+
+                                                           66
+                                                       
+
+[27] Wan P, Zhang W, Skidmore A K, et al. A simple terrain relief index for tuning slope-related
+        parameters of LiDAR ground filtering algorithms[J/OL]. ISPRS Journal of Photogrammetry
+        and Remote Sensing, 2018, 143: 181-190. DOI: 10.1016/j.isprsjprs.2018.03.020.
+
+[28] Xiaoxiao Z H U, Cheng WANG, Xiaohuan X I, et al. Hierarchical Threshold Adaptive for Point
+        Cloud Filter Algorithm of Moving Surface Fitting[J/OL]. Acta Geodaetica et Cartographica
+        Sinica, 2018, 47(2): 153. DOI: 10.11947/j.AGCS.2018.20170491.
+
+[29] AXELSSON P. DEM Generation from Laser Scanner Data Using Adaptive TIN Models[J].
+        International Archives of Photogrammetry and Remote Sensing, 2000, 33(4): 110-117.
+
+[30] Sithole G, Vosselman G. Filtering of airborne laser scanner data based on segmented point
+        clouds[C]//Proceedings of the ISPRS Workshop Laser Scanning: September 12-14, Enschede,
+        The Netherlands. International Institute for Geo-Information Science and Earth Observation,
+        2005: 66-71.
+
+[31] Zhang K, Chen S C, Whitman D, et al. A progressive morphological filter for removing non-
+        ground measurements from airborne LIDAR data[J/OL]. IEEE Transactions on Geoscience and
+        Remote Sensing, 2003, 41(4): 872-882. DOI: 10.1109/TGRS.2003.810682.
+
+[32] , . [J]. , 2011, 27(6):
+        59-61.
+
+[33] , , , . [J]. 
+        , 2013, 42(2): 349-354.
+
+[34] , , , .  LIDAR [J]. , 2009,
+        13(5): 827-839.
+
+[35] Xia S, Chen D, Wang R, et al. Geometric Primitives in LiDAR Point Clouds: A Review[J/OL].
+        IEEE Journal of Selected Topics in Applied Earth Observations and Remote Sensing, 2020, 13:
+        685-707. DOI: 10.1109/JSTARS.2020.2969119.
+
+[36] Hough P V C. Method and means for recognizing complex patterns: US3069654A[P]. 1962.
+[37] Ballard D H. Generalizing the Hough transform to detect arbitrary shapes[J/OL]. Pattern Recog-
+
+        nition, 1981, 13(2): 111-122. DOI: 10.1016/0031-3203(81)90009-1.
+[38] .  LiDAR [D/OL]. 
+
+        , 2022. DOI: 10.27245/d.cnki.gnjsu.2021.000226.
+[39] , . [J/OL]. 
+
+        , 2023(8): 36-41. DOI: 10.13462/j.cnki.mmtamt.2023.08.008.
+[40] , . [J]. , 1998(4): 25-26.
+[41] Luo L, Zhang W, Sui H, et al. An electromechanical Co-simulation model based on lumped
+
+        parameter model of ball screw feed drive system[J/OL]. MATEC Web of Conferences, 2018,
+        237: 3007. DOI: 10.1051/matecconf/201823703007.
+[42] , , , . [J/OL]. 
+        , 2013, 41(8): 74-78. DOI: 10.13245/j.hust.2013.08.018.
+[43] . /[D/OL]. ,
+        2024. DOI: 10.27398/d.cnki.gxalu.2023.000196.
+
+                                                           67
+                                                       
+[44] Tan J, Kyriakopoulos N. Implementation of a tracking Kalman filter on a digital signal processor
+
+        [J/OL]. IEEE Transactions on Industrial Electronics, 1988, 35(1): 126-134. DOI: 10.1109/41
+        .3075.
+[45] Khodarahmi M, Maihami V. A Review on Kalman Filter Models[J/OL]. Archives of Compu-
+        tational Methods in Engineering, 2023, 30(1): 727-747. DOI: 10.1007/s11831-022-09815-7.
+[46] Ning X, Selesnick I W, Duval L. Chromatogram baseline estimation and denoising using spar-
+        sity (BEADS)[J/OL]. Chemometrics and Intelligent Laboratory Systems, 2014, 139: 156-167.
+        DOI: 10.1016/j.chemolab.2014.09.014.
+[47] Navarro-Huerta J A, Torres-Lapasió J R, López-Ureña S, et al. Assisted baseline subtraction
+        in complex chromatograms using the BEADS algorithm[J/OL]. Journal of Chromatography A,
+        2017, 1507: 1-10. DOI: 10.1016/j.chroma.2017.05.057.
+[48] Conn A R, Gould N I, Toint P L. Trust region methods[M]. SIAM, 2000.
+[49] Huber P J. Robust Estimation of a Location Parameter[M/OL]//Kotz S, Johnson N L. Break-
+        throughs in Statistics: Methodology and Distribution. New York, NY: Springer, 1992: 492-518.
+        DOI: 10.1007/978-1-4612-4380-9_35.
+
+                                                           68
+                                                        
+
+                                   
+
+      
+
+
+
+
+
+      
+
+
+
+
+
+                                                                                3  23 
+
+                                                           69
+                                                        
+
+                                   
+
+      
+
+
+
+
+     
+
+70
+                                  
+
+            
+
+                                       
+
+      1999  9 
+      2017  9 
+2021  6 
+      2022  9 
+
+
+                          
+
+
+[1] Lai J, Wang H, Cao F, et al. Contactless 3D contour reconstruction method based
+       on spectral confocal sensors[C]//Optical Metrology and Inspection for Industrial
+       Applications XI. SPIE, 2024, 13241: 485-492. DOI: 10.1117/12.3036429.EI 
+       
+
+                                                           71
+                                                    
+
+                               
+
+       PCB 
+
+
+
+
+
+
+
+MEMS 
+
+
+
+
+
+
+
+                                                           72
+                                                 
+
+                            
+
+      
+
+
+      
+      1
+      2
+      3
+      
+
+
+
+
+
+                                                           73
+

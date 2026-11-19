@@ -1,0 +1,3998 @@
+DS-BVS/BVM-Series Reference Manual
+
+
+
+
+                             VER 1.0
+                                       Reference Manual
+                                             DS-BVS/BVM-Series
+
+
+
+
+                                                                 Page | 1
+Contents
+
+
+
+
+           Table of Contents                                        Click to return to table of contents
+
+
+     1. Introduction .......................................................................... …………9
+     2. EtherCAT Communication…………………………………………………..10
+     3. CANopen Communication Profile (CiA DS 301)…………….……...........11
+           3.1 Default Identifier………………..….…………………………………………………………13
+           3.2 Network Management (NMT)..………………………………………………………………13
+           3.3 Emergency Message (EMCY) .………………………………………………………………15
+           3.4 Synchronization Telegram (SYNC) .…………………………………………………………15
+           3.5 Error Control Protocols and Boot-Up Message.……………………………………………16
+                 3.5.1 Boot-Up Message.……………………………………………………………………16
+                 3.5.2 Heart Beat Message.…………………………………………………………………16
+           3.6 Service Data Object (SDO) .…………………………………………………………………18
+                 3.6.1 SDO Download Protocol.……………………………………………………………19
+                 3.6.2 SDO Upload Protocol.…………………………………………………………………19
+           3.7 Process Data Object (PDO)..…………………………………………………………………19
+                 3.7.1 PDO Communication Parameters……………………………………………………20
+                 3.7.2 PDO Mapping Parameters……………………………………………………………21
+     4. System Overview………..…………………………………………………..23
+           4.1 Device Architecture…………….……………………………………………………………23
+           4.2 Device Control………..………………………………………………………………………24
+                 4.2.1 State of the Drive………………………………………………………………………25
+                 4.2.2 State Transitions……………………………………………………………………25
+                 4.2.3 Device Control Commands…………………………………………………………26
+     5. Operating Mode……..………..……………………………………………….28
+           5.1 Operating Mode Selection Guide….………………………………………………………..28
+           5.2 Overview………………………………………………………………………………………28
+           5.3   Profile Position Mode (PPM) ……………………………………………………………….29
+                 5.3.1 Profile Position Trajectory Generator………………………………………………31
+                 5.3.2 How to Use PPM……..……………………………………………………………….32
+
+                                                                                                           Page | 2
+Contents
+
+
+
+
+           5.4 Profile Velocity Mode (PVM)….…………………………………….………………………35
+              5.4.1   Profile Velocity Trajectory Generator .…………………………………….………37
+              5.4.2   How to Use PVM.………………………………….……………………………..38
+           5.5 Cyclic Synchronous Torque Mode (CST)…………………………………………………39
+              5.5.1   How to Use CST………………………………………………………………….41
+           5.6 Cyclic Synchronous Velocity Mode (CSV)………………………………………………….42
+              5.6.1   How to Use CSV……………………………………………………………………43
+           5.7 Cyclic Synchronous Position Mode (CSP) …………………………………….…………45
+              5.7.1   How to Use CSP……………………………………………………………………46
+           5.8 Homing Mode (HM) …………………………………………………………………………..47
+              5.8.1   Homing Trajectory Generator………………………………………………….…49
+              5.8.2   How to Use HM………………………………………………………………….……49
+              5.8.3   Homing Method………………………………………………………………………51
+           5.9 Position Regulation Mode (PRM) …………………………………………………………56
+              5.9.1   How to Use PRM…………………………………………………………………..…57
+           5.10 Velocity Regulation Mode (VRM) ……………………………………………………………58
+              5.10.1 How to Use VRM……………………………………………………………………..59
+           5.11 Torque Regulation Mode (TRM) ………………………………………………………….…60
+              5.11.1 How to Use TRM……………………………………………………………………61
+           5.12 Current Regulation Mode (CRM) ……………………………………………………………62
+              5.12.1 How to Use CRM……………………………………………………………………..62
+           5.13 Motion Sequence Mode (MSM) …………………………………………………………..…63
+     6. Object Dictionary (OD)…..…………………………………………………66
+           6.1 Overview………………………………………………………………………………………..66
+              6.1.1 Object Data Types….…………………………………………………………………66
+              6.1.2 Object Access Types…………………………………………………………….……66
+              6.1.3 Entries Overview………………………………………………………………………67
+           6.2 Object…………………………………………………………………………………………...71
+              6.2.1   0x1001 : Device Type………………………………………………………………..71
+              6.2.2   0x1001 : Error Register………………………………………………………………72
+              6.2.3   0x1008 : Manufacturer Device Name………………………………………………73
+              6.2.4   0x1009 : Manufacturer Hardware Version…………………………………………73
+
+                                                                                    Page | 3
+Contents
+
+
+
+
+           6.2.5   0x100A : Manufacturer Software Version…………………………….……………74
+           6.2.6   0x1010 : Save Parameters…………………………………………………………..74
+           6.2.7   0x1011 : Restore Parameters……………………………………………………….75
+           6.2.8   0x1014 : COB-ID Emergency Object………………………………………….……76
+           6.2.9   0x1016 : Consumer Heartbeat Time……………………………………………….76
+           6.2.10 0x1017 : Producer Heartbeat Time…………………………………………………77
+           6.2.11 0x1018: Identity Object………………………………………………………………78
+           6.2.12 0x1029: Error Behavior………...……………………………………………………79
+           6.2.13 0x1400: Receive PDO #1~#4
+                           Communication Parameters (0x1403~0x1403) ………………………81
+           6.2.14 0x1600: Receive PDO#1~#4 Mapping Parameters(0x1600~1603)………….....82
+           6.2.15 0x1604: Receive PDO#5 Mapping Parameters………………………………...…84
+           6.2.16 0x1605: Receive PDO#6 Mapping Parameters…………………………………...84
+           6.2.17 0x1606: Receive PDO#7 Mapping Parameters…………………………..……….85
+           6.2.18 0x1607: Receive PDO#8 Mapping Parameters…………………………………...86
+           6.2.19 0x1608: Receive PDO#9 Mapping Parameters……………………………….….87
+           6.2.20 0x1609: Receive PDO#10 Mapping Parameters………………………………….87
+           6.2.21 0x1800: Transmit PDO#1~#4 Communication Parameters(0x1800~0x1803)...88
+           6.2.22 0x1A00: Transmit PDO#1~#4 Mapping Parameters(0x1A00~0x1A03)………..91
+           6.2.23 0x1A04: Transmit PDO#5 Mapping Parameters………………………………….92
+           6.2.24 0x1A05: Transmit PDO#6 Mapping Parameters………………………………….93
+           6.2.25 0x1A06: Transmit PDO#7 Mapping Parameters………………………………….93
+           6.2.26 0x1A07: Transmit PDO#8 Mapping Parameters………………………………….94
+           6.2.27 0x1A08: Transmit PDO#9 Mapping Parameters………………………………….95
+           6.2.28 0x1A09: Transmit PDO#10 Mapping Parameters ………………………………96
+           6.2.29 0x1C00: Sync Manager Communication Type……………………………………96
+           6.2.30 0x1C12: Sync Manager Ch2 ………………………………………………………99
+           6.2.31 0x1C13: Sync Manager Ch3 ……………………………………………………100
+           6.2.32 0x1FFF : Firmware Download Parameters …………………………………..…101
+           6.2.33 0x4000: Resistance………………………………………………………………..101
+           6.2.34 0x4001: Inductance(Q-Axis Inductance)……………………………………...…102
+           6.2.35 0x4002: D-Axis Inductance……………………………………...………………..102
+           6.2.36. 0x4003: Torque Constant   93                                            Page | 4
+           6.2.37. 0x4004: Back-EMF Constant      93
+           6.2.38. 0x4005: System Inertia    93
+Contents
+
+
+
+
+           6.2.36 0x4003: Torque Constant…………………………………………………………..102
+           6.2.37 0x4004: Back-EMF Constant ……………………………………………………..103
+           6.2.38 0x4005: System Inertia……………………………………………………………..103
+           6.2.39 0x4006: Coulomb(Static) Friction…………………………………………………103
+           6.2.40 0x4007: Viscos Friction………………………………………………………….…104
+           6.2.41 0x4008: Position Sensor Type………………………………………………….…104
+           6.2.42 0x4009: Position Sensor Polarity……………………………………………….…105
+           6.2.43 0x400A: Hall Sensor Pole Pair………………………………………………….…105
+           6.2.44 0x4080: Error History……………………………………………………………….106
+           6.2.45 0x4100: Motor Phase……………………………………………………………….107
+           6.2.46 0x4101: Electric Angle Offset………………………………………………………107
+           6.2.47 0x4107: Hall Sensor Pattern……………………………………………………….108
+           6.2.48 0x4205: Current Control Parameter Set…………………………………………..108
+           6.2.49 0x4206: Current Controller Bandwidth……………………………………………110
+           6.2.50 0x4207: Target Current…………………………………………………………….110
+           6.2.51 0x4208: Actual Current………………………………………………………….....110
+           6.2.52 0x4209: Averaged Current (Moving Averaged 10step) ……………………..…111
+           6.2.53 0x4300: Velocity Control Parameter Set…………………………………………111
+           6.2.54 0x4301: Velocity Controller Bandwidth…………………………………………...113
+           6.2.55 0x4302: I2T Over Load Protection………………………………………………..113
+           6.2.56 0x4310: Velocity Kalman Filter Covariance………………………………………116
+           6.2.57 0x4311: External Load Torque Feed-Forward Gain…………………………….116
+           6.2.58 0x4312: External Load Torque Deadzone………………………………………..117
+           6.2.59 0x4313: Load Torque……………………………………………………………….117
+           6.2.60 0x4314: Load Torque Threshold…………………………………………………..117
+           6.2.61 0x4321: Velocity Auto-Tuning Acceleration…………………………………...…118
+           6.2.62 0x4322: Velocity Auto-Tuning Velocity…………………………………………...118
+           6.2.63 0x4323: Velocity Auto- Tuning Position……………………………..……………119
+           6.2.64 0x4400: Position Control Parameter Set…………………………………………119
+           6.2.65 0x4500: Current Threshold for Homing Mode……………………………………120
+           6.2.66 0x4600: Temperature ……………………………………………………………..121
+
+                                                                                     Page | 5
+Contents
+
+
+
+
+           6.2.67 0x4601: Regenerator Clamp Cut-off Voltage……………………………………121
+           6.2.68 0x4610: Brake Parameters…………………………………….………………….121
+           6.2.69 0x4620: Collision Detection……………………………………………………….125
+           6.2.70 0x4700: Target Motion Info…………………………………………………….….126
+           6.2.71 0x4701: Actual Motion Index ……………………………………………………..127
+           6.2.72 0x4702: Motion Error History…………………………………………………..…127
+           6.2.73 0x4710: Motion 0~9 (0x4710~0x4719) …………………………………….……128
+           6.2.74 0x5000: ID for CAN, UART………………………………………………………..136
+           6.2.75 0x5001: UART Baudrate…………………………………………………………..137
+           6.2.76 0x5002: CAN Bitrate……………………………………………………………….137
+           6.2.77 0x5010: Analog Input …………………………………………………………….138
+           6.2.78 0x6007: Abort Connection Option Code…………………………………………139
+           6.2.79 0x603F: Error Code………………………………………………………………..140
+           6.2.80 0x6040: Controlword……………………………………………………………….140
+           6.2.81 0x6041: Statusword………………………………………………………………..143
+           6.2.82 0x6042: VL Mode Target Velocity……………………………………………..…146
+           6.2.83 0x6043: VL Mode Demand Velocity………………………………………………146
+           6.2.84 0x6044: VL Mode Actual Velocity…………………………………………………146
+           6.2.85 0x6046: VL Mode Velocity Min. Max. Amount…………………………………..147
+           6.2.86 0x6048: VL Mode Velocity Acceleration…………………………………………148
+           6.2.87 0x6049: VL Mode Velocity Deceleration…………………………………………148
+           6.2.88 0x604A: VL Mode Velocity Quick Stop Deceleration……………………………149
+           6.2.89 0x605A: Quick Stop Option Code……………………………………………..…150
+           6.2.90 0x605B: Shutdown Option code………………………………………………….151
+           6.2.91 0x605C: Disable Operation Option Code……………………………………….151
+           6.2.92 0x605D: Halt Option Code……………………………………………..…………152
+           6.2.93 0x605E: Fault Reaction Option Code……………………………………………153
+           6.2.94 0x6060: Modes of Operation ……………………………………………………153
+           6.2.95 0x6061: Modes of Operation Display…………………………………………….154
+           6.2.96 0x6062: Position Demand Value…………………………………………...…….154
+           6.2.97 0x6063: Internal Position Actual Value…………………………………………..155
+           6.2.98 0x6064: Position Actual Value…………………………………………………….155
+                                                                                   Page | 6
+Contents
+
+
+
+
+           6.2.99   0x6065: Following Error Window………………………………………………..156
+           6.2.100 0x6067: Position Window…………………………………………………………156
+           6.2.101 0x6068: Position Window Time………………………………………………….157
+           6.2.102 0x606B: Velocity Demand Value………………………………………………..157
+           6.2.103 0x606C: Velocity Actual Value…………………………………………………..158
+           6.2.104 0x606D: Velocity Window………………………………………………………..158
+           6.2.105 0x606E: Velocity Window Time………………………………………………….159
+           6.2.106 0x6071: Target Torque……………………………………………………………159
+           6.2.107 0x6072: Maximum Torque………………………………………………………..160
+           6.2.108 0x6073: Maximum Current……………………………………………………….160
+           6.2.109 0x6075: Motor Rated Current…………………………………………………….161
+           6.2.110 0x6076: Motor Rated Torque…………………………………………………….161
+           6.2.111 0x6077: Torque Actual Value……………………………………………………162
+           6.2.112 0x6078: Current Actual Value………………………………………………..….162
+           6.2.113 0x6079: DC Link Circuit Voltage…………………………………………………162
+           6.2.114 0x607A: Target Position…………………………………………………………..163
+           6.2.115 0x607C: Home Offset……………………………………………………………..163
+           6.2.116 0x607D: Software Position Limit…………………………………………………164
+           6.2.117 0x607F: Max. Profile Velocity…………………………………………………....165
+           6.2.118 0x6080: Maximum Motor Speed…………………………………………………165
+           6.2.119 0x6081: Profile Velocity…………………………………………………………..166
+           6.2.120 0x6083: Profile Acceleration…………………………………………………..…166
+           6.2.121 0x6084: Profile Deceleration……………………………………………………..166
+           6.2.122 0x6085: Quickstop Deceleration…………………………………………….…..167
+           6.2.123 0x6086: Motion Profile Type……………………………………………………..167
+           6.2.124 0x6089: Position Notation Index…………………………………………………167
+           6.2.125 0x608A: Position Dimension Index ………………………………………….…168
+           6.2.126 0x608B: Velocity Notation Index…………………………………………………168
+           6.2.127 0x608C: Velocity Dimension Index ……………………………………………169
+           6.2.128 0x608D: Acceleration Notation Index………………………………………...…169
+           6.2.129 0x608E: Acceleration Dimension Index……………………………...…………169
+           6.2.130 0x608F: Position Encoder Resolution…………………………………………..170
+                                                                               Page | 7
+Contents
+
+
+
+
+           6.2.131 0x6098: Homing Method…………………………………………………….……..170
+           6.2.132 0x6099: Homing Speeds…………………………………………………………...171
+           6.2.133 0x609A: Homing Acceleration…………………………………………………..…172
+           6.2.134 0x60A4: Profile Jerk……………………………………………………………..….172
+           6.2.135 0x60B0: Position Offset…………………………………………………………….173
+           6.2.136 0x60B1: Velocity Offset…………………………………………………………….173
+           6.2.137 0x60B2: Torque Offset………………………………………………………..……174
+           6.2.138 0x60C5: Maximum Acceleration…………………………………………………..174
+           6.2.139 0x60C6: Maximum Deceleration………………………………………………..…175
+           6.2.140 0x60E3: Supported Homing Methods…………………………………………….175
+           6.2.141 0x60F4: Following Error Actual Value……………………………………….……176
+           6.2.142 0x60FD: Digital Inputs ……………………………………………………………176
+           6.2.143 0x60FE: Digital Outputs……………………………………………………………177
+           6.2.144 0x60FF: Target Velocity……………………………………………...…………….178
+           6.2.145 0x6402: Motor Type…………………………………………………………..…….179
+           6.2.146 0x6502: Supported Drive Modes……………………………………………….…179
+
+
+
+
+                                                                           Page | 8
+Introduction
+
+
+
+
+       1. Introduction
+
+           The purpose of this document is to familiarize readers with safe, proper installation and test
+           run of the described device.
+
+
+           Follow the guidelines to avoid hazardous situations, improve the device reliability and
+           lifespan, and minimize the installation and test run time.
+
+
+           This document provides detailed information about firmware and contains descriptions of
+           the device architecture, device state, operating mode, error handling, and the object.
+
+
+
+
+                                                                                                            Page | 9
+EtherCAT Communication
+
+
+
+
+      2. EtherCAT Communication
+
+          EtherCAT, the abbreviation of Ethernet for Control Automation Technology, is a real-time
+          Ethernet-based fieldbus system created by Beckhoff Automation, Germany.
+
+
+          EtherCAT uses a standard Ethernet packet or its slightly modified frame structure.
+
+
+          With EtherCAT, the standard Ethernet packet frame no longer has to be received,
+          interpreted, and copied as data to be processed at every node.
+
+
+          The fundamental idea of EtherCAT communication is that the slave reads the data
+          addressed to it and processes the data instantaneously while data frame sent from the
+          master passes through the slave. Similarly, additional data are immediately inserted in each
+          slave while the frame passes through. In general, the entire network can be addressed with
+          just a single data frame.
+
+
+
+
+                                                                                                         Page | 10
+CANopen Communication Profile (CiA DS 301)
+
+
+
+
+       3. CANopen Communication Profile (CiA DS 301)
+           CANopen protocol standard defines several CAN message types for data exchange,
+           network management, and reporting device errors. All message types for data exchange
+           are allowed to access the CANopen object dictionary.
+
+
+
+
+                                                                                                  Page | 11
+CANopen Communication Profile (CiA DS 301)
+
+
+
+
+                                             Page | 12
+CANopen Communication Profile (CiA DS 301)
+
+
+
+
+          3.1 Default Identifier
+               Default identifier assignment involves saving the configuration. Therefore, the CAN
+               identifier is based on the node ID number of the device. The CAN identifier assignment can
+               be defined as follows.
+
+
+
+
+          3.2 Network Management (NMT)
+               CANopen master uses multiple MNT messages to control the network state of all nodes.
+               NMT messages have the highest priority identifier (CAN-ID 0) and always use two bytes of
+               data.
+
+
+
+
+               The first data byte contains the NMT command that switches the network state, and the
+               second data byte contains the CANopen slave Node-ID (address). If the slave Node-ID is
+               0, all connected slave nodes have to process the NMT
+
+
+
+
+                                                                                                            Page | 13
+CANopen Communication Profile (CiA DS 301)
+
+
+
+
+                                    CANopen NMT State Diagram   Page | 14
+CANopen Communication Profile (CiA DS 301)
+
+
+
+          3.3 Emergency Message (EMCY)
+               For the Emergency Message, the CANopen device reports any changes in the error state
+               to the bus. The Emergency Message is always 8 byte long.
+
+
+
+
+               EMCY Code : emergency error code. The EMCY code is defined in the Draft Standard
+                               DS301.
+               Error Reg. : error register. The error register is displayed as an object (0x1001) within the
+                            device object dictionary. This object is also inserted in the emergency
+                            message.
+               A CANopen device sends an emergency message if an error is detected in the setting or
+               resetting.
+
+
+
+          3.4 Synchronization Telegram (SYNC)
+               SYNC message is broadcast to all slaves from the CANopen master. The SYNC message
+               enables an application program, or vice versa, to perform synchronous data transfer in the
+               object library. For example, with the SYNC messages, reading of digital input pins can be
+               triggered for all CANopen devices. The SYNC message typically uses CAN identifier 0x00
+               indicating NO DATA. SYNC telegram only operates in the Process Data Object (PDO) of
+               the slave device configured for synchronous transmission within the PDO communication
+               parameters.
+
+
+
+
+                                                                                                               Page | 15
+CANopen Communication Profile (CiA DS 301)
+
+
+
+
+          3.5 Error Control Protocols and Boot-Up Message
+               Error control protocols enable the monitoring of a node status. These protocols play an
+               important role in switching the system status to a non-critical state in case of a single node
+               or bus line failure. For example, the drive must halt motions in the event of a PLC crash.
+               The Error control protocols use the CAN telegram as a data byte that reports the node NMT
+               status and the CAN identifier 0x700 + Node-Id.
+
+
+
+
+               The NMT State is reported as follows:
+
+               -      0x00 : Boot-Up Message
+
+               -      0x05 : Operational
+
+               -      0x7F : Preoperational
+
+
+               There are three types of error control protocols.
+
+
+
+              3.5.1 Boot-Up Message
+               Boot-Up message is a special version of error control protocols with NMT state 0x00. This
+               message is sent exactly once after a reset sequence is performed or a node is initiated to
+               inform the boot-up of all nodes in the CANopen network.
+
+
+
+
+              3.5.2 Heart Beat Message
+               With Heart Beat protocol, each node periodically transmits its error control message to the
+               bus. There is no polling and so on. The Heart Beat protocol allows only a receiver to
+               monitor the heartbeat producer node.
+               For the Heart Beat protocol to be configured, each CANopen device contains one object
+               embodied in the object library for each direction. In order to activate the transmission or
+               monitoring of a Heartbeat message, such object must be initialized from the master node
+               in the network boot process.
+
+
+                                                                                                                Page | 16
+CANopen Communication Profile (CiA DS 301)
+
+
+
+
+                           < Flow diagram of the heartbeat protocol >
+
+
+
+              3.5.2.1 Consumer Heartbeat Time
+
+
+
+
+                                                                        Page | 17
+CANopen Communication Profile (CiA DS 301)
+
+
+
+
+              3.5.2.2 Consumer Heartbeat Time data
+
+
+
+
+              3.5.2.3 Producer Heartbeat Time
+
+
+
+
+          3.6 Service Data Object (SDO)
+               SDO is an access to a single object in the object library by using the object index and sub-
+               index as an address (also called multiplexer). It always uses 8 data bytes of the CAN
+               message. SDO is always initiated at the CANopen bus master, and the response is taken
+               from the slave node. The basic structure of SDO shows how to use the CAN telegram data
+               bytes.
+
+
+
+
+                                                                                                              Page | 18
+CANopen Communication Profile (CiA DS 301)
+
+
+
+              3.6.1 SDO Download Protocol
+
+
+
+
+              3.6.2 SDO Upload Protocol
+
+
+
+
+          3.7 Process Data Object (PDO)
+               CANopen-based Process Data exchange is performed by standard CAN messages without
+               protocol overhead. Each PDO contains a configuration object to specify the PDO
+               transmission mode as well as a mapping object that predefines the content of the PDO
+               data. A PDO message supports data transfer up to 8 bytes.
+               PDO transmission can be initiated in multiple modes.
+                • asynchronous PDO transmission is initiated by an event
+                   (e.g. altering the mapped data)
+                • synchronous PDO transmission is initiated by the SYNC message
+                • periodic   PDO     transmission    is   initiated   with   the   event   timer,   triggering
+                   the transmission cyclically
+                • polling PDO transmission is initiated if the node has received a remote frame
+                   with the same CAN identifier
+                                                                                                                 Page | 19
+CANopen Communication Profile (CiA DS 301)
+
+
+
+
+              3.7.1 PDO Communication Parameters
+
+               Each PDO has a setting object that defines the communication parameters, such as the
+               CAN object identifier and the transmission mode, for the corresponding PDOs. The
+               communication parameters are using data type record.
+
+
+
+
+                                                                                                      Page | 20
+CANopen Communication Profile (CiA DS 301)
+
+
+
+
+              3.7.2 PDO Mapping Parameters
+              PDO mapping allows the data contents of a PDO to be preconfigured in the mapping table.
+              This mapping table contains information on the index, sub-index, and data size of each
+              object that is transmitted within a PDO message.
+              The mapping table for each PDO is represented as an object within the device object
+              dictionary. The table is displayed as an array of mapped objects.
+
+
+
+
+                                                                                                        Page | 21
+CANopen Communication Profile (CiA DS 301)
+
+
+
+
+              3.7.2.1 PDO Mapping Example
+
+
+
+
+                                             Page | 22
+System Overview
+
+
+
+
+      4. System Overview
+          4.1 Device Architecture
+              [TODO] Check and add content
+              EtherCAT communication interface conforms to the following specifications.
+                  •   CiA 301 CANopen application layer and communication profile
+                  •   CiA 402 CANopen device profile for drives and motion control
+                  •   ETG.1000 EtherCAT Specification
+                  •   ETG.1020 EtherCAT Protocol Enhancements Specification
+                  •   ETG.2000 EtherCAT Slave Information (ESI) Specification
+
+
+
+
+                                                                                           Page | 23
+System Overview
+
+
+
+
+          4.2 Device Control
+                  State machine describes the drive status and the possible control sequences. The state
+                  indicates a special internal or external motion. The determination of acceptable command
+                  depends on the drive status. Such state may vary with the Controlword and internal events.
+                  The current status can be read by means of the Statusword. No new transition should be
+                  initiated until the previous state transition is completely finished and the state changes
+                  accordingly.
+
+
+
+
+                                                                                                               Page | 24
+System Overview
+
+
+
+
+             4.2.1 State of the Drive
+              The following list of Statusword bits indicates the current status of drive.
+              In the State Machine, the state can be determined by a combination of Statusword bits
+              (0x6041) as shown below.
+
+
+
+
+             4.2.2 State Transitions
+              State transition is triggered by the commands from the host that are transferred in the
+              Controlword or via internal events. Once a command that triggers the state transition is
+              received, this command is completely processed so as to achieve a new state before
+              processing the next command.
+
+
+
+
+                                                                                                         Page | 25
+System Overview
+
+
+
+
+                                               [ Device State Transition ]
+
+
+
+
+             4.2.3 Device Control Commands
+              Drive control command is triggered by the following bit patterns in the Controlword.
+
+
+
+
+                                                                                                     Page | 26
+System Overview
+
+
+
+
+              •   Device Control Command Triggers
+                  Bits 0 – 3 and 7 : device control command triggers
+
+
+
+
+              •   The bits marked with X are irrelevant.
+              •   * the drive performs SWITCH_ON.
+              •   ** the drive does nothing in this state and is treated the same as *.
+
+
+
+
+                                                                                          Page | 27
+Operating Mode
+
+
+
+
+      5. Operating Mode
+          5.1 Operating Mode Selection Guide
+             Drive motions vary depending on the currently activated Mode of Operation.
+             With the Mode of operation (0x6060), the desired mode can be selected. The actual mode
+             can be read in the Mode of Operation display.
+
+
+
+          5.2 Overview
+                 Drive supports the following operating modes.
+
+
+
+
+                                                                                                      Page | 28
+Operating Mode
+
+
+
+          5.3 Profile Position Mode (PPM)
+                 This chapter describes how to set the Point-To-Point (PTP) movement in a profiled position
+                 where the target position is applied to the trajectory generator. The Position Demand value
+                 is generated in the control loop. Input data of the trajectory generator include the profile
+                 velocity, acceleration, deceleration, jerk and profile types, and position limits. Parameters
+                 for trajectory generation are given on a per-user basis and are limited before being
+                 normalized to an internal unit.
+                 The overall structure of the Profile Position Mode is shown as follows. The Target Position
+                 is applied to the trajectory generator, where the Position Demand Value for position control,
+                 the Velocity Demand Value and the Acceleration Demand Value for feed-forward
+                 compensation of the speed controller are generated.
+
+
+
+
+                                           [ Profile Position Mode - Overview ]                                  Page | 29
+Operating Mode
+
+
+
+
+                 [ Profile Position Mode – Block Diagram ]
+
+
+
+
+                                                             Page | 30
+Operating Mode
+
+
+
+
+             5.3.1 Profile Position Trajectory Generator
+             As shown below, the Trapezoidal Velocity Profile and the Sinusoidal Velocity Profile are
+             generated by the Trajectory generator based on the motion profile option.
+
+
+
+
+                              [ Profile Position Trajectory – Trapezoidal Profile ]
+
+
+
+
+                               [ Profile Position Trajectory – Sinusoidal Profile ]
+
+
+
+
+                                                                                                        Page | 31
+Operating Mode
+
+
+
+
+             5.3.2 How to Use PPM
+
+             •   Configuration Parameter
+
+
+
+
+             •   Commanding Parameters
+
+
+
+
+             •   Controlword (Profile Position Mode – Specific Bits)
+
+
+
+
+                                     [ Profile Position Mode – Controlword ]
+
+                                                                               Page | 32
+Operating Mode
+
+
+
+
+                                    [ Profile Position Mode – Controlword Bits ]
+
+
+
+             •   Output Parameter
+
+
+
+
+                                  [ Profile Position Mode – Output Parameters ]
+
+
+             •   Statusword ( Profile Position Mode – Specific Bits)
+
+
+
+
+                                      [ Profile Position Mode – Statusword ]
+
+
+
+
+                                    [ Profile Position Mode – Statusword Bits ]
+
+                                                                                   Page | 33
+Operating Mode
+
+
+
+
+                 [ Profile Position Mode – Setpoint Example ]
+
+
+
+
+                                                                Page | 34
+Operating Mode
+
+
+
+         5.4 Profile Velocity Mode (PVM)
+                 Profile Velocity Mode includes the velocity trajectory generator and the velocity control
+                 function. Unlike the CSV Mode that receives the target velocity, which is renewed after each
+                 PDO update cycle, from the host controller, the Profile Velocity Mode is a speed control
+                 mode that generates a velocity profile up to the target velocity (0x60FF) internally by means
+                 of the profile acceleration (0x6083) and profile deceleration (0x6084). Here, the max speed
+                 is limited to the profile max speed (0x607F). The block diagram of Profile Velocity Mode is
+                 as follows.
+
+
+
+
+                                               [ Profile Velocity Mode- Overview ]
+                                                                                                                 Page | 35
+Operating Mode
+
+
+
+
+                 [ Profile Velocity Mode – Block Diagram ]
+
+                                                             Page | 36
+Operating Mode
+
+
+
+             5.4.1 Profile Velocity Trajectory Generator
+
+                 As shown below, the Trapezoidal Velocity Profile and the Sinusoidal Velocity Profile are
+                 generated by the Trajectory generator based on the motion profile option.
+
+
+
+
+                               [ Profile Velocity Trajectory – Trapezoidal profile ]
+
+
+
+
+                                [ Profile Velocity Trajectory – Sinusoidal profile ]
+                                                                                                            Page | 37
+Operating Mode
+
+
+
+
+             5.4.2 How to Use PVM
+
+             •   Configuration Parameter
+
+
+
+
+                              [ Profile Velocity Mode – Configuration Parameters ]
+
+
+             •   Commanding Parameters
+
+
+
+
+             •   Controlword (Profile Velocity Mode – Specific Bits)
+
+
+
+                                     [ Profile Velocity Mode – Controlword ]
+
+
+
+
+                                   [ Profile Velocity Mode – Controlword Bits ]
+
+                                                                                     Page | 38
+Operating Mode
+
+
+
+
+             •    Output Parameter
+
+
+
+
+                                   [ Profile Velocity Mode – Output Parameters ]
+
+
+
+             •    Statusword (profile Velocity Mode – Specific Bits)
+
+
+
+
+                                       [ Profile Velocity Mode – Statusword ]
+
+
+
+
+                                     [ Profile Velocity Mode – Statusword Bits ]
+
+
+
+
+          5.5 Cyclic Synchronous Torque Mode (CST)
+                 CST(Cyclic Synchronous Torque) Mode controls the torque by receiving the Target
+             Torque (0x6071), which is renewed after each PDO update cycle, from the host controller.
+             In this mode, the Torque Offset (0x60B2) for Feed-Forward compensation can be calculated
+             by the host controller and forwarded to the drive.
+             In the CST mode, the trajectory generator is located in the control device (not in the drive
+             unit). The mode cyclically provides the drive with the target torque in a synchronized manner
+             in order to perform a torque control. The block diagram of the CST mode is as follows.
+
+
+                                                                                                             Page | 39
+Operating Mode
+
+
+
+
+                               [ Cyclic Synchronous Torque Mode - Overview ]
+
+
+                 Cyclic Synchronous Torque (CST) is based on the current control function. Input parameters
+                 include the target torque and the torque offset (optional). Motor input data is used to define
+                 the speed and current value limits. Actual values of position, speed, and torque are used as
+                 output parameters for the control device.
+
+
+
+
+                               [ Cyclic Synchronous Torque Mode – Block Diagram ]
+
+                                                                                                              Page | 40
+Operating Mode
+
+
+
+
+             5.5.1 How to Use CST
+
+             •      Configuration Parameter
+
+
+
+
+                           [ Cyclic Synchronous Torque Mode – Configuration Parameters ]
+
+
+             •     Commanding Parameters
+
+
+
+
+                           [ Cyclic Synchronous Torque Mode – Commanding Parameters ]
+
+
+             •     Controlword
+
+                 CST mode does not use the mode-specific control bit.
+
+
+             •     Output Parameter
+
+
+
+
+                              [ Cyclic Synchronous Torque Mode – Output Parameters ]
+
+
+
+                                                                                           Page | 41
+Operating Mode
+
+
+
+
+                 •   Statusword (Cyclic Synchronous Torque Mode – Specific Bits)
+
+
+
+
+                                    [ Cyclic Synchronous Torque Mode – Statusword ]
+
+
+
+
+                                  [ Cyclic Synchronous Torque Mode – Statusword Bits ]
+
+
+
+
+          5.6 Cyclic Synchronous Velocity Mode (CSV)
+                 CSV (Cyclic Synchronous Velocity) mode controls the speed by receiving the Target Velocity
+                 (0x60FF), which is renewed after each PDO update cycle, from the host controller. By
+                 providing a cyclic synchronous target velocity, this mode allows the drive device to perform
+                 speed control and torque control on the drive. The block diagram of the CSV mode is as
+                 follows.
+
+
+
+
+                                   [ Cyclic Synchronous Velocity Mode – Overview ]
+
+
+
+
+                                                                                                                Page | 42
+Operating Mode
+
+
+
+                 CSV mode is based on the speed control function. Input parameter includes the target
+                 velocity. Optionally, additional velocity value can be provided by the control system to allow
+                 for a secondary source designed to control the velocity feed-forward compensation. The
+                 linear interpolation, based on interpolation time cycles, is executed between two velocity
+                 values. Such interpolation is valid only in the PDO communication. The torque offset is not
+                 taken into account as much. Motor input data are used to define the velocity and current
+                 value limits. The actual values of position, velocity, and torque are used as output
+                 parameters for the control device.
+
+
+
+
+                                [ Cyclic Synchronous Velocity Mode – Block Diagram ]
+
+
+             5.6.1 How to Use CSV
+             •      Configuration Parameter
+
+
+
+
+                                                                                                                  Page | 43
+Operating Mode
+
+
+
+
+             •    Commanding Parameters
+
+
+
+
+                         [ Cyclic Synchronous Velocity Mode – Commanding Parameters ]
+
+
+             •    Controlword
+
+                 CSV mode does not use the mode-specific control bits.
+
+
+
+             •    Output Parameter
+
+
+
+
+                             [ Cyclic Synchronous Velocity Mode – Output Parameters ]
+
+
+             •    Statusword (Cyclic Synchronous Velocity Mode – Specific Bits)
+
+
+
+
+                                   [ Cyclic Synchronous Velocity Mode – Status ]
+
+
+
+
+                                 [ Cyclic Synchronous Velocity Mode – Status Bits ]
+
+
+
+
+                                                                                        Page | 44
+Operating Mode
+
+
+
+
+          5.7 Cyclic Synchronous Position Mode (CSP)
+                 CSP (Cyclic Synchronous Position) mode performs a position control by receiving the Target
+                 Position (0x607A), renewed after each PDO update cycle, from the host controller. In the
+                 CSP mode, the trajectory generator is located in the control device (not in the drive unit). By
+                 providing a cyclic synchronous target position, this mode allows the drive unit to control the
+                 position, speed, and torque. The block diagram of the CSV mode is as follows.
+
+
+
+
+                                  [ Cyclic Synchronous Position Mode – Overview ]
+
+
+                 CSP mode is based on the position control function. Input parameters include the target
+                 position and (optionally) the position offset. The linear, time-cycled interpolation is executed
+                 between two position values. Such interpolation is valid only in the PDO communication.
+                 The velocity offset is not factored in this mode.
+                 In addition, optional torque offset is used for the feed-forward control. The motor data
+                 entered is used to define the current value (torque) limits. Other functions specified in this
+                 mode include the software position limit (used to set limits on the values to avoid any
+                 unintended positions) and the max motor speed and max gear input speed (limit setting and
+                 monitoring function).
+
+
+
+
+                                                                                                                    Page | 45
+Operating Mode
+
+
+
+
+             5.7.1 How to Use CSP
+
+             •    Configuration Parameter
+
+
+
+
+                         [ Cyclic Synchronous Position Mode – Configuration Parameters ]
+
+
+             •    Commanding Parameter
+
+
+
+
+                         [ Cyclic Synchronous Position Mode – Commanding Parameters ]
+
+
+
+             •    Controlword
+
+                 CSP mode does not use the mode-specific control bits.
+
+
+
+
+                                                                                           Page | 46
+Operating Mode
+
+
+
+
+             •      Output parameter
+
+
+
+
+                                [ Cyclic Synchronous Position Mode – Output Parameters ]
+
+
+
+             •      Statusword (Cyclic Synchronous Position Mode – Specific Bits)
+
+
+
+
+                                    [ Cyclic Synchronous Position Mode – Statusword ]
+
+
+
+
+                                 [ Cyclic Synchronous Position Mode – Statusword Bits ]
+
+
+
+
+          5.8 homing Mode (HM)
+                 Homing Mode describes the details of how the drive unit finds home position (also called
+                 origin or initial position). There are various ways to achieve this goal, including the method
+                 employing the limit switches at both ends of travel. Some homing methods use the index
+                 (zero) pulse from an incremental encoder.
+
+
+
+
+                                                                                                                  Page | 47
+Operating Mode
+
+
+
+
+                 [ Homing Mode – Block Diagram ]
+
+
+
+
+                                                   Page | 48
+Operating Mode
+
+
+
+             5.8.1 Homing Trajectory Generator
+                 Trajectory generator supports the following motion profiles. Motions vary depending on the
+                 mode, and the end position is calculated internally.
+
+
+
+
+                                       [ Homing Trajectory – Trapezoidal Profile ]
+
+
+
+             5.8.2 How to Use HM
+             •      Configuration Parameter
+
+
+
+
+                                        [ Homing Mode – Configuration Parameters ]
+
+
+             •      Commanding Parameter
+
+
+
+
+                                        [ Homing Mode – Commanding Parameters ]
+
+                                                                                                              Page | 49
+Operating Mode
+
+
+
+
+             •   Controlword (Homing Mode – Specific Bits)
+
+
+
+
+                                       [ Homing Mode – Controlword ]
+
+
+
+
+                                     [ Homing Mode – Controlword Bits ]
+
+
+
+             •   Output Parameter
+
+
+
+                                    [ Homing Mode – Output parameters ]
+
+
+
+             •   Statusword (Homing Mode – Specific Bits)
+
+
+
+
+                                        [ Homing Mode – Statusword ]
+
+
+
+
+                                     [ Homing Mode – Statusword Bit 15 ]
+
+
+
+
+                                                                           Page | 50
+Operating Mode
+
+
+
+
+                                     [ Homing Mode – Statusword Bits 10, 12, and 13 ]
+
+
+
+
+             5.8.3 Homing Method
+                 This drive provides homing function on its own as shown below.
+                 The following figure illustrates the relationship between input and output parameters for the
+                 homing mode.
+                 Users can set the speed, acceleration, offset and homing method.
+
+
+
+
+                     5.8.3.1 Method 37 : Actual Position
+
+                     In this method, the current position turns into the home position. This method should
+                     only be applied in the Disabled state.
+
+
+
+
+                                                                                                                 Page | 51
+Operating Mode
+
+
+
+
+                 5.8.3.2 Method 27 : Home Switch Negative Speed
+
+                 This method uses the home switches, and some are activated only when searching. As
+                 a result, the switch is activated instantaneously when the axis passes the switch.
+                 The initial direction of movement is leftward (negative position), except if the home
+                 switch is already activated at the start of motion.
+
+
+                     A) Move to positive edge of Limit Switch
+                     B) Navigate the falling edge of Home Switch (1)
+                     C) Move by the Home Offset (2)
+                     D) This point serves as a reference for all subsequent movements and is set to
+                         Home Position. (3)
+
+
+
+
+                 5.8.3.3 Method 23 : Home Switch Positive Speed
+                 This method uses the home switch, and some are activated only when searching. As a
+                 result, the switch is activated instantaneously when the axis passes the switch.
+                 The initial direction of movement is rightward (positive position), except if the home
+                 switch is already activated at the start of motion.
+
+
+
+
+                                                                                                          Page | 52
+Operating Mode
+
+
+
+
+                     A)    Move to positive edge of Limit Switch
+                     B)     Navigate the falling edge of Home Switch (1)
+                     C)     Move by the Home Offset (2)
+                     D)     This point serves as a reference for all subsequent movements and is set to
+                            Home Position. (3)
+
+
+
+
+                 5.8.3.4 Method 18 : Positive Limit Switch
+
+                 The initial position of movement is positive (rightward) if positive limit switch is inactive
+                 (here, low).
+                     A) Move to positive edge of Limit Switch (1)
+                     B) Navigate the falling edge of Positive Limit Switch and move by the Home
+                          Offset (2)
+                     C) This point serves as a reference for all subsequent movements and is set to
+                          Home Position. (3)
+
+
+
+
+                                                                                                                 Page | 53
+Operating Mode
+
+
+
+
+                 5.8.3.5 Method 17 : Negative Limit Switch
+                 The initial direction of movement has negative value (leftward) if negative limit switch is
+                 inactive (here, low).
+                     A) Move to positive edge of Negative Limit Switch (1)
+                     B) Navigate the falling edge of Negative Limit Switch and move by the Home
+                         Offset (2)
+                     C) This point serves as a reference for all subsequent movements and is set to
+                         Home Position. (3)
+
+
+
+
+                                                                                                               Page | 54
+Operating Mode
+
+
+
+                 5.8.3.6 Method -3 : Current Threshold Positive Speed
+                 In this method, homing is performed only with forward stopper while driving in a forward
+                 direction. This boundary is detected when the average output current exceeds the
+                 Current Threshold for Homing Mode (0x4500).
+                     A) The axis moves in the direction of Stopper at the speed of switch navigation. (1)
+                     B) Move by the Home Offset (2)
+                     C) This point serves as a reference for all subsequent movements and is set to
+                        Home Position. (3)
+
+
+
+
+                 5.8.3.7 Method -4 : Current Threshold Negative Speed
+
+                 This method performs homing only with the reverse Stopper while driving in a backward
+                 direction. This boundary is detected when the average output current exceeds the
+                 Current Threshold for Homing Mode (0x4500).
+
+
+
+
+                     A) The axis moves in the direction of Stopper at the speed of switch navigation. (1)
+                     B) Move by the Home Offset (2)
+                     C) This point serves as a reference for all subsequent movements and is set to
+                         Home Position. (3)
+                                                                                                            Page | 55
+Operating Mode
+
+
+
+
+          5.9 Position Regulation Mode (PRM)
+             PR(Position Regulation) mode allows users to enter the target position into the position
+             controller. No trajectory generator is used in this mode. The target position is limited by
+             the Software Position Limit function, and the output of controller is limited by the Max
+             Motor Speed. The output of position controller is affected by the position controller gain
+             setting (the Position Control Parameter Set).
+
+
+
+
+                                 [ Position Regulation Mode - Overview ]
+
+             Input parameters include the target position and position offset. The speed offset is not
+             factored in the parameter. In addition, optional torque offset is used to perform the feed-
+             forward control. The motor data entered is used to define the current value (torque)
+             limits. Among other functions specified in this mode is the Software Position Limit
+             function (used to set limits on the values to avoid any unintended positions) and the max
+             motor speed.
+
+
+
+
+                               [ Position Regulation Mode – Block Diagram ]
+                                                                                                           Page | 56
+Operating Mode
+
+
+
+
+             5.9.1 How to Use PRM
+
+             •   Configuration Parameter
+
+
+
+
+                           [ Position Regulation Mode – Configuration Parameters ]
+
+
+             •   Commanding Parameters
+
+
+
+
+                           [ Position Regulation Mode – Commanding Parameters ]
+
+
+             •   Output Parameter
+
+
+
+
+                              [ Position Regulation Mode – Output Parameters ]
+                                                                                     Page | 57
+Operating Mode
+
+
+
+
+          5.10 Velocity Regulation Mode (VRM)
+                 VR(Velocity Regulation) mode is to control the speed by receiving the target velocity.
+                 No trajectory generator is used in this mode, and the target velocity is entered directly
+                 into the speed controller.
+
+
+
+
+                                    [ Velocity Regulation Mode – Overview ]
+
+
+                 Input parameter is the target velocity. Optionally, additional velocity value can be   pro
+                 vided by control system to allow a secondary source to perform the velocity feed-      for
+                 ward control. The torque offset is not factored in the parameter. The motor data entere
+                 d is used to define the velocity and current value limits.
+
+
+
+
+                                 [ Velocity Regulation Mode – Block Diagram ]
+
+
+
+
+                                                                                                              Page | 58
+Operating Mode
+
+
+
+
+             5.10.1 How to Use VRM
+
+             •   Configuration Parameter
+
+
+
+
+                           [ Velocity Regulation Mode – Configuration Parameters ]
+
+
+             •   Commanding Parameters
+
+
+
+
+                           [ Velocity Regulation Mode – Commanding Parameters ]
+
+
+             •   Output Parameter
+
+
+
+
+                              [ Velocity Regulation Mode – Output Parameters ]
+
+
+
+
+                                                                                     Page | 59
+Operating Mode
+
+
+
+
+          5.11 Torque Regulation Mode (TRM)
+                 This mode converts the received torque value into current in order to perform the torque
+                 control via current control.
+                 In this mode, the torque offset (0x60B2) corresponding to the torque feed-forward can
+                 be calculated by the host controller and forwarded to the drive unit.
+
+
+
+
+                                   [ Torque Regulation Mode – Overview ]
+
+                   Torque Regulation Mode is based on the current control function. Input parameters
+                 include the target torque and the (optional) torque offset. Input motor data is used to
+                 define the velocity and current value limits.
+
+
+
+
+                                 [ Torque Regulation Mode – Block Diagram]
+
+                                                                                                            Page | 60
+Operating Mode
+
+
+
+
+             5.11.1 How to Use TRM
+
+
+             •   Configuration Parameter
+
+
+
+
+                           [ Torque Regulation Mode – Configuration Parameters ]
+
+
+
+
+             •   Commanding Parameters
+
+
+
+
+                           [ Torque Regulation Mode – Commanding Parameters ]
+
+
+
+
+             •   Output Parameter
+
+
+
+
+                               [ Torque Regulation Mode – Output Parameters ]
+
+
+
+
+                                                                                   Page | 61
+Operating Mode
+
+
+
+
+          5.12 Current Regulation Mode (CRM)
+                 This mode performs the current control with the received target current value. The target
+                 current cannot be set above the rated current.
+                 The current control requires parameter setting such as the type of motor and the current
+                 controller gain (Current Control Parameter Set).
+
+
+
+
+                 The current control requires control parameter setting such as the type of motor and the
+                 current controller (Current Control Parameter Set).
+
+
+
+
+                                   [ Current Regulation Mode – Block Diagram ]
+
+
+
+             5.12.1 How to Use CRM
+             •     Configuration Parameter
+
+
+
+
+                               [ Current Regulation Mode – Configuration Parameters ]
+                                                                                                             Page | 62
+Operating Mode
+
+
+
+
+                 •     Commanding Parameters
+
+
+
+
+                                   [ Current Regulation Mode – Commanding Parameters ]
+
+
+                 •     Output Parameter
+
+
+
+
+          5.13 Motion Sequence Mode (MSM)
+                     In the MS(Motion Sequence) mode, motions are defined and arranged in the motion table
+                     first and then executed according to conditions. Two conditions can be defined for a single
+                     motion. If both conditions are met, the next motion is executed under the first condition.
+                     Up to 10 motions can be registered to the motion table.
+                     The motion table can be organized as follows.
+
+
+
+
+                                                                                                                   Page | 63
+Operating Mode
+
+
+
+
+                     The motion modes that can be configured in the motion table are as follows.
+
+
+
+
+                 •     Motion Parameters
+
+                     Modes of Operation refer to the mode of active motion. Target Value is the output value
+                     that is aimed for from the Modes of Operation. If the Modes of Operation are in the Homing
+                     Mode, the Target Value serves as the Homing Method. Parameter0, Parameter1,
+                     Parameter2, and Parameter3 are the control parameters required for each mode of
+                     operation. Target Value, Parameter0, Parameter1, Parameter2, and Parameter3 for the
+                     Modes of Operation are defined and tabulated as follows.
+
+
+
+
+                     The condition that initiates the next motion is established in the Next Motion Condition
+                     Type A(or B) and Next Motion Condition Value A(or B). Next Motion Index A(or B) is the
+                     index of a motion that is performed when the condition initiating the next motion is met.
+                     The types of the Next Motion Conditions are as follows.
+
+
+
+                                                                                                                  Page | 64
+Operating Mode
+
+
+
+
+                 The index can be set for the next motion when the condition is met with the Next Motion       In
+                 dex value setting. Based on this, the next motion can be set to operate, stop, or shutdown.
+                 The setting values are as follows.
+
+
+
+
+                 By setting a motion table, motions can automatically operate according to the execution order
+                 and conditions.
+
+
+
+
+                                                                                                                Page | 65
+Object Dictionary (OD)
+
+
+
+
+       6. Object Dictionary (OD)
+           Object Dictionary (OD) is a naming system that provides a unique identifier to each “Object” that
+           is delivered via communication. An Object is identified by an index, and the composite Object is
+           identified by a sub-index. CANopen client may manipulate an object of the CANopen server based
+           on its identifier depending on the object’s access rights, which support read only, write only, and
+           read-write attributes. In the CiA DS301, the mandatory object set is required for every CANopen
+           device. If supported, other OD entries are pre-defined by CiA DS 301 and have static identifiers.
+           The OD can also have a manufacturer-specific Object.
+
+
+
+
+           6.1 Overview
+                6.1.1 Object Data Types
+
+
+
+
+                6.1.2 Object Access Types
+
+
+
+
+                                                                                                                 Page | 66
+Object Dictionary (OD)
+
+
+
+               6.1.3 Entries Overview
+
+
+
+
+                                        Page | 67
+Object Dictionary (OD)
+
+
+
+
+                         Page | 68
+Object Dictionary (OD)
+
+
+
+
+                         Page | 69
+Object Dictionary (OD)
+
+
+
+
+                         Page | 70
+Object Dictionary (OD)
+
+
+
+
+           6.2 Object
+               6.2.1 0x1001 : Device Type
+               This object describes the device type and function. It consists of 16-bit field that describes
+               the device profiles used and the 16-bit field that provides additional information on the
+               optional functions of the device.
+               The low word indicates the profile number of the supported device.
+
+
+               The value 0x0192(402) indicates that the device conforms to the CANopen device profile for
+               CiA402 drive and motion control. The high word holds information on the drive types. The
+               value 0x0002 means that the drive is a servo-drive.
+
+
+                                                                                                                Page | 71
+Object Dictionary (OD)
+
+
+
+
+               6.2.2 0x1001 : Error Register
+                This object refers to the device error register. The device performs the mapping of internal
+                errors to this object.
+
+
+
+
+                                                                                                               Page | 72
+Object Dictionary (OD)
+
+
+
+
+               6.2.3 0x1008 : Manufacturer Device Name
+                This object indicates the manufacturer device name.
+
+
+
+
+               6.2.4 0x1009 : Manufacturer Hardware Version
+               This object indicates the manufacturer hardware version.
+
+
+
+
+                                                                          Page | 73
+Object Dictionary (OD)
+
+
+               6.2.5 0x100A : Manufacturer Software Version
+
+                This object indicates the manufacturer software version.
+
+
+
+
+               6.2.6 0x1010 : Save Parameters
+                 This object is used to store parameters in non-volatile memory. In order to avoid accidental
+                 storage, the save operation is executed only when a specific signature (“save”) is written to
+                 the corresponding subindex.
+
+
+
+
+                   6.2.6.1 Save all Parameters
+                   With the signature “save” written on an object, all controller parameters are stored to
+                   non-volatile memory.
+
+
+
+
+                                                                                                             Page | 74
+Object Dictionary (OD)
+
+
+
+
+               6.2.7 0x1011 : Restore Parameters
+                This object is used to restore parameters from non-volatile memory.
+                Restoring a parameter to its default values can be performed only in the NMT state [Pre-
+                Operational] and device state [Power Disable]. The default values are valid only after the
+                device is reset or power cycled.
+                In order to avoid accidental storage, the restore operation is executed only when a specific
+                signature (“load”) is written to the corresponding sub-index.
+
+
+
+
+                  On read access, the device always returns the value 0x00000001.
+
+
+                   6.2.7.1 Restore Default Parameters
+
+                   With the signature “load” written on an object, all controller parameters are stored to non
+                   -volatile memory. This is allowed only when the device status is «Power Disable».
+
+
+
+
+                                                                                                                 Page | 75
+Object Dictionary (OD)
+
+
+
+
+               6.2.8 0x1014 : COB-ID Emergency Object
+               This object defines the communication object identifier (COB-ID) for the Emergency Object.
+               The following table provides descriptions of the object.
+
+
+
+
+               6.2.9 0x1016 : Consumer Heartbeat Time
+               Consumer heartbeat time defines the expected heartbeat cycle time. Therefore, this value
+               should be greater than the corresponding producer heartbeat time (0x1017) configured on
+               the device.
+               Monitoring starts after the first heartbeat is received. If the heartbeat time is 0 for the
+               Consumer Heartbeat Time, the corresponding object entry is disabled. The time duration
+               should be in multiples of 1ms. It is advised to set the Consumer Heartbeat Time value at
+               least 20ms greater than the Producer Heartbeat Time value (0x1017).
+               Typically, the master (or other slave) generates the heartbeat. Therefore, if the Producer N
+               ode-ID configured for this object is the same as the Node-ID currently in use by this device,
+               then it may not operate properly.
+
+
+
+
+                                                                                                               Page | 76
+Object Dictionary (OD)
+
+
+
+
+                   6.2.9.1 Consumer Heartbeat Time
+
+
+
+
+               6.2.10 0x1017 : Producer Heartbeat Time
+               This object defines the cycle time (duration) of the heartbeat. The Producer Heartbeat Time,
+               which is 0, is disabled.
+               The duration time must be a multiple of 1ms.
+
+
+
+
+                                                                                                          Page | 77
+Object Dictionary (OD)
+
+
+
+
+               6.2.11 0x1018 : Identity Object
+                This object provides the general identification information on the device.
+
+
+
+
+                   6.2.11.1 Vender ID
+                   This provides information on the unique vendor ID specified in the CiA.
+
+
+
+
+                   6.2.11.2 Product Code
+                   This indicates the product code.
+
+
+
+
+                                                                                             Page | 78
+Object Dictionary (OD)
+
+
+
+                   6.2.11.3 Revision Number
+                    This provides information on the product version.
+
+
+
+
+                   6.2.11.4 Serial Number
+                    This provides information on the product serial number.
+
+
+
+
+               6.2.12 0x1029 : Error Behavior
+                This object reports the CAN communication status after a heartbeat failure. The object value
+                can be defined by the CAN communication status reported after a heartbeat failure as follows.
+
+                    - 0 : preoperational (only if current state is operational)
+                    - 1 : no status change
+                    - 2 : interrupted
+
+                    The default value is 1 (no status change).
+
+                                                                                                           Page | 79
+Object Dictionary (OD)
+
+
+
+
+                  6.2.12.1 Communication Error
+                  This object provides information on the execution in the event of communication error.
+
+
+
+
+                  6.2.12.2 Application Error
+
+
+
+
+                                                                                                           Page | 80
+Object Dictionary (OD)
+
+
+
+
+               6.2.13 0x1400 : Receive PDO #1~#4 Communication Parameters
+                               (0x1403~0x1403)
+
+
+
+
+                  6.2.13.1 COB-ID used by Receive PDO #1 ~ #4
+                  This object provides information on the communication object identifier of the received
+                  process data object
+
+
+
+
+                                                                                                            Page | 81
+Object Dictionary (OD)
+
+
+
+
+                   6.2.13.2 Transmission Type of Receive PDO #1 ~ #4
+
+
+
+
+               6.2.14 0x1600 : Receive PDO #1~#4 Mapping Parameters
+                               (0x1403~0x1403)
+                This object contains the RxPDO mapping parameters. PDO requires an object mapping.
+                Subindex 0 represents the number of the mapped objects. Subindices 0x01 ... 0x0A indicate
+                the mapped objects describing the corresponding index, subindex, and length.
+
+
+                The value of length (bit) is used to calculate the total mapping length. The max allowable
+                lengths for the mapped objects are as follows.
+
+                     - CANopen : 8 Byte
+
+                     - EtherCAT: 40 Byte
+                Write access is only allowed in the [Pre-Operational] NMT state.
+                The structure of the objects mapped to subindices 0x01 ... 0x0A is as follows.
+
+
+
+
+                                                                                                             Page | 82
+Object Dictionary (OD)
+
+
+
+
+                 In order to make changes to the PDO mapping, the following process must be completed.
+
+
+                      a) write the value “0” to subindex 0x00 (disable PDO ).
+                      b) modify the desired object from subindices 0x01 ~ 0x0n.
+                      c) write the desired number of the mapped objects to subindex 0x00.
+
+
+
+
+                   6.2.14.1 Number of mapped object in RxPDO
+
+
+
+
+                   6.2.14.2 RxPDO #1 ~ #4 Mapping Parameter #1 ~ #10
+
+
+
+
+                                                                                                         Page | 83
+Object Dictionary (OD)
+
+
+
+
+               6.2.15 0x1604 : Receive PDO #5 Mapping Parameters
+                This object contains the process data mapping parameters specified in RxPDO5.
+
+
+
+
+               6.2.16 0x1605 : Receive PDO #6 Mapping Parameters
+                This object contains the process data mapping parameters specified in RxPDO6.
+
+
+
+
+                                                                                                Page | 84
+Object Dictionary (OD)
+
+
+
+
+               6.2.17 0x1606 : Receive PDO #7 Mapping Parameters
+                This object contains the process data mapping parameters specified in RxPDO7.
+
+
+
+
+                                                                                                Page | 85
+Object Dictionary (OD)
+
+
+
+
+               6.2.18 0x1607 : Receive PDO #8 Mapping Parameters
+                This object contains the process data mapping parameters specified in RxPDO8.
+
+
+
+
+                                                                                                Page | 86
+Object Dictionary (OD)
+
+
+
+
+               6.2.19 0x1608 : Receive PDO #9 Mapping Parameters
+                This object contains the process data mapping parameters specified in RxPDO9.
+
+
+
+
+               6.2.20 0x1609 : Receive PDO #10 Mapping Parameters
+                This object contains the process data mapping parameters specified in RxPDO10.
+
+
+
+
+                                                                                                 Page | 87
+Object Dictionary (OD)
+
+
+
+
+               6.2.21 0x1800 : Transmit PDO #1 ~#4 Communication Parameters
+                               (0x1800~0x1803)
+
+
+
+
+                  6.2.21.1 COB-ID used by Transmit PDO #1 ~#4
+
+                  This indicates the communication object identifier of the transmitted process data object.
+
+                                                                                                               Page | 88
+Object Dictionary (OD)
+
+
+
+
+                  6.2.21.2 Transmission Type of Transmit PDO #1 ~#4
+
+
+
+
+                                                                      Page | 89
+Object Dictionary (OD)
+
+
+                  6.2.21.3 Inhibit Time of Transmit PDO #1 ~#4
+
+
+
+
+                  6.2.21.4 Time of Transmit PDO #1 ~#4
+
+
+
+
+                                                                 Page | 90
+Object Dictionary (OD)
+
+
+
+               6.2.22 0x1A00 : Transmit PDO #1 ~#4 Mapping Parameters
+                              (0x1A00~0x1A03)
+               This object contains the process data mapping parameters of TxPDO. The process data
+               exchange with PDOs requires an object mapping. Subindex 0x00 represents the
+               number of the mapped objects. Subindices 0x01 ... 0x0A indicate the mapped objects
+               that contain information on their corresponding index, subindex, and length.
+               The value of length (bit) is used to calculate the total mapping length.
+               The max allowable lengths for the mapped objects are as follows.
+
+                     - CANopen : 8 byte
+
+                     - EtherCAT : 40 byte
+               Write access is only allowed in the [Pre-Operational] NMT state.
+               The structure of the objects mapped to subindices 0x01 ~ 0x0A.
+
+
+
+
+               In order to make changes to the PDO mapping, the following process must be
+               completed.
+                     a) write the value “0” to subindex 0x00 (disable PDO).
+                     b) modify the desired object from subindices 0x01 ~ 0x0n.
+                     c) write the number of objects to be mapped to subindex 0x00.
+
+
+
+
+                   6.2.22.1 Number of mapped objects in TxPDO #1 ~#4
+
+
+
+
+                                                                                                     Page | 91
+Object Dictionary (OD)
+
+
+
+                  6.2.22.2 RxPDO 1 Mapping Parameter #1 ~ #10
+
+
+
+
+               6.2.23 0x1A04 : Transmit PDO #5 Mapping Parameters
+                This object contains the process data mapping parameters specified in TxPDO5.
+
+
+
+
+                                                                                                Page | 92
+Object Dictionary (OD)
+
+
+
+
+               6.2.24 0x1A05 : Transmit PDO #6 Mapping Parameters
+
+                This object contains the process data mapping parameters specified in TxPDO6.
+
+
+
+
+               6.2.25 0x1A06 : Transmit PDO #7 Mapping Parameters
+
+                This object contains the process data mapping parameters specified in TxPDO7.
+
+
+
+
+                                                                                                Page | 93
+Object Dictionary (OD)
+
+
+
+
+               6.2.26 0x1A07 : Transmit PDO #8 Mapping Parameters
+
+                This object contains the process data mapping parameters specified in TxPDO8.
+
+
+
+
+                                                                                                Page | 94
+Object Dictionary (OD)
+
+
+
+
+               6.2.27 0x1A08 : Transmit PDO #9 Mapping Parameters
+
+                This object contains the process data mapping parameters specified in TxPDO9.
+
+
+
+
+                                                                                                Page | 95
+Object Dictionary (OD)
+
+
+
+               6.2.28 0x1A09 : Transmit PDO #10 Mapping Parameters
+
+                This object contains the process data mapping parameters specified in TxPDO10.
+
+
+
+
+               6.2.29 0x1C00 : Sync Manager Communication Type
+
+                Preconfigured read-only object is used to read the EtherCAT sync manager channel transfer
+                mode.
+
+
+
+
+                                                                                                        Page | 96
+Object Dictionary (OD)
+
+
+                  6.2.29.1 Number of used SYNC manager channels
+
+
+
+
+                  6.2.29.2 Communication Type Sync Manager Channel 0
+
+
+
+
+                  6.2.29.3 Communication Type Sync Manager Channel 1
+
+
+
+
+                                                                       Page | 97
+Object Dictionary (OD)
+
+
+
+                  6.2.29.4 Communication Type Sync Manager Channel 2
+
+
+
+
+                  6.2.29.5 Communication Type Sync Manager Channel 3
+
+
+
+
+                  6.2.29.6 Communication Type Sync Manager Channel 4 ~ 7
+
+
+
+
+                                                                           Page | 98
+Object Dictionary (OD)
+
+
+
+               6.2.30 0x1C12 : Sync Manager Ch2
+                This object indicates the configuration of PDO assignment for the Sync Manager Ch2
+                (Master → Slave).
+                In order to change the object value, the Number of Assigned RxPDOs must be set to 0
+                first.
+                Write access is only allowed in the [Pre-Operational] NMT state.
+
+
+
+
+                   6.2.30.1 Number of assigned PDOs on Sync Manager Ch2
+
+
+
+
+                   6.2.30.2 PDO Mapping Object assigned RxPDO
+
+
+
+
+                                                                                                      Page | 99
+Object Dictionary (OD)
+
+
+
+               6.2.31 0x1C13 : Sync Manager Ch3
+
+                This object indicates the configuration of PDO assignment for the Sync Manager Ch3
+                (master → slave).
+                In order to change the value of the assigned TxPDO object, the Number of assigned
+                TxPDOs must be set to 0 first.
+                Write access is only allowed in the [Pre-Operational] NMT state.
+
+
+
+
+                  6.2.31.1 Number of assigned PDOs on Sync Manager Ch3
+
+
+
+
+                  6.2.31.2 PDO Mapping Object assigned TxPDO
+
+
+
+
+                                                                                                 Page | 100
+Object Dictionary (OD)
+
+
+
+
+               6.2.32 0x1FFF : Firmware Download Parameters
+
+                This object is used to update the firmware via SDO Communication.
+                (Manufacturer request)
+
+
+
+
+               6.2.33 0x4000 : Resistance
+
+                This object indicates the resistance value of motor.
+
+
+
+
+                                                                                    Page | 101
+Object Dictionary (OD)
+
+
+
+               6.2.34 0x4001 : Inductance (Q-Axis Inductance)
+                This object indicates the Inductance value of motor.
+
+
+
+
+               6.2.35 0x4002 : D-Axis Inductance
+
+
+
+
+               6.2.36 0x4003 : Torque Constant
+                This object indicates the torque constant of motor.
+
+
+
+
+                                                                       Page | 102
+Object Dictionary (OD)
+
+
+
+               6.2.37 0x4004 : Back-EMF Constant
+
+
+
+
+               6.2.38 0x4005 : System Inertial
+
+
+
+
+               6.2.39 0x4006 : Coulomb (Static) Friction
+
+
+
+
+                                                           Page | 103
+Object Dictionary (OD)
+
+
+
+
+               6.2.40 0x4007 : Viscos Friction
+
+
+
+
+               6.2.41 0x4008 : Position Sensor Type
+                This object indicates the types of position sensors.
+
+
+
+
+                                                                       Page | 104
+Object Dictionary (OD)
+
+
+
+               6.2.42 0x4009 : Position Sensor Polarity
+
+
+
+
+               6.2.43 0x400A : Hall Sensor Pole Pair
+
+
+
+
+                                                          Page | 105
+Object Dictionary (OD)
+
+
+
+               6.2.44 0x4080 : Error History
+                This object contains information on the Error History.
+
+
+
+
+                  6.2.44.1 Number of entries
+                  This object indicates the number of errors in the Error History.
+                  By writing the value “0” to subindex 0x00 of the Error History (0x4080), the Error
+                  History can be cleared.
+
+
+
+
+                  6.2.44.2 Error Code
+                  This object contains the latest error information.
+                  CiA 402 Error Codes (0x603F) can be sequentially stored up to 10 in the subindex.
+
+
+
+
+                                                                                                       Page | 106
+Object Dictionary (OD)
+
+
+
+
+               6.2.45 0x4100 : Motor Phase
+
+
+
+
+               6.2.46 0x4101 : Electric Angel Offset
+
+
+
+
+                                                       Page | 107
+Object Dictionary (OD)
+
+
+
+               6.2.47 0x4107 : Hall Sensor Pattern
+
+
+
+
+               6.2.48 0x4205 : Current Control Parameter Set
+                  This object Indicates the current control parameter setting.
+
+
+
+
+                  6.2.48.1 D-Axis Current Controller P-Gain
+
+
+
+
+                                                                                 Page | 108
+Object Dictionary (OD)
+
+
+
+
+                  6.2.48.2 D-Axis Current Controller I-Gain
+
+
+
+
+                  6.2.48.3 Q-Axis Current Controller P-Gain
+
+
+
+
+                  6.2.48.4 Q-Axis Current Controller I-Gain
+
+
+
+
+                                                              Page | 109
+Object Dictionary (OD)
+
+
+
+               6.2.49 0x4206 : Current Controller Bandwidth
+
+
+
+
+               6.2.50 0x4207 : Target Current
+
+
+
+
+               6.2.51 0x4208 : Actual Current
+                This object Indicates the value of the motor’s actual current.
+
+
+
+
+                                                                                 Page | 110
+Object Dictionary (OD)
+
+
+
+               6.2.52 0x4209 : Averaged Current (Moving Averaged 10step)
+                 This object Indicates the average value of the motor’s actual current
+
+
+
+
+               6.2.53 0x4300 : Velocity Control Parameter Set
+                Speed control is performed by the digital PI controller. This object retains all parameters of
+                the speed controller.
+
+
+
+
+                   6.2.53.1 Velocity Controller P-Gain
+                   This object Indicates the proportional gain of speed controller.
+
+
+
+
+                                                                                                             Page | 111
+Object Dictionary (OD)
+
+
+
+
+                  6.2.53.2 Velocity Controller I-Gain
+                  This object Indicates the integral gain of speed controller.
+
+
+
+
+                  6.2.53.3 Velocity Feed-Forward Gain
+                  This object Indicates the speed feed-forward gain of speed controller.
+
+
+
+
+                                                                                           Page | 112
+Object Dictionary (OD)
+
+
+
+                   6.2.53.4 Acceleration Feed-Forward Gain
+                   This object Indicates the acceleration feed-forward gain of speed controller.
+
+
+
+
+               6.2.54 0x4301 : Velocity Control Bandwidth
+                This object Indicates the bandwidth of speed controller.
+
+
+
+
+               6.2.55 0x4302 : I2T Over Load Protection
+                This object indicates the current limiting function for device protection in case of overcurrent.
+
+
+
+
+                                                                                                               Page | 113
+Object Dictionary (OD)
+
+
+
+                  6.2.55.1 I2T Mode
+                  This object indicates the current limiting in case of overcurrent.
+
+
+
+
+                  6.2.55.2 Max. Current
+
+
+
+
+                Max current values are as follows.
+                Max Current [mA] = Rated Current [mA] x Max. Current [0.1%]/ 10
+                Rated Current: 0x6075
+                Max. Current: 0x6073
+
+
+                                                                                       Page | 114
+Object Dictionary (OD)
+
+
+
+
+                  6.2.55.3 Over Load Duration Time
+                  With the I2T mode disabled, an overcurrent error occurs if the peak exceeds the duration
+                  time.
+
+
+
+
+                  6.2.55.4 I2T Energy Setpoint Value
+
+
+
+
+                                                                                                        Page | 115
+Object Dictionary (OD)
+
+
+
+
+                  6.2.55.5 I2T Energy Actual Value
+
+
+
+
+               6.2.56 0x4310 : Velocity Kalman Filter Covariance
+
+
+
+
+               6.2.57 0x4311 : External Load Torque Feed-Forward Gain
+
+
+
+
+                                                                        Page | 116
+Object Dictionary (OD)
+
+
+
+
+               6.2.58 0x4312 : External Load Torque Deadzone
+
+
+
+
+               6.2.59 0x4313 : Load Torque
+
+
+
+
+               6.2.60 0x4314 : Load Torque Threshold
+
+
+
+
+                                                               Page | 117
+Object Dictionary (OD)
+
+
+
+
+               6.2.61 0x4321 : Velocity Auto-Tuning Acceleration
+               This object indicates the acceleration of the motor driven in the speed auto-tuning process.
+
+
+
+
+               6.2.62 0x4322 : Velocity Auto-Tuning Velocity
+               This object indicates the velocity of the motor driven in the speed auto-tuning process.
+
+
+
+
+                                                                                                              Page | 118
+Object Dictionary (OD)
+
+
+
+
+               6.2.63 0x4323 : Velocity Auto-Tuning Position
+               This object indicates the position of the motor driven in the speed auto-tuning process. The
+               motor is driven by the position data value, and auto-tuning is performed.
+
+
+
+
+               6.2.64 0x4400 : Position Control Parameter Set
+               This object retains the parameters of position controller. The position controller is implemented
+               in the digital PID controller.
+
+
+
+
+                   6.2.64.1 Position Controller P-Gain
+                   This object indicates the proportional gain of the position controller.
+
+
+
+
+                                                                                                              Page | 119
+Object Dictionary (OD)
+
+
+
+
+                   6.2.64.2 Position Controller I-Gain
+                   This object indicates the integral gain of the position controller.
+
+
+
+
+                   6.2.64.3 Position Controller D-Gain
+                   This object indicates the differential gain of the position controller.
+
+
+
+
+               6.2.65 0x4500 : Current Threshold for Homing Mode
+               This object is used for the Homing Method in which homing is performed by Stopper in the
+               Homing Mode. The stopper is detected when the output current exceeds the Current threshold
+               for homing mode value (0x4500).
+
+
+
+                                                                                                       Page | 120
+Object Dictionary (OD)
+
+
+
+
+               6.2.66 0x4600 : Temperature
+
+
+
+
+               6.2.67 0x4601 : Regenerator Clamp Cut-off Voltage
+
+
+
+
+               6.2.68 0x4610 : Brake Parameters
+               Brake is designed to prevent inadvertent drifting when the device has stopped operating.
+               It is enabled when no torque is applied to the motor. When the controller applies torque to
+               the motor, the brake is disabled. The function can be mapped to digital output. Therefore, the
+               output current limiting must be taken into consideration.
+
+
+
+
+                                                                                                            Page | 121
+Object Dictionary (OD)
+
+
+
+
+                  6.2.68.1 Brake Type
+
+
+
+
+                  6.2.68.2 Brake Polarity
+                  This object indicates the polarity of the brake.
+
+
+
+
+                                                                     Page | 122
+Object Dictionary (OD)
+
+
+
+
+                  6.2.68.3 Brake On Delay Time
+                  This object indicates the time taken to reach a braking torque after the power is turned
+                  off. The value is displayed in [ms].
+
+
+
+
+                  6.2.68.4 Brake Off Delay Time
+                  This object indicates the time taken from POWER-ON until the braking torque is released.
+                  The value is displayed in [ms].
+
+
+
+
+                                                                                                         Page | 123
+Object Dictionary (OD)
+
+
+
+
+                  6.2.68.5 Min. Motor Speed for Brake On
+                  The brake will be turned on only below the set speed.
+
+
+
+
+                  6.2.68.6 Turn On Voltage
+                  This object indicates the voltage at which the brake is turned on.
+
+
+
+
+                                                                                       Page | 124
+Object Dictionary (OD)
+
+
+
+
+                  6.2.68.7 On Hold Voltage
+                  This object indicates the voltage at which the brake is held.
+
+
+
+
+               6.2.69 0x4620 : Collision Detection
+                 This object contains the collision detection information.
+
+
+
+
+                  6.2.69.1 Minimum Collision Detection Position
+
+
+
+
+                                                                                  Page | 125
+Object Dictionary (OD)
+
+
+
+
+                   6.2.69.2 Maximum Collision Detection Position
+
+
+
+
+               6.2.70 0x4700 : Target Motion Info
+               This object contains the motion command information used in the Motion Sequence Mode (MSM).
+
+
+
+
+                   6.2.70.1 Target Motion Index
+                   This object is used to enter the index of the first motion to be performed from the motion table.
+
+
+
+
+                                                                                                                  Page | 126
+Object Dictionary (OD)
+
+
+
+               6.2.71 0x4701 : Actual Motion Index
+                This object indicates the current motion index.
+
+
+
+
+               6.2.72 0x4702 : Motion Error History
+                This object provides information on the motion error history.
+
+
+
+
+                  6.2.72.1 Number of Motion Error History
+                  This object indicates the number of motion errors in the motion error history. Up to 10
+                  motions errors in the motion error history can be stored.
+
+
+
+
+                                                                                                        Page | 127
+Object Dictionary (OD)
+
+
+                  6.2.72.2 Motion Error 0 ~ 9
+                  This object contains the latest error information. Up to 10 motion errors can be stored
+                  sequentially in the subindex.
+
+
+
+
+               6.2.73 0x4710 : Motion 0 ~ 9 (0x4710~0x4719)
+                This object defines the motion table for motion control. The max number of motions that can
+                be registered with the motion table is 10. The motion objects registered with the indices
+                0x4710 ~ 0x4719 are composed of subindices 0x01~ 0x0C, and each motion can be set
+                with the subindex data.
+
+
+
+
+                  6.2.73.1 Number of entries
+                  This object indicates the number of the motion parameters (subindex).
+
+
+
+
+                                                                                                          Page | 128
+Object Dictionary (OD)
+
+
+
+
+                  6.2.73.2 Motion Mode of Operation
+                  This object indicates the operation mode of motion. The information displayed by
+                  subindices 0x02~0x06 varies with the modes.
+
+
+
+
+                  6.2.73.3 Motion Target
+                  Motion Target refers to the target value depending on the operation modes. If subindex
+                  0x01(Motion Mode of Operation) is in the Homing Mode, then the object indicates the
+                  Homing Method.
+
+                                                                                                           Page | 129
+Object Dictionary (OD)
+
+
+
+
+                  6.2.73.4 Motion Parameter 0
+                  This object indicates a motion parameter. The parameter information varies with the
+                  motion modes (subindex 0x01).
+
+
+
+
+                                                                                                    Page | 130
+Object Dictionary (OD)
+
+
+
+
+                  6.2.73.5 Motion Parameter 1
+                  This object indicates a motion parameter. The parameter information varies depending
+                  on the motion modes (subindex 0x01).
+
+
+
+
+                  6.2.73.6 Motion Parameter 2
+                  This object indicates a motion parameter. The parameter information varies depending on
+                  the motion modes (subindex 0x01).
+
+
+
+
+                                                                                                       Page | 131
+Object Dictionary (OD)
+
+
+
+
+                  6.2.73.7 Motion Parameter 3
+                  This object indicates a motion parameter. The parameter information varies with the
+                  motion modes (subindex 0x01).
+
+
+
+
+                  6.2.73.8 Condition Type of Next Motion-A
+                  This object is used to set the types of conditions for automatic execution in the next
+                  motion.
+
+
+
+
+                                                                                                           Page | 132
+Object Dictionary (OD)
+
+
+
+
+                  6.2.73.9 Condition Value of Next Motion-A
+                  This object is used to set the conditions for automatic execution in the next motion. It
+                  sets the data corresponding to the condition type specified in the subindex (Condition
+                  Type of Next Motion-A).
+
+
+
+
+                                                                                                         Page | 133
+Object Dictionary (OD)
+
+
+
+
+                  6.2.73.10 Index of Next Motion-A
+                  This object sets the motion to be performed when the condition specified in subindices
+                  0x06 and 0x07 is met.
+
+
+
+
+                  6.2.73.11 Condition Type of Next Motion-B
+                  This object sets the second condition for automatic execution of the next motion.
+
+
+
+
+                                                                                                       Page | 134
+Object Dictionary (OD)
+
+
+
+
+                  6.2.73.12 Condition Value of Next Motion-B
+                  This object sets the second condition for automatic execution in the next motion. The
+                  data is set to meet the condition specified in the subindex 0x0A (Condition Type of Next
+                  Motion-A).
+
+
+
+
+                  6.2.73.13 Index of Next Motion-B
+                  This object sets the motion to be performed when the condition specified in subindices
+                  0x0A and 0x0B is met.
+
+
+
+
+                                                                                                         Page | 135
+Object Dictionary (OD)
+
+
+
+
+               6.2.74 0x5000 : ID for CAN, UART
+                This object identifies the CANopen node.
+                Any changes to this object will not take effect until a restart.
+
+
+
+
+                                                                                   Page | 136
+Object Dictionary (OD)
+
+
+
+
+               6.2.75 0x5001 : UART Baudrate
+                This object sets the bit rate of serial communication interface.
+                Any changes to this object will not take effect until a restart. Therefore, make changes and
+                save all parameters before restarting.
+
+
+
+
+               6.2.76 0x5002 : CAN Bitrate
+                This object retains the desired bit rate of the CAN interface.
+                Any changes to this object will not take effect until a restart. Therefore, make changes and
+                save all parameters before restarting.
+
+
+
+
+                                                                                                           Page | 137
+Object Dictionary (OD)
+
+
+
+
+               6.2.77 0x5010 : Analog Input
+
+
+
+
+                  6.2.77.1 Analog Input 0 ~ 3
+                  This object indicates the analog input value for each channel 0~3.
+
+
+
+
+                                                                                       Page | 138
+Object Dictionary (OD)
+
+
+
+
+               6.2.78 0x6007 : Abort Connection Option Code
+                This object specifies the motion to be performed when an error is detected. This includes
+                all communication errors.
+                Some serious errors will always generate Disable command regardless of predefined
+                settings.
+                Related objects: Error Resister(0x1001), Fault Reaction Option Code (0x605E)
+
+
+
+
+                                                                                                        Page | 139
+Object Dictionary (OD)
+
+
+
+               6.2.79 0x603F : Error Code
+                This object provides the error code for the last error that occurred on the device.
+                This object differs from the value of the object "Error Register (0x1001).” This value is the
+                one that will appear in the object “Error History (0x4080).”
+
+
+
+
+               6.2.80 0x6040 : Controlword
+                The drive control command is triggered by the next bit patter of the Controlword.
+                Related object: Statusword(0x6041)
+
+
+                                                                                                           Page | 140
+Object Dictionary (OD)
+
+
+
+
+               • Data bit description
+
+
+
+
+                                        Page | 141
+Object Dictionary (OD)
+
+
+
+
+               • Device Control Command Triggers (Bits 0 ~ 3 and 7)
+
+
+
+
+                 -   The bits marked with X are irrelevant.
+                 -   *the drive performs SWITCH_ON function.
+                 -   **the drive does nothing in this state and is treated the same as *.
+
+
+
+
+                                                                                            Page | 142
+Object Dictionary (OD)
+
+
+
+
+               • Controlword and Operation Modes
+
+
+
+
+               • See Mode of Operation for more details of Bit 4…6,8
+
+
+               6.2.81 0x6041 : Statusword
+                This object indicates the current status of the drive.
+                Related object: Controlword(0x6040)
+
+
+
+
+                                                                         Page | 143
+Object Dictionary (OD)
+
+
+
+
+                         Page | 144
+Object Dictionary (OD)
+
+
+               • State
+
+
+
+
+               • Statusword and the Modes of Operating
+
+
+
+
+                See Modes of Operation for more details of Bit 10, 12, and 13.
+                                                                                 Page | 145
+Object Dictionary (OD)
+
+
+
+               6.2.82 0x6042 : VL Mode Target Velocity
+
+
+
+
+               6.2.83 0x6043 : VL Mode Demand Velocity
+
+
+
+
+               6.2.84 0x6044 : VL Mode Actual Velocity
+
+
+
+
+                                                         Page | 146
+Object Dictionary (OD)
+
+
+
+
+               6.2.85 0x6046 : VL Mode Velocity Min. Max. Amount
+
+
+
+
+                  6.2.85.1 VL Mode Velocity Min. Value
+
+
+
+
+                  6.2.85.2 VL Mode Velocity Max. Value
+
+
+
+
+                                                                   Page | 147
+Object Dictionary (OD)
+
+
+
+               6.2.86 0x6048 : VL Mode Velocity Acceleration
+
+
+
+
+                  6.2.86.1 VL Mode Acceleration Delta Speed
+
+
+
+
+                  6.2.86.2 VL Mode Acceleration Delta Time
+
+
+
+
+               6.2.87 0x6049 : VL Mode Velocity Deceleration
+
+
+
+
+                                                               Page | 148
+Object Dictionary (OD)
+
+
+
+
+                  6.2.87.1 VL Mode Deceleration Delta Speed
+
+
+
+
+                  6.2.87.2 VL Mode Deceleration Delta Time
+
+
+
+
+               6.2.88 0x604A : VL Mode Velocity Quick Stop Deceleration
+
+
+
+
+                                                                          Page | 149
+Object Dictionary (OD)
+
+
+
+
+                  6.2.88.1 VL Mode Quick Stop Deceleration Delta Speed
+
+
+
+
+                  6.2.88.2 VL Mode Quick Stop Deceleration Delta Time
+
+
+
+
+               6.2.89 0x605A : Quick Stop Option Code
+                This object indicates the motion to be performed when Quick Stop is executed.
+
+
+
+
+                                                                                                Page | 150
+Object Dictionary (OD)
+
+
+
+
+               6.2.90 0x605B : Shutdown Option Code
+                This object indicates the motion to be performed during a transition from the [Operation
+                enabled] state to the [Ready to switch on] or [Switch on disabled] state.
+
+
+
+
+               6.2.91 0x605C :          Disable Operation Option Code
+                This object indicates the motion to be performed during a transition from the [Operation
+                enabled] state to the [Switched on] state.
+
+
+
+
+                                                                                                       Page | 151
+Object Dictionary (OD)
+
+
+
+
+               6.2.92 0x605D :         Halt Option Code
+                This object indicates the motion to be performed when the Halt command is executed.
+
+
+
+
+                                                                                                      Page | 152
+Object Dictionary (OD)
+
+
+
+
+               6.2.93 0x605E :          Fault Reaction Option Code
+               This object specifies the task to be performed when the "Device errors" code is detected.
+               Some critical errors always generate the “Disable” command regardless of predefined
+               settings.
+
+
+
+
+               6.2.94 0x6060 :          Modes of Operation
+                This object is used to perform a transition to the Mode of Operation that had actually been
+                selected. It is advised to confirm the changes made to the Mode of Operation by using the
+                object “Modes of Operation Display (0x6061).”
+
+
+
+
+                                                                                                           Page | 153
+Object Dictionary (OD)
+
+
+
+
+               6.2.95 0x6061 :          Modes of Operation Display
+                This object indicates the actual mode in operation.
+
+
+
+
+               6.2.96 0x6062 :          Position Demand Value
+                This object is used as input of the position controller. For the profiled motions, the value is
+                generated by the profile generator.
+
+
+
+
+                                                                                                                  Page | 154
+Object Dictionary (OD)
+
+
+
+
+               6.2.97 0x6063 :         Internal Position Actual Value
+
+
+
+
+               6.2.98 0x6064 :         Position Actual Value
+                This object provides the actual position value of motor, which is measured by a sensor.
+                  • If the sensor is not configured, the Position Actual Value is always “0”.
+
+
+
+
+                                                                                                          Page | 155
+Object Dictionary (OD)
+
+
+
+
+               6.2.99 0x6065 :         Following Error Window
+                If the max permissible difference of the "Position Actual value" and the "Position demand
+                value" is exceeded, the Following Errors occur.
+
+
+
+
+               6.2.100 0x6067 :          Position Window
+                Position Window defines a symmetrical range of acceptable position relative to the Target
+                Position in the Profile Position Mode. If the actual position encoder values are within the
+                Position Window, then the Target Position is considered to have been reached.
+
+
+
+
+                                                                                                          Page | 156
+Object Dictionary (OD)
+
+
+
+
+               6.2.101 0x6068 :           Position Window Time
+                If the Position actual value remains within the Position Window during the time period
+                specified in the Position window Time, then Bit 10 that indicates “Target Reached” in the
+                Statusword will be set to 1.
+
+
+
+
+               6.2.102 0x606B :           Velocity Demand Value
+                This object is used as input of the speed controller. For the profiled drive, this value is
+                generated by the profile generator.
+
+
+
+
+                                                                                                          Page | 157
+Object Dictionary (OD)
+
+
+
+
+               6.2.103 0x606C :            Velocity Actual Value
+                This object provides the actual velocity value of motor, which is measured by a sensor. If
+                the sensor is not configured, the value is “0”.
+
+
+
+
+               6.2.104 0x606D :            Velocity Window
+                Velocity Window defines the range of acceptable speed relative to the Target Velocity in the
+                Profile Velocity Mode. If the Velocity Actual Value remains within the range of Target
+                Velocity ± Velocity window, then the Target Velocity is considered to have been reached.
+
+
+
+
+                                                                                                           Page | 158
+Object Dictionary (OD)
+
+
+
+
+               6.2.105 0x606E :           Velocity Window Time
+                If the Velocity actual value remains within the Velocity Window during the time period
+                specified in the Velocity Window Time, then Bit 10 that indicates “Target Reached” in the
+                Statusword will be set to 1.
+
+
+
+
+               6.2.106 0x6071 :           Target Torque
+                This object indicates the input value configured to the torque controller in the Cyclic
+                Synchronous Torque Mode (CST) and the Torque Regulation Mode (TRM). The value is
+                given as 1/1000 of the Motor Rated Torque (0x6076).
+                Ex) 500 indicates 50% of the rated torque.
+
+
+
+
+                                                                                                       Page | 159
+Object Dictionary (OD)
+
+
+
+
+               6.2.107 0x6072 :          Maximum Torque
+                This object indicates the max output torque.
+                Ex) 1000 indicates 100% of the Motor Rated Torque (0x6076).
+
+
+
+
+               6.2.108 0x6073 :          Maximum Current
+                This object indicates the max output current.
+                Ex) 2000 indicates 200% of the Motor Rated Current (0x6075).
+
+
+
+
+                                                                               Page | 160
+Object Dictionary (OD)
+
+
+
+               6.2.109 0x6075 :           Motor Rated Current
+                This object indicates the rated current value of motor. This object retains all relative current
+                object values.
+
+
+
+
+               6.2.110 0x6076 :           Motor Rated Torque
+                This object indicates the rated torque value of motor. It retains all relative torque object
+                values.
+                This value is defined as the rated current multiplied by the torque constant.
+
+
+
+
+                                                                                                               Page | 161
+Object Dictionary (OD)
+
+
+
+               6.2.111 0x6077 :          Torque Actual Value
+                This object provides the actual torque value, which is the instant motor torque. The value is
+                displayed in 1/1000 of the Motor Rated Torque.
+
+
+
+
+               6.2.112 0x6078 :          Current Actual Value
+                This object indicates the actual current value of motor. The unit is mA.
+
+
+
+
+               6.2.113 0x6079 :          DC Link Circuit Voltage
+
+
+
+
+                                                                                                            Page | 162
+Object Dictionary (OD)
+
+
+
+               6.2.114 0x607A :            Target Position
+                This object is used as input of the profile generator for a drive profile. By using the motion
+                control parameters (velocity, acceleration, and deceleration), it indicates the position to which
+                the drive will move.
+                For the movement without a profile, the target position is used directly as input of the position
+                controller.
+                No Target Position will be set until the command is given as the Controlword. In this case,
+                the Target Position is interpreted as absolute or relative to the command set in the
+                Controlword. Otherwise, the Target Position will be interpreted as an absolute value.
+
+
+
+
+               6.2.115 0x607C :            Home Offset
+                This object indicates the travel distance in the homing process. This object is used to move
+                away from a detected position (e.g. mechanical limit stop or limit switch) at the end of homing
+                sequence, thereby providing motor protection and preventing limit switch errors.
+
+
+
+
+                                                                                                               Page | 163
+Object Dictionary (OD)
+
+
+
+
+               6.2.116 0x607D :              Software Position Limit
+                This object defines the min/max position values for the Actual Position value and the Demand
+                Position value. If the Actual Position value and the Demand Position value exceed the limit,
+                an error occurs. In the Profile Position Mode, the new Target Position is limited by the
+                min/max position limiting.
+                The Software Position Limit is disabled in the Homing Mode (HMM).
+
+
+
+
+                   6.2.116.1 Minimum Software Position Limit
+                   This object defines the min position value for the Actual Position value and the Demand
+                   Position value (Absolute Negative Position Limit). If the Actual Position value and the
+                   Demand Position value are smaller than the Minimum Software Position Limit, then the
+                   Software Position Limit error occurs.
+                   If the Minimum Software Position Limit and Maximum Software Position Limit values equal
+                   to “0”, then the position limit check is disabled.
+
+
+
+
+                   6.2.116.2 Maximum Software Position Limit
+                   This object defines the max position value for the Actual Position value and the Demand
+                   Position value (Absolute Positive Position Limit). If the Actual Position and Demand
+                   Position values are greater than the Maximum Software Position Limit, then the Software
+                   Position Limit error occurs.
+                   If the Minimum Software Position Limit and Maximum Software Position Limit values
+                   equal to "0", then the position limit check is disabled.
+                                                                                                          Page | 164
+Object Dictionary (OD)
+
+
+
+
+               6.2.117 0x607F :          Max. Profile Velocity
+                This object is used to control the speed in the PPM or PVM drive.
+
+
+
+
+               6.2.118 0x6080 :          Maximum Motor Speed
+                This object indicates the max permissible speed of motor and provides motor protection. See
+                Motor Specifications
+
+
+
+
+                                                                                                         Page | 165
+Object Dictionary (OD)
+
+
+
+               6.2.119 0x6081 :          Profile Velocity
+                This object indicates the speed normally attained at the end of acceleration section during
+                profile motions (PPM, PVM).
+
+
+
+
+               6.2.120 0x6083 :          Profile Acceleration
+                This object defines the acceleration used for a profile motion.
+
+
+
+
+               6.2.121 0x6084 :          Profile Deceleration
+                This object defines the deceleration used for a profile motion.
+
+
+
+
+                                                                                                          Page | 166
+Object Dictionary (OD)
+
+
+
+
+               6.2.122 0x6085 :           Quickstop Deceleration
+                This object, along with the Quick Stop command, is used to determine the deceleration for
+                the Quick Stop profile.
+
+
+
+
+               6.2.123 0x6086 :           Motion Profile Type
+                This object selects the types of motion profile trajectory used in the "Profile Position Mode
+                (PPM), Homing Mode (HMM)", Profile Velocity Mode (PVM).”
+
+
+
+
+               6.2.124 0x6089 :           Position Notation Index
+                This object is used to scale the position objects.
+
+
+                                                                                                                Page | 167
+Object Dictionary (OD)
+
+
+
+
+               6.2.125 0x608A :           Position Dimension Index
+                This object is used to scale the position objects.
+
+
+
+
+               6.2.126 0x608B :           Velocity Notation Index
+                This object is used to scale the velocity objects.
+
+
+
+
+                                                                     Page | 168
+Object Dictionary (OD)
+
+
+
+               6.2.127 0x608C :            Velocity Dimension Index
+                 This object is used to scale the velocity objects.
+
+
+
+
+               6.2.128 0x608D :            Acceleration Notation Index
+                 This object is used to scale the acceleration objects.
+
+
+
+
+               6.2.129 0x608E :            Acceleration Dimension Index
+                 This object is used to scale the acceleration objects.
+
+
+
+
+                                                                          Page | 169
+Object Dictionary (OD)
+
+
+
+               6.2.130 0x608F :          Position Encoder Resolution
+                This object indicates the Encoder Resolution.
+
+
+
+
+                  6.2.130.1 Position Encoder Increments
+
+
+
+
+                  6.2.130.2 Position Encoder Motor Revolution
+
+
+
+
+               6.2.131 0x6098 :          Homing Method
+                This object is used to select the desired Homing Method.
+                If the Homing Method is changed during an ongoing homing process, the new homing
+                method will not be applied until the next homing process starts.
+
+
+
+                                                                                               Page | 170
+Object Dictionary (OD)
+
+
+
+
+               6.2.132 0x6099 :         Homing Speeds
+                This object indicates the speed value used for the homing sequence.
+
+
+
+
+                  6.2.132.1 Speed for Switch Search
+                  This object indicates the speed value used for the limit switch search in the homing
+                  sequence.
+
+
+
+
+                                                                                                     Page | 171
+Object Dictionary (OD)
+
+
+
+
+                   6.2.132.2 Speed for Zero Search
+                   This object indicates the speed value used for the zero position search in the homing
+                   sequence.
+
+
+
+
+               6.2.133 0x609A :          Homing Acceleration
+                This object is used to define the acceleration and deceleration in the homing profile.
+
+
+
+
+               6.2.134 0x60A4 :          Profile Jerk
+                This object indicates the Jerk value used to generate the profile motion trajectory.
+
+
+
+
+                                                                                                         Page | 172
+Object Dictionary (OD)
+
+
+
+
+                   6.2.134.1 S-Curve profile Jerk
+                   This object indicates the Jerk value used to generate the Sinusoidal trajectory.
+
+
+
+
+               6.2.135 0x60B0 :           Position Offset
+                This object provides the Position Offset.
+                In the CSP, this object provides the offset for the Target Position. It contains additional
+                commanded positions of the drive, which are inserted in the Target Position.
+
+
+
+
+               6.2.136 0x60B1 :           Velocity Offset
+                In the CSV, this object provides the offset for the Target Velocity. The value itself is an
+                absolute value but represents an additional velocity value. Therefore, for the Target Velocity,
+                it can be used for drive control by using a relative value.
+
+
+
+
+                                                                                                              Page | 173
+Object Dictionary (OD)
+
+
+
+
+               6.2.137 0x60B2 :          Torque Offset
+                This object provides the Torque Offset, which is displayed in 1/1000 of the "Motor Rated
+                Torque.”
+                In the CSP, this object contains the input value for the torque feed-forward.
+                In the CST, this object contains additional commanded torque of the drive, which is inserted
+                in the Target Torque.
+
+
+
+
+               6.2.138 0x60C5 :          Maximum Acceleration
+                This object is used to set the max permissible acceleration limits to prevent mechanical
+                damage.
+                It indicates the limits of motor acceleration objects. This object is not factored in the CSP,
+                CSV, and CST.
+
+
+
+                                                                                                             Page | 174
+Object Dictionary (OD)
+
+
+
+
+               6.2.139 0x60C6 :          Maximum Deceleration
+                This object is used to set the max permissible deceleration limit to prevent mechanical
+                damage.
+                It indicates the limits of motor deceleration objects. This object is not factored in the CSP,
+                CSV, and CST.
+
+
+
+
+               6.2.140 0x60E3 :          Supported Homing Methods
+                This object indicates the supported homing methods.
+
+
+
+
+                                                                                                             Page | 175
+Object Dictionary (OD)
+
+
+
+
+                   6.2.140.1 Homing Method 0~ 6
+
+
+
+
+               6.2.141 0x60F4 :           Following Error Actual Value
+                This object indicates the actual value of the Following Error.
+
+
+
+
+               6.2.142 0x60FD :           Digital Inputs
+                This object displays the status of the Digital Input function.
+
+
+
+                                                                                 Page | 176
+Object Dictionary (OD)
+
+
+
+
+               6.2.143 0x60FE :   Digital Outputs
+
+
+
+
+                  6.2.143.1 Physical Outputs
+
+
+
+
+                                                    Page | 177
+Object Dictionary (OD)
+
+
+
+
+                  6.2.143.2 Output Mask
+
+
+
+
+               6.2.144 0x60FF :        Target Velocity
+                This object indicates the Target Velocity in the speed mode (PVM, VRM, and CSV).
+
+
+
+
+                                                                                                   Page | 178
+Object Dictionary (OD)
+
+
+
+
+               6.2.145 0x6402 :         Motor Type
+
+
+
+
+               6.2.146 0x6502 :         Supported Drive Modes
+                This object indicates the supported drive modes.
+
+
+
+
+                                                                   Page | 179
+Object Dictionary (OD)
+
+
+
+
+                • If the bit is 1, this indicates that the corresponding mode is supported.
+
+
+
+
+                                                                                              Page | 180
+      +86-0519-8517 7825
+
+      +86-0519-8517 7807
+
+      No.9, Lijiang Road, New District, Changzhou
+      Jiangsu, China [Zip Code 213022]
+
+      www.dingsmotion.com
+
+
+It is prohibited to copyright or replication of the part or whole of user manual without permission.
+
+                                                                                                       Page | 181
+

@@ -1,0 +1,2 @@
+timestamp,target_um,grating_um,error_um,step_um,iteration,kp,direction_sign,settle_ms,mode,feedback_source,status,notes
+2026-01-01T00:00:00,10,0.5,9.5,4.0,1,0.4,1,300,closed,grating,moving,首次闭环测试

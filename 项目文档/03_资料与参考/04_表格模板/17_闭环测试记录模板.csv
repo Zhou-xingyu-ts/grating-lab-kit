@@ -1,0 +1,2 @@
+﻿timestamp,target_um,grating_um,command_um,error_um,mode,iteration,settle_ms,kp,tolerance_um,status,note
+2026-06-02T10:00:00,10.0,0.0,5.0,10.0,closed_loop,1,200,0.5,10.0,running,example_row_delete_before_test

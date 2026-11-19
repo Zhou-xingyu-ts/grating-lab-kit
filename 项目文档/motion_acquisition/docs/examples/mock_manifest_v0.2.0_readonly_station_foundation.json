@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "software": {
+    "package": "motion_acquisition",
+    "software_version": "0.2.0",
+    "git_commit": null,
+    "python_version": "3.12.2"
+  },
+  "command": {
+    "command_line": "motion-acq log-sdo --config configs\\canopen_readonly.local.yaml --period 0.02 --duration 10 --object position_actual --object statusword --object error_register --object error_code",
+    "config_file": "configs\\canopen_readonly.local.yaml"
+  },
+  "can": {
+    "interface": "pcan",
+    "channel": "PCAN_USBBUS1",
+    "bitrate": 1000000
+  },
+  "canopen": {
+    "node_id": 1,
+    "sdo_timeout_s": 0.5,
+    "retries": 1
+  },
+  "acquisition": {
+    "objects": [
+      "position_actual",
+      "statusword",
+      "error_register",
+      "error_code"
+    ],
+    "period_s": 0.02,
+    "duration_s": 10.0,
+    "start_time": "2026-07-10T09:00:00+08:00",
+    "end_time": "2026-07-10T09:00:10+08:00",
+    "csv_file": "output\\mock_readonly_station_run.csv",
+    "manifest_file": "output\\mock_readonly_station_run.csv.manifest.json"
+  },
+  "statistics": {
+    "target_period_s": 0.02,
+    "total_cycles": 500,
+    "total_object_reads": 2000,
+    "failed_reads": 0,
+    "deadline_miss_count": 0,
+    "mean_cycle_s": 0.01998,
+    "max_cycle_s": 0.0211,
+    "estimated_rate_hz": 50.05
+  },
+  "safety_boundary": {
+    "read_only": true,
+    "sdo_download_enabled": false,
+    "nmt_operational_sent": false,
+    "pdo_configured": false,
+    "motion_command_sent": false
+  },
+  "notes": "Mock manifest for v0.2.0-readonly-station-foundation documentation. Not produced from real DS-BVM hardware."
+}

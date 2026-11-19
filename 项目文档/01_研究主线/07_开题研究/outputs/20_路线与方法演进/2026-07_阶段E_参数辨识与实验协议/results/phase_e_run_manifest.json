@@ -1,0 +1,32 @@
+﻿{
+  "phase": "E",
+  "generated_at_utc": "2026-07-14T23:42:54.065781+00:00",
+  "simulation_only": true,
+  "hardware_disabled": true,
+  "hardware_interfaces_imported": [],
+  "random_seed": 20260715,
+  "training_and_validation": {
+    "B": "PRBS training; independent multisine holdout",
+    "D": "multisine training; different-frequency multisine holdout"
+  },
+  "cases": [
+    "B_clean_broadband",
+    "B_position_noise_quantization",
+    "D_clean_broadband",
+    "D_position_noise_quantization"
+  ],
+  "failure_cases": [
+    "B_tau_delay_low_bandwidth",
+    "B_force_mass_ratio",
+    "D_low_bandwidth_non_unique"
+  ],
+  "outputs": {
+    "summary": "D:\\清华\\清华-科研横向\\光栅尺运动控制调研\\01_研究主线\07_开题研究\\outputs\\2026-07_阶段E_参数辨识与实验协议\\results\\synthetic_identification_summary.csv",
+    "delay_search": "D:\\清华\\清华-科研横向\\光栅尺运动控制调研\\01_研究主线\07_开题研究\\outputs\\2026-07_阶段E_参数辨识与实验协议\\results\\integer_delay_and_bandwidth_candidates.csv",
+    "failure_cases": "D:\\清华\\清华-科研横向\\光栅尺运动控制调研\\01_研究主线\07_开题研究\\outputs\\2026-07_阶段E_参数辨识与实验协议\\results\\identifiability_failure_cases.csv",
+    "residuals": "D:\\清华\\清华-科研横向\\光栅尺运动控制调研\\01_研究主线\07_开题研究\\outputs\\2026-07_阶段E_参数辨识与实验协议\\results\\holdout_residuals.csv"
+  },
+  "advanced_controllers_implemented": [],
+  "real_hardware_executed": false,
+  "disclaimer": "纯离线合成数据结果，不是台架参数"
+}

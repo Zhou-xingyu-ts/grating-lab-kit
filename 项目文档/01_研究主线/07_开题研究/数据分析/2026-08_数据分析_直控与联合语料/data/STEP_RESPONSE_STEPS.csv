@@ -1,0 +1,3 @@
+﻿leg,step_start_s,rise_time_s,overshoot_counts,peak_fe_counts,settling_5_counts_s,steady_rms_counts,final_actual,final_demand
+forward,2.144076,0.041398000000000046,507.0,570.0,0.04247500000000004,2.0,5027.0,5029.0
+return,4.506693,0.04163799999999984,-534.0,632.0,0.3934980000000001,1.7440374613713625,30.0,29.0

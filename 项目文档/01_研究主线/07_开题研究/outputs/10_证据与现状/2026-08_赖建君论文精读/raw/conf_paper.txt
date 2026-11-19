@@ -1,0 +1,343 @@
+  Contactless 3D Contour Reconstruction Based on Spectral
+                                 Confocal Sensors
+
+            Jianjun Laia, Hao Wanga, Feifan Caoa, Xiaohao Wanga, and Xinghui Li*,a,b
+
+   aDivision of Advanced Manufacturing, Shenzhen International Graduate School, Tsinghua
+                                      University, Shenzhen 518055, China
+
+     bTsinghua University Tsinghua-Berkeley Shenzhen Institute, 518055, Shenzhen, China
+
+                                                         ABSTRACT
+
+Laser processing of micro-via arrays is a critical technology in the electronic packaging industry, essential for the
+rapid, non-destructive inspection of the geometric shape and depth of blind vias. As chip packaging processes
+trend towards higher density and miniaturization, the demands on blind via array detection technology are
+increasing. This paper proposes a fast blind via array inspection method based on dispersive spectroscopy
+confocal technology. By mounting the probe on a three-axis kinematic stage, auto-focusing is achieved, enabling
+rapid scanning imaging over a 10 mm × 10 mm area to acquire 3D point cloud data.
+
+    We have developed an effective algorithm to filter noise from the 3D point cloud data and align the line scan
+data, reconstructing accurate geometric profile information of the blind vias with sub-micron inspection accu-
+racy. Tested on copper-clad board blind via arrays, this method quickly and accurately detects the geometric
+parameters of blind vias, providing a powerful tool for real-time monitoring of blind via processing quality and
+a novel solution for quality control in electronic packaging, including BGA packaging. The method offers ad-
+vantages such as fast measurement speed, wide measurement range, and non-destructive, non-contact operation,
+with broad application prospects in the electronics manufacturing industry. Compared to existing technologies,
+our proposed measurement method is faster, offers higher resolution, and covers a wider measurement range,
+meeting the increasing requirements for blind via detection in future chip packaging processes. Furthermore,
+this technology can be extended to size and morphology inspection in other micro-nano processing fields, offering
+significant theoretical and practical value.
+
+Keywords: Blind Via Array Detection, Chromatic Confocal, Kalman Filter
+
+                                                   1. INTRODUCTION
+
+As the high-precision electronics industry rapidly evolves, sectors such as communications, aerospace, medical
+devices, scientific instrumentation, and autonomous driving are imposing increasingly stringent requirements on
+Printed Circuit Board (PCB) manufacturing processes. The industry is gravitating towards High Density Inter-
+connectors (HDI) and Flexible Printed Circuits (FPC). Advanced packaging technologies, including Ball Grid
+Array (BGA) and Chip Scale Package (CSP), necessitate precise control of laser drilling depth on copper-clad
+boards to create blind via structures that connect specific layers, enabling compact three-dimensional intercon-
+nect designs. This precision is crucial for the fabrication of high-density, multi-layer circuit boards.
+
+    The quality of blind via production directly influences circuit reliability. Deviations in blind via depth from
+design specifications can alter the length of interlayer connections, affecting high-frequency signal transmission
+characteristics. Compromised signal integrity may lead to timing violations, crosstalk, and other issues that
+degrade the PCB's electrical performance.1 For high-precision chips or BGA packages, discrepancies in blind via
+depth can impede reliable connections between solder balls and PCB pads. Furthermore, tilted or defective blind
+vias may damage chips or BGA ball seats.2 Laser micro-drilling has emerged as the predominant method for
+
+    Further author information: (Send correspondence to X.L.)
+    J.L.: E-mail: Laijianjun2333@outlook.com
+    X.W.: E-mail: wang.xiaohao@sz.tsinghua.edu.cn
+    X.L.: E-mail: li.xinghui@sz.tsinghua.edu.cn
+
+                                 Optical Metrology and Inspection for Industrial Applications XI, edited by Sen Han,
+                                              Gerd Ehret, Benyong Chen, Proc. of SPIE Vol. 13241, 132411W
+                                                     © 2024 SPIE · 0277-786X · doi: 10.1117/12.3036429
+
+                                                                Proc. of SPIE Vol. 13241 132411W-1
+creating blind vias due to its universal applicability to various materials, non-contact nature, high precision, and
+low stress, as illustrated in Fig. 1. Consequently, in-line inspection of laser-etched micro blind vias has become
+essential in ensuring PCB quality.
+
+Figure 1. Schematic diagram of laser-etched copper foil processing micro blind vias.3 The diameter of micro blind vias
+is approximately 100 µm, with a depth of about 40 µm.
+
+    Current 3D inspection methods can be broadly categorized into two main groups: contact and non-contact
+techniques. Among contact methods, the Coordinate Measuring Machine (CMM) is a prominent example, with
+its resolution contingent upon the probe radius. The probe contacts multiple points on the measured surface,
+effectively performing mechanical filtering, which results in a smoothed approximation of the true value. As
+measurement speed increases, dynamic errors amplify, adversely affecting measurement accuracy.4 Another
+contact method, Atomic Force Microscopy (AFM), utilizes a probe consisting of a cantilever with a sharp tip
+fixed at its end. AFM can achieve vertical resolution at the nanometer scale, surpassing the diffraction limit
+of optical systems.5 Non-contact measurements primarily employ optical methods, including Confocal Laser
+Microscopy (CLM), Laser Holographic Interferometry (LHI), and Structured Light Scanning (SLS). While the
+resolution of optical methods is constrained by the diffraction limit, they offer greater versatility for samples
+with diverse properties, rendering them more favorable in industrial applications.
+
+                 Table 1. The comparison of the five 3D detection methods: CMM, AFM, CLM, LHI, and SLS.
+
+Method      Contact      Speed      Accuracy     Interference           Cost
+                                                Susceptibility
+ CMM        Contact       Slow     Sub-micron                           High
+  AFM       Contact    Very Slow  Atomic Level       Low             Very High
+CLM6­9    Non-contact  Moderate    Sub-micron        High
+LHI10­12  Non-contact              Sub-micron    Moderate               High
+SLS13­17  Non-contact     Fast    Micron Level   Very High              High
+                          Fast                   Moderate       Moderate to High
+
+    Lishchenko et al.18 developed an integrated system combining a spectral confocal sensor with a three-axis
+motion stage for online measurements. Their proposed apparatus demonstrates the capability to measure surface
+roughness within a range of 0.34 to 11.6 µm, encompassing the typical range encountered in milling, turning,
+and grinding processes. The system maintains a relative measurement error of less than 10%. The researchers
+utilized the measurement results to implement process monitoring diagnostics based on profile estimation.
+
+    The utilization of multiple spectral confocal sensors enables simultaneous acquisition of surface topography in
+various dimensions or the execution of complex measurements. Wang et al.19 implemented a dual-probe method
+for roundness measurements using two chromatic confocal sensors. In their study, repeated measurements of a
+workpiece yielded an average roundness of 0.53 µm, with a mere 0.04 µm deviation when compared to results from
+
+                       Proc. of SPIE Vol. 13241 132411W-2
+a high-precision roundness meter. These findings demonstrate that roundness measurement systems employing
+confocal sensors can provide measurements of considerable accuracy.
+
+    Pillarz et al.20 developed an optical gear shape measurement system utilizing spectral confocal sensors. The
+system achieves a standard measurement uncertainty of less than 6.5 µm, fulfilling the requirements for micron-
+level precision. Compared to Coordinate Measuring Machines (CMM) and Gear Measuring Instruments (GMI),
+this system significantly enhances measurement speed and overcomes the limitations of traditional methods,
+which are unable to measure each gear tooth individually.
+
+    This paper proposes an automated 3D surface measurement system based on dispersive spectral confocal tech-
+nology, which integrates a three-axis motion stage and 3D point cloud data processing techniques. By employing
+Kalman filtering and Empirical Mode Decomposition (EMD), the system effectively minimizes measurement-
+induced errors and distinguishes copper-clad board deformation data from blind via depth data.
+
+                                                      2. PRINCIPLES
+
+2.1 Principle of Spectral Confocal Laser Microscopy
+
+According to the Rayleigh criterion, the lateral and axial resolution of an optical imaging system are determined
+by
+
+         0.61 0.61                                                                                (1)
+dxy  n sin  = N A ,
+
+                                                                                                  (2)
+dz  n(sin )2 ,
+
+where  is the operating wavelength of the system; n is the refractive index of the medium;  is half the maximum
+angle of light that the system can collect; n sin  is known as the system's numerical aperture (NA). The resolution
+width is equivalent to the full width at half maximum (FWHM) of the system's Airy disk. However, as shown
+in Fig. 2, traditional wide-field optical microscopes are unable to achieve this resolution. These systems suffer
+from a low signal-to-noise ratio and are subject to background signal interference from out-of-focus planes. To
+overcome these limitations, Minsky21 introduced the concept of Laser Scanning Confocal Microscopy (LSCM).
+In LSCM, two pinholes, positioned at the illumination and detection points, are conjugated, allowing for point
+illumination and the exclusion of out-of-focus background signals. The detector receives the maximum reflected
+light intensity only when the surface being measured aligns with the focal plane of the focused light spot.
+
+Figure 2. Wide Field Microscopy (top) and Confocal Microscopy (bottom) Measurement Principles.22
+                                                  Proc. of SPIE Vol. 13241 132411W-3
+    To determine the position of the surface being measured, a piezoelectric ceramic (PZT) is employed to drive
+the microscope objective during scanning. The measurement range, speed, precision, and other parameters of
+Laser Scanning Confocal Microscopy (LSCM) are dependent on the high-precision motion control of the PZT.
+As a result, the entire scanning system is structurally complex and costly.
+
+    To obtain axial position information more efficiently, Molesini et al.23 proposed a wavelength-encoded pro-
+filometer model, which utilizes axial chromatic dispersion elements to encode axial positions. Fig. 3 illustrates
+the principle of chromatic confocal measurement. A broadband light source (e.g., white light) is passed through a
+chromatic objective lens, where chromatic dispersion causes shorter wavelengths (e.g., blue light) to have shorter
+focal lengths, converging above the sample, while longer wavelengths (e.g., red light) have longer focal lengths,
+converging below the sample. A pinhole in front of the spectral analyzer ensures that only information from
+the focal plane is received. By analyzing the central wavelength of the detected signal, the axial position of the
+measured point is determined through a lookup table, effectively encoding axial information within the spectrum.
+
+                      Figure 3. Schematic diagram of dispersive confocal (spectral confocal) measurement.24
+    Chromatic confocal technology allows for rapid and precise axial positioning without requiring axial scanning.
+The axial detection range and resolution are governed by the chromatic dispersion element and the spectral
+resolution of the detector. The detection range can span from a few millimeters to several tens of millimeters,
+while resolution capabilities range from a few nanometers to several hundred nanometers.
+
+2.2 Fundamentals of Kalman Filtering
+The Kalman filter (KF) is an optimized, recursive data processing algorithm, also referred to as linear quadratic
+estimation. It predicts a system's future state based on its past and current states.25 What distinguishes the
+Kalman filter from most other filters is its exclusive operation in the time domain. Unlike frequency-domain
+filters, such as low-pass filters, which are designed in the frequency domain and then converted to the time
+domain for implementation, the Kalman filter directly operates within the time domain.
+
+    The state of the filter is represented by two variables: x^k|k, the a posteriori state estimate mean at time k
+given observations up to and including at time k; Pk|k, the a posteriori estimate covariance matrix (a measure
+of the estimated accuracy of the state estimate). The algorithm operates in two stages: predict and update.
+The predict phase uses the state estimate from the previous timestep to produce an estimate of the state at the
+
+                                                                Proc. of SPIE Vol. 13241 132411W-4
+current timestep. This predicted state estimate is also known as the a priori state estimate.
+
+x^k|k-1 = Fkx^k-1|k-1 + Bkuk ,                                                                     (3)
+
+Pk|k-1 = FkPk-1|k-1FkT + Qk ,                                                                      (4)
+
+where Fk is the state-transition model; Bk is the control-input model which is applied to the control vector uk;
+Qk is the covariance matrix of the process noise. In the update stage, the filter refines the prediction obtained
+in the prediction stage by incorporating the current state observation. This process results in a more accurate
+
+new estimate. First, figure out the three variables
+
+     y~k = zk - Hkx^k|k-1 ,                                                                        (5)
+
+     Sk = HkPk|k-1HTk + Rk ,                                                                       (6)
+
+     Kk = Pk|k-1HkT Sk-1 ,                                                                         (7)
+
+where Hk is the observation model; y~k is the measurement pre-fit residual; Sk is the pre-fit residual covariance;
+Kk is the Kalman gain. Then update the filter state
+
+     x^k|k = x^k|k-1 + Kky~k ,                                                                     (8)
+
+     Pk|k = (I - KkHk)Pk|k-1                                                                       (9)
+
+    After these two steps, we obtain an optimal estimate of the measured value, which attenuates the process
+noise and the measurement noise to some extent.
+
+                                                    3. EXPERIMENTS
+
+The three-dimensional contour measurement setup is illustrated in Fig. 4(a). All three axes are driven by coreless
+cup motors, and both the spectral confocal probe and spectrometer are manufactured by STIL. The sensor has
+a measurement range of 400 µm. The measurement target, depicted in Fig. 4(b), consists of an array of blind
+vias within a 10 mm × 10 mm area on a copper-clad board.
+
+(a)                                 (b)
+
+Figure 4. (a) Three-dimensional contour measurement setup; (b) Detection target: blind via array.
+
+    With the device held stationary, samples are collected from the same point over a 1-second period, yielding
+the sensor's raw data (as shown in Fig. 5(a)). The frequency distribution histogram, displayed in Fig. 5(b), shows
+that the data follows an approximately bell-shaped normal curve, indicating a Gaussian noise distribution. This
+makes it suitable for applying the Kalman filter algorithm to denoise the sampled signal and improve measurement
+accuracy.
+
+Proc. of SPIE Vol. 13241 132411W-5
+(a)  (b)
+
+Figure 5. (a) Noise data collected while stationary for 1s; (b) Histogram of the frequency distribution of the noisy data,
+approximately conforming to a Gaussian distribution.
+
+    In this model, the input signal is the reflected spectrum, and there are no external factors influencing signal
+acquisition; therefore, the input matrix Bk is set to a zero matrix. Since the observed variable is one-dimensional
+and exhibits relatively small changes, the state-transition matrix Fk is set to an identity matrix. Additionally,
+because the observed value directly corresponds to the system state, the observation matrix Hk is also set to an
+identity matrix.
+
+    Process noise and measurement noise are critical parameters in the Kalman filter. In real-world systems,
+noise characteristics may vary over time. Dynamically adjusting the process noise covariance matrix Q and
+measurement noise covariance matrix R using Mean Absolute Error (MAE) allows the filter to adapt to these
+changes, rather than relying on fixed a priori estimates. By minimizing MAE, the optimal values for Q and
+R can be identified for a given dataset, thereby enhancing the overall accuracy of state estimation. MAE, as
+a performance metric, is less sensitive to outliers compared to Mean Squared Error (MSE), and may be more
+effective in handling non-Gaussian noise.
+
+    As shown in Fig. 6, the Kalman filter effectively reduces measurement noise. In the raw data, some anomalous
+data points appear at the edges of the blind vias. These anomalies arise because the detection light spot has
+a specific size; when it simultaneously covers both the copper-clad board surface and the blind via, calculation
+errors occur. The Kalman filter can, to some extent, correct these anomalous data points.
+
+Figure 6. Noise-containing signals are effectively suppressed after passing through the Kalman filter, and anomalous data
+are corrected to some extent thanks to the dynamic determination of Q and R by the MAE.
+
+    By applying the same method to process each line scan data and then stitching them together, we can obtain
+a heat map (see Fig. 7). The resolution of the data in the Y direction is relatively low, attributable to the larger
+
+                                                                Proc. of SPIE Vol. 13241 132411W-6
+step size set for the Y-axis during the experiment.
+
+                                                 Figure 7. Reconstructed linear blind via arrays.
+
+                                                     4. CONCLUSION
+By utilizing a spectral confocal probe in combination with a three-dimensional motion platform, rapid scanning
+and precise reconstruction of blind hole arrays can be achieved. This approach is pivotal in PCB manufacturing
+and inspection, as it greatly improves both the efficiency and accuracy of the inspection process. In terms
+of data processing, the Kalman filter, when compared to traditional median or low-pass filters, not only offers
+excellent real-time performance but also demonstrates strong robustness. The Kalman filter effectively suppresses
+anomalous measurement data, thereby enhancing the system's overall stability and reliability. In conclusion, the
+integration of the spectral confocal probe with the Kalman filter provides an efficient and dependable solution
+for PCB inspection.
+
+                                                       REFERENCES
+ [1] Zhang, M.-S., Li, Y.-S., Jia, C., and Li, L.-P., "Signal integrity analysis of the traces in electromagnetic-
+
+      bandgap structure in high-speed printed circuit boards and packages," IEEE transactions on microwave
+      theory and techniques 55(5), 1054­1062 (2007).
+ [2] Lorenz, E., Niemann, N., Koyuncu, M., and Bock, K., "Reliability characterization of blind-hole vias for a
+      system-in-foil," in [Proceedings of the 5th Electronics System-integration Technology Conference (ESTC) ],
+      1­6, IEEE (2014).
+ [3] Zhihui, H., Qike, Y., Qijiao, Y., and Jianhong, L., "Study on process and quality of dual laser etching and
+      cleaning flexible copper clad laminate," Laser and Optoelectronics Progress 60(17), 266­273 (2023).
+ [4] Echerfaoui, Y., El Ouafi, A., and Chebak, A., "Experimental investigation of dynamic errors in coordinate
+      measuring machines for high speed measurement," International Journal of Precision Engineering and
+      Manufacturing 19, 1115­1124 (2018).
+ [5] Yang, Y., Dong, Z., Meng, Y., and Shao, C., "Data-driven intelligent 3d surface measurement in smart
+      manufacturing: review and outlook," Machines 9(1), 13 (2021).
+ [6] Zhao, Y., Raghuram, A., Kim, H. K., Hielscher, A. H., Robinson, J. T., and Veeraraghavan, A., "High
+      resolution, deep imaging using confocal time-of-flight diffuse optical tomography," IEEE Transactions on
+      Pattern Analysis and Machine Intelligence 43(7), 2206­2219 (2021).
+ [7] Sun, H., Wang, S., Bai, J., Zhang, J., Huang, J., Zhou, X., Liu, D., and Liu, C., "Confocal laser scan-
+      ning and 3d reconstruction methods for the subsurface damage of polished optics," Optics and Lasers in
+      Engineering 136, 106315 (2021).
+ [8] Kim, C.-S. and Yoo, H., "Three-dimensional confocal reflectance microscopy for surface metrology," Mea-
+      surement Science and Technology 32(10), 102002 (2021).
+ [9] Teng, X., Li, F., and Lu, C., "Visualization of materials using the confocal laser scanning microscopy
+      technique," Chemical Society Reviews 49(8), 2408­2425 (2020).
+[10] Wu, D. and Fang, F., "Development of surface reconstruction algorithms for optical interferometric mea-
+      surement," Frontiers of Mechanical Engineering 16, 1­31 (Mar. 2021).
+[11] Vengala, K. S., Paluru, N., and Gorthi, R. K. S. S., "3D deformation measurement in digital holographic
+      interferometry using a multitask deep learning architecture," JOSA A 39, 167­176 (Jan. 2022).
+
+                                                                Proc. of SPIE Vol. 13241 132411W-7
+[12] Thekkadath, G., England, D., Bouchard, F., Zhang, Y., Kim, M., and Sussman, B., "Intensity interferometry
+      for holography with quantum and classical light," Science Advances 9, eadh1439 (July 2023).
+
+[13] Li, Y., Li, Z., Zhang, C., Han, M., Lei, F., Liang, X., Wang, X., Gui, W., and Li, X., "Deep Learning-Driven
+      One-Shot Dual-View 3-D Reconstruction for Dual-Projector System," IEEE Transactions on Instrumenta-
+      tion and Measurement 73, 1­14 (2024).
+
+[14] Han, M., Xing, Y., Wang, X., and Li, X., "Projection superimposition for the generation of high-resolution
+      digital grating," Optics Letters 49, 4473 (Aug. 2024).
+
+[15] Fan, S., Liu, S., Zhang, X., Huang, H., Liu, W., and Jin, P., "Unsupervised deep learning for 3D recon-
+      struction with dual-frequency fringe projection profilometry," Optics Express 29, 32547­32567 (Sept. 2021).
+      Publisher: Optica Publishing Group.
+
+[16] Miao, Y., Yang, Y., Hou, Q., Wang, Z., Liu, X., Tang, Q., Peng, X., and Gao, B. Z., "High-efficiency 3D
+      reconstruction with a uniaxial MEMS-based fringe projection profilometry," Optics Express 29, 34243­34257
+      (Oct. 2021). Publisher: Optica Publishing Group.
+
+[17] Yang, S., Wu, G., Wu, Y., Yan, J., Luo, H., Zhang, Y., and Liu, F., "High-accuracy high-speed unconstrained
+      fringe projection profilometry of 3D measurement," Optics & Laser Technology 125, 106063 (May 2020).
+
+[18] Lishchenko, N., O'Donnell, G. E., and Culleton, M., "Contactless method for measurement of surface
+      roughness based on a chromatic confocal sensor," Machines 11(8), 836 (2023).
+
+[19] Wang, Y., Bai, J., Huang, G., Zhou, Q., Wang, X., and Li, X., "High precision roundness measurement
+      with two chromatic confocal sensors," in [Optical Metrology and Inspection for Industrial Applications VIII ],
+      11899, 171­176, SPIE (2021).
+
+[20] Pillarz, M., von Freyberg, A., Stöbener, D., and Fischer, A., "Gear shape measurement potential of laser
+      triangulation and confocal-chromatic distance sensors," Sensors 21(3), 937 (2021).
+
+[21] Marvin, M., "Microscopy apparatus," (Dec. 1961).
+[22] Alt, P. J., RESOLFT nanoscopy with water-soluble synthetic fluorophores, PhD thesis, Georg-August-
+
+      Universität Göttingen (2017).
+[23] Molesini, G., Pedrini, G., Poggi, P., and Quercioli, F., "Focus-wavelength encoded optical profilometer,"
+
+      Optics communications 49(4), 229­233 (1984).
+[24] Chun, B. S., Kim, K., and Gweon, D., "Three-dimensional surface profile measurement using a beam
+
+      scanning chromatic confocal microscope," Review of Scientific instruments 80(7) (2009).
+[25] Khodarahmi, M. and Maihami, V., "A review on kalman filter models," Archives of Computational Methods
+
+      in Engineering 30(1), 727­747 (2023).
+
+                                                                Proc. of SPIE Vol. 13241 132411W-8
+

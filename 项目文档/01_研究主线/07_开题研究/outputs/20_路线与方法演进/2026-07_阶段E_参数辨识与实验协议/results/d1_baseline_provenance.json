@@ -1,0 +1,137 @@
+﻿{
+  "phase": "E",
+  "purpose": "D1 patched-code 15-case baseline provenance",
+  "generated_at_utc": "2026-07-14T23:42:43.357056+00:00",
+  "simulation_only": true,
+  "hardware_disabled": true,
+  "hardware_interfaces_imported": [],
+  "random_seed": 20260714,
+  "d1_test_status": "15/15 passed on 2026-07-15; unittest runtime 0.646 s",
+  "d1_root": "D:\\清华\\清华-科研横向\\光栅尺运动控制调研\\01_研究主线\07_开题研究\\outputs\\2026-07_阶段D1_模型技术校正",
+  "code_sha256": {
+    "src\\model_v01.py": "0677415aba3a0a83198273541066936c26aeba2b69620acc4ef6bf4c253ef54f",
+    "src\\controllers.py": "6a03e515c1f47535b152d84d06a6b96ddb5ace8fe338f09b9c367faeeba39f13",
+    "src\\metrics.py": "a2c5a548dcb11b281b87f161e68e65d6961268dddc257fe8c46687b4fdff42a8",
+    "tests\\test_model_v01.py": "6dc520e4cadcb3645f68e28a18311c74f4c923e2f36656935613334da09f6150",
+    "scripts\\run_corrected_baselines.py": "160a9358ca7f0b237be7e5f7fcb347be7dbba1031409f0e0853f3e496d7790ef"
+  },
+  "parameters": {
+    "BModelParams": {
+      "mass_kg": 0.8,
+      "coulomb_forward_n": 0.1,
+      "coulomb_reverse_n": 0.13,
+      "velocity_epsilon_m_s": 0.0002,
+      "disturbance_n": 0.0,
+      "velocity_loop_gain": 1.0,
+      "velocity_loop_tau_s": 0.02,
+      "position_quantization_m": 5e-07,
+      "measurement_noise_std_m": 2.5e-07,
+      "measurement_delay_steps": 1,
+      "command_delay_steps": 1,
+      "measurement_initial_history_m": 0.0,
+      "command_initial_history_m_s": 0.0,
+      "velocity_limit_m_s": 0.02,
+      "acceleration_limit_m_s2": 0.2
+    },
+    "DModelParams": {
+      "natural_frequency_rad_s": 125.66370614359172,
+      "damping_ratio": 0.9,
+      "closed_loop_gain": 1.0,
+      "target_update_period_steps": 1,
+      "command_delay_steps": 1,
+      "command_initial_history_m": 0.0,
+      "target_quantization_m": 5e-07,
+      "measurement_quantization_m": 5e-07,
+      "measurement_noise_std_m": 2.5e-07,
+      "missed_update_probability": 0.0
+    },
+    "controllers": {
+      "P": {
+        "kp_per_s": 14.0,
+        "ki_per_s2": 0.0,
+        "kd_dimensionless": 0.0,
+        "kff_v_dimensionless": 0.0,
+        "kff_a_s": 0.0,
+        "derivative_filter_tau_s": 0.01,
+        "integral_error_limit_m_s": 0.002
+      },
+      "PI_AW": {
+        "kp_per_s": 12.0,
+        "ki_per_s2": 22.0,
+        "kd_dimensionless": 0.0,
+        "kff_v_dimensionless": 0.0,
+        "kff_a_s": 0.0,
+        "derivative_filter_tau_s": 0.01,
+        "integral_error_limit_m_s": 0.002
+      },
+      "PI_INV_FF_AW": {
+        "kp_per_s": 12.0,
+        "ki_per_s2": 22.0,
+        "kd_dimensionless": 0.0,
+        "kff_v_dimensionless": 1.0,
+        "kff_a_s": 0.02,
+        "derivative_filter_tau_s": 0.01,
+        "integral_error_limit_m_s": 0.002
+      },
+      "PID_INV_FF_AW": {
+        "kp_per_s": 12.0,
+        "ki_per_s2": 22.0,
+        "kd_dimensionless": 0.002,
+        "kff_v_dimensionless": 1.0,
+        "kff_a_s": 0.02,
+        "derivative_filter_tau_s": 0.01,
+        "integral_error_limit_m_s": 0.002
+      }
+    },
+    "integration_period_s": 0.001
+  },
+  "artifact_version_relation": {
+    "d1_recorded_baseline_csv": "D:\\清华\\清华-科研横向\\光栅尺运动控制调研\\01_研究主线\07_开题研究\\outputs\\2026-07_阶段D1_模型技术校正\\results\\baseline_metrics.csv",
+    "d1_recorded_csv_updated": false,
+    "d1_figures_updated": false,
+    "phase_e_regenerated_csv": "D:\\清华\\清华-科研横向\\光栅尺运动控制调研\\01_研究主线\07_开题研究\\outputs\\2026-07_阶段E_参数辨识与实验协议\\results\\d1_baseline_regenerated.csv",
+    "phase_e_comparison_csv": "D:\\清华\\清华-科研横向\\光栅尺运动控制调研\\01_研究主线\07_开题研究\\outputs\\2026-07_阶段E_参数辨识与实验协议\\results\\d1_baseline_comparison.csv",
+    "sensitivity_scan_run": false
+  },
+  "comparison_summary": {
+    "regenerated_case_count": 15,
+    "recorded_case_count": 15,
+    "changed_numeric_field_count": 120,
+    "changed_text_field_count": 0,
+    "max_absolute_difference_by_field": {
+      "integration_period_s": 0.0,
+      "max_following_error_um": 0.8881860076805879,
+      "rms_following_error_um": 0.1461048554344302,
+      "normalized_max_error": 0.00021276595744681992,
+      "normalized_rms_error": 4.850542442522837e-05,
+      "post_trajectory_settling_time_s": 0.002000000000000224,
+      "arrival_error_um": 0.5000000000004974,
+      "final_hold_mean_error_um": 0.09926715522984964,
+      "overshoot_um": 1.0000000000001137,
+      "unsaturated_command_peak_m_s": 2.761000000001297e-06,
+      "speed_limited_command_peak_m_s": 2.761000000001297e-06,
+      "actual_constrained_command_peak_m_s": 2.761000000001297e-06,
+      "plant_applied_command_peak_m_s": 2.761000000001297e-06,
+      "speed_saturation_fraction": 0.0,
+      "acceleration_constraint_fraction": 0.0,
+      "integrator_frozen_fraction": 0.0,
+      "integral_state_peak_m_s": 1.5199999999968277e-07,
+      "mean_following_lag_um": 0.22550000000001091,
+      "scan_rms_error_um": 0.3173560331357521,
+      "speed_fluctuation_um_s": 3.9813831985293646,
+      "speed_rms_error_um_s": 4.1175991214425025,
+      "reversal_window_max_error_um": 0.4999999999996021,
+      "reversal_recovery_time_s": 0.0,
+      "forward_mean_signed_error_um": 0.7781569965870148,
+      "reverse_mean_signed_error_um": 0.4419795221840559,
+      "forward_reverse_magnitude_difference_um": 0.8378839590443761,
+      "hysteresis_area_um2": 2980.412279864773,
+      "target_update_count": 0.0,
+      "missed_update_count": 0.0,
+      "missed_update_fraction_of_scheduled": 0.0,
+      "applied_target_peak_m": 0.0
+    },
+    "positive_point_core_metric_max_absolute_difference_um": 1.0000000000001137
+  },
+  "disclaimer": "D1 H/R offline baseline, not bench performance"
+}

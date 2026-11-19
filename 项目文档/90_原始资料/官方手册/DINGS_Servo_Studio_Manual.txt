@@ -1,0 +1,1454 @@
+DINGS’ Servo Studio Manual
+
+
+
+
+             VER 1.1
+                       DINGS’ Servo Studio Manual
+                                    DS-BVS/BVM-Series
+
+
+
+
+Contents
+
+
+
+
+                                                        Page | 1
+Contents
+
+
+
+
+       Table of Contents
+
+     1. Environment….………………………………………………………….….3
+     2.1.Screen
+           Environment
+                Layout…..…………………………………………………………4
+     3. Device Connection……………………………………………………………..5
+           3.1 DINGS’ (DINGS’ Servo Studio) runs on Microsoft Windows. The following operating systems are
+                 Connecting CAN Communication……….……………………………………………………5
+              supported:
+           3.2 Connecting USB…….…..……..……………………………………………………………….7
+           3.3 Disconnect..…...…..….………………………………………………………….……...…….12
+               Windows 7 (32/64Bit)
+     4. Drive Setup..…….………..……………………………………………………13
+            Windows 8 (32/64Bit)
+           4.1 Motor Setting………….…………….……………………………………………………….14
+                 Windows 10 (32/64Bit)
+           4.2 Feedback Setting (Encoder)..…..……………………………………………………………17
+           4.3 The
+                Unitcommunication
+                     Setting…….……………………………………………………………………………….25
+                                  supported in DINGS’ Servo Studio is listed below. As the supported
+           4.4 communication differs depending on the drive model, please refer to the hardware manual to select
+                 Brake Setting…………………………………………………………………………………26
+           the appropriate connection method.
+     5. Tuning……..………..…………………………………………………………..27
+           5.1 Phase Auto Tuning…………………..………………………………………………………28
+               USB
+           5.2 Current Tuning.………………………………………………………………………………..29
+               Recommended CAN – Kvaser, PEACK System, ZhuhaiChuangxinCan
+           5.3 Velocity Tuning……………………………………………………………………………….31
+     6. Parameter…….……..………..………………………………………………..36
+           6.1 Parameter File Import.…………..……………………………………………………………36
+           6.2 Parameter File Export …………………..………………………………………..………….37
+           6.3 Parameter Save (Write Flash)……………………………………………………….……37
+           6.4 Parameter Restore…………………………………………………………………………..37
+     7. Motion..………..…………………………………..………………….……….38
+           7.1 Servo Control…………………………………………………………………………………..38
+           7.2 Motion…………………………………………………………………………………………...39
+     8. Object Dictionary..………..…………………………………………………..43
+     9. I/O…………………………………………………………………………..……44
+     10. Motion List (Motion Sequence)..…………………………………………..45
+     11. Scope…………………………………………………………………..……….53
+     12. Firmware……………………………………………………………………….56
+                                                                                                                   Page | 2
+Screen Layout
+
+
+
+       2. Screen Layout
+
+
+
+
+                          Page | 3
+Device Connection
+
+
+
+
+       3. Device Connection
+
+          3.1 Connecting CAN Communication
+              3.1.1 Connecting method for CAN communication
+              (1) Execute DINGS’ Servo Studio and click [Connect] in the Ribbon Bar
+
+
+
+
+              (2) Select Connection Type in the Connection Window
+                    Select Type corresponding to Kvaser CAN, Peak-System CAN, or Zhcxgd CAN
+
+
+
+
+              (3) Select CAN bitrate (Default: 1M bps)
+                    Set ID Scan Range. (Drive default ID = 1)
+                    If the Device ID is known, set the range according to the ID.
+                    To connect multiple drives, the ID must be set differently for each drive before connecting
+                    the drive.
+                                                                                                             Page | 4
+               (4) Click OK
+Device Connection
+                (5) When the drive is connected, a connection message appears in the Log Message window,
+                    and a list of connected drives appears in the Device List window.
+
+
+
+                3.1.2 Changing CAN communication
+                 To connect multiple drives through CAN communication, set different ID for each drive.
+                   If the ID is duplicated, communication failure occurs.
+                (1) Click [Object Dictionary] on the ribbon bar
+
+
+
+
+                (2) Select Object Group as Drive Info
+                (3) Modify the communication ID (Index: 0x5000) in the Object List and click the [Download]
+                    button. Communication ID can be set from 1 to 127
+
+
+
+
+                (4) Click the [Save] button to save the changed ID
+                (5) Drive Power OFF -> ON
+
+                3.1.3 Changing CAN Bitrate
+                (1) Click [Object Dictionary] on the ribbon bar
+
+
+                                                                                                              Page | 5
+Device Connection
+
+
+              (2) Select Object Group as Drive Info
+
+
+
+
+              (3) Modify CAN Bitrate (Index: 0x5002) in the Object List and click the [Download] button..
+
+
+
+
+              (4) Click the [Save] button to save the changed CAN Bitrate.
+              (5) Drive Power OFF -> ON
+
+
+          3.2 Connecting USB
+                USB drive is installed under the condition of Internet connection.
+                                                                                                            Page | 6
+                       USB drives are installed differently depending on the servo drive model.
+                 When connecting the servo drive to the PC for the first time, check the USB drive installed
+Device Connection
+                        in the Device Manager and connect it using the appropriate connection method for the
+                        installed USB drive as shown in the figure below.
+
+
+
+
+                       ▶ USB Connection method 1                      ▶ USB Connection method 2
+
+
+
+
+                    3.2.1 USB Connection Method 1
+
+
+
+
+                                                                   (1)
+
+
+
+                                                                   (2)
+                                                                   (3)
+                                                                   (4)
+                                                                   (5)
+                    (1) Connect PC and servo drive with USB cable
+                    (2) After executing DINGS Servo Studio, click the [Connect] button on the Ribbon Bar.
+                                                                                                            Page | 7
+Device Connection
+
+
+              (3) In the Connection window, select the Connection Type as COM
+              (4) Select Channel & Serial Baud rate then click OK Button (Default: 3Mbps)
+                    If the connection is not possible at 3Mbps, change the serial transmission speed to 921600
+                    bps and connect
+
+
+
+
+              3.2.2 USB Connection Method 2
+
+
+
+
+              (1) Connect PC with drive USB cable
+              (2) Select [Device Manager]-[Port]-[USB Serial Port Properties]-[Port Settings]-[Advanced]
+
+
+
+                                                                                                             Page | 8
+Device Connection
+
+
+
+
+              (3) Set the response time adjustment in the BM-related settings to 1
+
+
+
+
+              (4) Execute DINGS Servo Studio and click [Connect] in the Ribbon Bar
+
+
+
+
+              (5) Select COM for the Connection Type in the Connection Window
+              (6) Select Channel, select Serial Baud rate, and click OK (Default: 921600)
+
+                                                                                            Page | 9
+Device Connection
+
+
+
+
+              ◈ If the USB does not connect, disconnect the USB cable from the USB port and reconnect
+
+                the cable.
+
+
+
+              3.2.3 Changing USB Band Rate
+              (1) Click Object Dictionary
+
+
+
+
+              (2) Select Object Group as Drive Info
+
+
+
+
+                                                                                                    Page | 10
+Device Connection
+
+
+              (3) Modify the USB Baudrate (Index: 0x5001) in the Object List and click the [Download]
+                    button.
+
+
+
+
+Device Connection
+
+              (4) Click the [Save] button to save the changed ID
+              (5) Drive Power OFF -> ON
+
+
+           3.3 Disconnect
+             (1) Click [Disconnect] in the Ribbon Bar
+
+
+
+
+                                                                                                        Page | 11
+Drive Setup
+
+
+
+
+       4. Drive Setup
+                 Motor, Feedback, and Brake Settings
+
+
+                  (1) Click [Drive Setup] in the Tool Pane. Set Motor, Feedback, and Brake in the Target Pane.
+
+
+
+
+                                                                                                                 Page | 12
+Drive Setup
+
+
+
+
+              4.1 Motor Setting
+
+
+
+
+                   (1) Select the [Motor] tab in Drive Setup
+                   (2) Input motor information
+                       Please enter the unit carefully
+                       Motor information with a check box - such as Torque Constant, Back-EMF Constant,
+                         Resistance, and Inductance - is checked when the motor specifications are known
+                         and data is entered
+                       Torque Constant and Back-EMF Constant are automatically changed to the values
+                         calculated by the following formula when the check box is cleared.
+                       Torque Constant (μNm/A or μN/A)
+                         = Motor Rated Torque (mNm or mN) x 1000 / Rate Current (mA) x 1000
+                       Resistance, Inductance (Q-Axis Inductance) and D-Axis Inductance are automatically
+                         measured during Current Auto Tuning. The values do not need to be entered
+                         separately.
+                       If there is no Back-EMF Constant in the motor specification, input the same value as
+
+
+                                                                                                          Page | 13
+Drive Setup
+
+
+
+                        Torque Constant.
+                      Pole is the number of poles of a permanent magnet, and the number of pole pairs is
+                        half of the number of poles.
+                  (3) After inputting the motor information, click [Apply] to apply the motor information to the
+                      drive.
+                  (4) To save the currently applied parameters to drive flash memory, click [Save] in the
+                      Ribbon Bar.
+
+
+
+
+              4.1.1 Refer to Motor Type
+
+
+               Brushed DC Motor
+                For Rotary DC Motor, select Brushed DC Motor Type.
+               Sinusoidal PM BL Motor
+                Synchronous brushless motor with sine wave back EMF.
+                For Rotary PMSM or BLDC Motor, select Sinusoidal PM BL Motor Type
+               Trapezoidal PM BL Motor
+                Synchronous brushless motor type with trapezoidal back EMF.
+                For Rotary BLDC Motor, select Trapezoidal PM BL Motor Type.
+               Linear Brushed DC Motor
+                For Linear DC Motor, select Linear Brushed DC Motor Type
+               Linear Sinusoidal PM BL Motor
+                Synchronous brushless motor with sine wave back EMF
+                For linear PMSM or BLDC motors, select the linear sinusoidal PM BL motor type.
+               Trapezoidal PM BL Motor
+                Synchronous brushless motor type with trapezoidal back EMF.
+                For Linear BLDC Motor, select Linear Trapezoidal PM BL Motor Type.
+               Linear Voice Coil Motor
+                It is the same as the principle of a permanent magnet speaker. When a current flows through
+                a coil of a magnetic field by a permanent magnet, a force is generated and it goes straight.
+
+Drive Setup
+
+
+
+
+                                                                                                             Page | 14
+Drive Setup
+
+
+
+
+                          [Trapezoidal Back-EMF]               [Sinusoidal Back-EMF]
+
+
+
+
+              4.1.2 Motor information input example
+              (1) Sinusoidal PM BL Motor
+
+
+
+
+                Maximum Current =15.6 (Peak Current) / 5.2 (Rated Current) x 1000
+                Torque Constant =
+                320 mNm (Motor Rated Torque) x 1000 / 5200 mA (Rated Current) x 1000
+                Back-EMF Constant = Torque Constant
+                Pole Pair = 4 (8 Pole Motor)
+
+
+
+
+                                                                                        Page | 15
+Drive Setup
+
+
+
+              4.2 Feedback Setting (Encoder)
+
+
+
+
+                  (1) Select the [Feedback] tab in Drive Setup
+                  (2) Select Single Feedback or Dual Feedback
+                      When using Dual Feedback, Feedback1 is used for voltage, current, and speed control.
+                        Feedback2 is used for position control.
+                  (3) Input Feedback Information
+                      Position displays the current position value
+                      Select Feedback Type. (Refer to the next page for setting according to Feedback Type)
+                      When Direction Invert is set to true, the direction of the position data is reversed.
+                      When using Incremental Encoder, set the resolution to CPR: Count per Revolution.
+                         In the case of Rotary Motor, resolution is set in units of count/revolution. For linear
+                         motor, it is set in count/m unit (1 um, 1,000,000 setting)
+                         PPR(Pulse per Revolution) * 4 = CPR(Count per Revolution)
+                   (4) After inputting the feedback information, click [Apply] to apply the feedback information
+                       to the drive.
+                   (5) To save the currently applied parameters to drive flash memory, click [Save] in the Ribbon
+                       Bar.
+
+
+                                                                                                               Page | 16
+Drive Setup
+
+
+
+              4.2.1 Setting according to Feedback Type
+              (1) Incremental Encoder
+                Incremental Encoder is a position sensor that measures the amount of change in position by
+                receiving A and B phases.
+
+
+
+
+              (2) Incremental Encoder with Index
+                It uses Incremental Encoder and Index pulse, and Index pulse provides a single pulse per
+                rotation.
+
+
+
+
+                                                                                                       Page | 17
+Drive Setup
+
+
+              (3) Hall Sensor
+                Only Hall Sensor is used as Feedback.
+                Resolution = Pole pair x 6 is automatically set. (Pole Pair is set in the Motor setting window)
+
+
+
+
+              (4) Incremental Encoder & Hall Sensor
+                As Feedback, Incremental Encoder and Hall Sensor are used. Hall sensor is used to find the
+                initial electric angle of the motor
+
+
+
+
+                When moving the motor, Hall sensor data must be changed in the order of 5-1-3-2-6-4 or
+                4-6-2-3-1-5 for proper operation.
+
+                                                                                                            Page | 18
+Drive Setup
+
+
+
+              (5) Incremental Encoder with Index & Hall Sensor
+                Hall Sensor is used to find the initial electric angle of the motor. Other than that, it is the
+                same as Incremental Encode with Index encoder.
+
+
+
+
+                When moving the motor, Hall sensor data must be changed in the order of 5-1-3-2-6-4 or 4-
+                6-2-3-1-5 for proper operation.
+
+
+              (6) Incremental Encoder with Index shared Hall Sensor
+
+
+                                                                 It is an encoder in which Hall Sensor signal
+                                                                 and Encoder with Index signal are output on
+                                                                 the same line. When the power is applied, the
+                                                                 Hall sensor signal is output for a certain
+                                                                 period of time and then the encoder signal is
+                                                                 output.
+                                                                 In general, the index signal and the electric
+                                                                 angle 0 degree are matched to accurately
+                                                                 detect the electric angle.
+
+
+
+
+                                                                                                              Page | 19
+Drive Setup
+
+
+
+
+                  Set Hall Ready Time, Hall Valid Time, Encoder Ready Time(refer to the following figure)
+
+
+
+
+              (7) Analog Hall Sensor
+                When Feedback is selected as Analog Hall Sensor, the resolution is automatically
+                calculated as follows.
+                Rotary Motor: Resolution = (16384 * Pole Pair)
+                Linear Motor: Resolution = 16384 * (1000/Magnetic Pitch)
+                Analog Hall sensor signals have different signal levels (voltage) depending on the product
+                or product status, so the motor must be moved manually so that the analog Hall sensor
+                signals can change one or more cycles. When the motor moves, the drive finds the
+                maximum/minimum value of the signal.
+
+
+
+
+                                                                                                            Page | 20
+Drive Setup
+
+
+
+
+              (8) Sin/Con Encoder
+                If you select Sin/Con Encoder as Feedback and input Sin/Cos Pitch information, the
+                resolution is automatically calculated as follows.
+                Rotary Motor: Resolution= (16384 * (SinCos Cycle/Revolution))
+                Linear Motor: Resolution = (16384 / (Pitch/ SinCos Cycle)) x 1000000
+
+
+                The signal of Sin/Cos encoder has different signal level (voltage) according to the product or
+                product status, so you need to move the motor manually so that the sin/Cos encoder signal
+                can change more than one cycle.
+                When the motor moves, the drive finds the maximum/minimum value of the signal.
+
+
+                In order to use the index signal as a home signal in a linear system, the motor must be moved
+                until the index signal is detected.
+
+
+
+
+                               [Rotary Motor]                           [Linear Motor]
+
+
+
+
+                                                                                                           Page | 21
+Drive Setup
+
+
+
+
+              (9) BiSS Absolute Encoder
+                If Single Turn and Multi Turn information is selected, the resolution is automatically
+                calculated as 2^(Single Turn).
+                If only single turn is used, multi turn is set to 0.
+                Encoder Bitrate should be set below the speed allowed by the product.
+
+
+
+
+              (10) SSI Absolute Encoder
+                 SSI has different protocols for each manufacturer, so the supported models are limited.
+                   The supported models are as follows.
+
+                    - General SSI-SSI encoder using only data without using Status bit
+
+                    - SIKO-NSA111C
+
+                    - Renishaw-Orbis
+                   Select the corresponding [SSI Manufacturer] and [SSI Mode], and select Single Turn and
+                   Multi Turn.
+
+
+
+
+                                                                                                        Page | 22
+Drive Setup
+
+
+
+
+              (11) Dual Feedback encoder correspondence table
+                 Encoder correspondence table that can be used with dual feedback
+
+
+
+
+                 When using dual feedback, only one encoder with Hall sensor can be selected.
+
+
+
+
+                                                                                                 Page | 23
+Drive Setup
+
+
+
+
+          4.3 Unit Setting
+                  Unit of data can be set by changing Unit and Notation.
+                  Express the exponent by setting Notation.
+                  Click the [Apply] button to check the data unit set in the Display Unit.
+
+
+
+
+                  For rotary motors:
+
+                  - Position Unit: Count, degree can be selected. ex) If Position Unit is selected as degree
+                    and Notation is -3, Position data unit is deg*10^-3. If the position data is 1 deg*10^-3, it
+                    means 1000 degree.
+
+                  - Velocity Unit: RPM, degree/sec selectable
+
+                  - Acceleration Unit: RPM/sec, degree/sec^2
+                  For linear motors:
+
+                  - Position Unit: Selectable count or meter. Ex) If you select meter for Position Unit and -3
+                    as Notation, the unit of Position data is mm.
+
+                  - Velocity Unit: Unit meter/sec is used, change notation to select m, cm, mm
+
+                  - Acceleration Unit: Unit meter/sec^2 is used, if notation is changed, it can be selected in
+                    units of m, cm, and mm
+                                                                                                               Page | 24
+Drive Setup
+
+
+
+
+              4.4 Brake Setting
+
+
+
+
+                    Select the [Brake] tab in Drive Setup
+                    Input the Brake information
+                     Select Brake Type
+                     − None: No brake is used
+                     − Digital Output bit0: Sends a signal to Digital output bit0 to Servo on/off.
+                     − Voltage Control: When Servo On, the set voltage of Turn on voltage is output to the
+                         brake output terminal, and the set voltage of Hold on voltage is maintained after 1
+                         second
+                     Brake Polarity: Non Invert is set as default
+                     − Non Invert: Digital output signal goes high when Servo On, and digital output signal
+                         goes low when Servo Off.
+                     − Invert: Digital output goes Low when Servo On, and Digital output goes High when
+                         Servo Off.
+                     Brake Release Delay Time: Set the time to release the brake after Servo On is
+                         commanded. (If set to 100, release the brake after 100msec after Servo on.)
+                     Brake Holding delay Time: Set the time to Servo Off after the brake is held when Servo
+                         Off is commanded.(If set to 100, the brake is maintained and the servo turns off after
+                         100msec)
+                    After inputting the brake information, click [Apply] to apply the brake information to the
+                    drive.
+                    To save the currently applied parameters to drive flash memory, click [Save] in the Ribbon
+                    Bar.
+                                                                                                            Page | 25
+Tuning
+
+
+
+
+         5. Tuning
+
+               The drive consists of three types of control loops: position loop, velocity loop and current loop.
+
+
+
+
+               Bandwidth is the control period inside the servo drive. Bandwidths are determined by the
+                minimum/maximum values by the control period.
+               The higher the bandwidth, the higher the gain of the controller, so the control response can
+                be increased. However, if this value is too large, it may cause noise or vibration, so you need
+                to set an appropriate bandwidth for your system.
+               Before tuning, proceed after checking whether motor information is correctly entered.
+
+
+
+
+                                                                                                                 Page | 26
+Tuning
+
+
+
+
+         5.1 Phase Auto Tuning
+
+             When using DC Motor or VCM, skip Phase Auto Tuning.
+             Phase Auto Tuning automatically finds the UVW phase of the motor.
+             The algorithm to find the phase is different according to the type of feedback sensor.
+             In the case of a system with high friction due to a load installed outside the motor, an error
+               may occur between the measured electric angle and the actual electric angle, resulting in
+               a decrease in output torque efficiency. Therefore, it is recommended to proceed without
+               external load when performing Phase Auto Tuning.
+
+
+
+
+             (1) Select the [Current Tuning] tab in Drive Setup
+             (2) Click [Phase Auto Tuning]. Click [Yes] in the pop-up window to start the motor and execute
+                  Phase Auto Tuning.
+                   Search for Motor Phase, Position Sensor1 Polarity, and Electrical Angle Offset while
+                     forcibly moving the motor. For details on each item, see the reference manual.
+             (3) When tuning is completed, a message window appears.
+
+
+
+                                                                                                           Page | 27
+Tuning
+
+
+
+
+         5.2 Current Tuning
+            5.2.1 Auto Current Tuning
+
+
+
+
+            (1) Select the [Current Tuning] tab in Drive Setup
+            (2) Select Current Tuning Mode as Auto Current Tuning.
+            (3) Adjust the Current Controller Bandwidth using the slide bar
+               Current Controller Bandwidth sets the responsiveness of Current Controller
+               Motor information is corrected by estimating resistance and inductance during current
+                 tuning.
+               P and I Gain are calculated from resistance, inductance, and bandwidth.
+               The higher the bandwidth, the better the responsiveness, but noise and vibration may
+                 occur. The lower the bandwidth, the less the noise and vibration but the less
+                 responsiveness.
+            (4) Click [Current Tuning Start]. Click [Yes] in the pop-up window to start the motor and execute
+                Current Auto Tuning.
+            (5) When tuning is completed, a message window appears
+            (6) To save the currently applied parameters to drive flash memory, click [Save] in the Ribbon
+                Bar.
+                                                                                                          Page | 28
+Tuning
+
+
+
+         5.2.2 Manual Current Tuning
+
+
+
+
+         (1) Select the [Current Tuning] tab in Drive Setup
+         (2) Select Current Tuning Mode as Manual Current Tuning.
+         (3) Adjust the slide bar of Current Amplitude of Tuning Motion Parameter. Current Amplitude is
+             set by default as a current value of 20% of the rated current, and it is repeatedly driven with
+             the set Current Amplitude.
+         (4) Adjust the Current Controller Bandwidth by using the slide bar or directly input the Gain
+             value.
+              Current Controller Bandwidth sets the responsiveness of Current Controller.
+              The higher the bandwidth, the better the responsiveness, but noise and vibration may
+                occur. The lower the bandwidth, the less the noise and vibration but the less
+                responsiveness.
+         (5) Click the [Apply] button and then the [Current Tuning Start] button. If you click the [Yes]
+             button in the pop-up window, it runs repeatedly with the set Current Amplitude.
+         (6) At this time, perform current tuning by changing the Current Controller Bandwidth or Gain
+             value. After changing the value, it is applied to the drive only by clicking the [Apply] button.
+         (7) When tuning is complete, press the [Halt] button to stop the motor.
+         (8) To save the currently applied parameters to drive flash memory, click [Save] in the Ribbon
+             Bar.
+                                                                                                          Page | 29
+Tuning
+
+
+
+
+         5.3 Velocity Tuning
+
+
+
+
+            5.3.1 Velocity Auto Tuning Mode
+            (1) Select [Auto Velocity Tuning] for the Tuning Mode in the [Velocity Tuning] tab.
+            (2) Input Tuning Motion Parameter. Input Target Positions, Velocity, and Acceleration values of
+                the Profile Position Motion. In Velocity Auto Tuning, it operates only with trapezoidal profile.
+                (±Move as much as Target Position1 value set based on the current position)
+            (3) Adjust the Velocity Controller Bandwidth using the slide bar.
+                 If you change the bandwidth, the Velocity Controller P-Gain and I-Gain values are
+                   changed.
+                 The Gains are calculated by Torque Constant, Inertia, and Bandwidth.
+                 Velocity Controller Bandwidth determines how quickly the Velocity Controller responds
+                   to changes in the controlled velocity.
+                 If the inertia of the system is high, set a high bandwidth within a range that does not
+                   vibrate. (In a system with a large inertia, it is recommended to operate by increasing the
+                   Velocity Bandwidth from 100Hz. If vibration occurs even after setting to 100Hz, it should
+                   be run gradually lowering it)
+
+                                                                                                             Page | 30
+Tuning
+
+
+
+
+              Hard Bandwidth increases the response speed of the system, but the system becomes
+                unstable.
+         (4) Click [Apply] and then [Start] to execute Velocity Auto Tuning.
+
+
+
+
+         (5) As Auto Tuning starts, the [Start] button changes to Tuning, and once Tuning is completed,
+             it changes back to Start.
+         (6) Once Tuning is completed, to save the currently applied parameters to drive flash memory,
+             click [Save] in the Ribbon Bar.
+
+
+
+
+                                                                                                      Page | 31
+Tuning
+
+
+
+
+         5.3.2 Manual Velocity Tuning
+
+
+
+
+         (1) Select Manual Velocity Tuning for the Tuning Mode in the Velocity Tuning tab.
+         (2) Input Tuning Motion Parameters. Input the Target Position, Acceleration, Velocity, jerk, and
+             wait time values of Profile Position Motion to be executed during tuning. When using the
+             trapezoidal profile, the value of Jerk is ignored.
+         (3) Click [Start] to repeatedly drive TargetPosition1 ↔ TargetPosition2.
+         (4) Use the slider to change Velocity Controller Bandwidth
+         (5) If the Bandwidth is changed, the Velocity Controller P-Gain and I-Gain values are changed.
+             The values of the PI Gain can be modified directly.
+            P-Gain determines the correction signal to reduce the error. As P-Gain increases, the
+              control system response speed increases. However, if the P-Gain is too large, the vibration
+              increases and the system become unstable.
+            I-Gain outputs a value proportional to the sum of the accumulated errors. If I-Gain
+              increases, responsiveness increases, but oscillation and instability occur.
+            After changing Feed Forward Gain and Position Controller Gain, click the [Apply] button
+              to apply to the drive.
+
+                                                                                                      Page | 32
+Tuning
+
+
+
+
+            As the control system does not vibrate because it is not affected by Feed Forward Gain
+              feedback, it does not affect stability and improves system response.
+            Feed Forward Gain improves system responsiveness and is stable because it operates
+              outside the loop.
+            Velocity Feed Forward Gain is used to compensate for static friction and motion friction
+              measured through Velocity Auto Tuning. Set the percentage of friction compensation.
+            Acceleration Feed Forward is used to compensate for the inertia measured through
+              Velocity Auto Tuning. It sets what % to compensate for inertia.
+
+
+         (6) After changing tuning parameter, click [Apply] to apply them to the drive.
+         (7) Once Tuning is completed, to save the currently applied parameters to drive flash memory,
+             click [Save] in the Ribbon Bar.
+
+
+
+         5.3.3 Multi Gain
+          User can select and use multiple speed control parameters.
+
+
+
+
+                                                                                                    Page | 33
+Tuning
+
+
+
+
+         (1) Select Velocity Control Mode.
+            Common Mode: Use only the control parameters set in Parameter Set0, the basic speed
+              control parameter.
+            Separated Mode: The trajectory control section is controlled by Parameter Set0, and the
+              In position section after the trajectory is completed is controlled by Parameter Set1. In the
+              stop state within 1 pulse after completion of In Position, it is controlled using the control
+              parameter of Parameter Set3.
+            Dual Mode: It is controlled by Parameter Set0 or Parameter Set2 until in position, and after
+              completion of in position, it is controlled by the control parameter of Parameter Set1 or
+              Parameter Set3. Parameter Set0 and Parameter Set1 form a pair, and Parameter Set2
+              and Parameter Set3 form a pair.
+            Index Mode: Set 4 parameter sets and the user selects and uses them.
+         (2) After selecting the parameter to be used from Parameter Set0 to Parameter Set3, proceed
+             with Auto Tuning and Manual Tuning. After changing a parameter in each parameter set, it
+             is applied only by pressing the [Apply] button.
+         (3) In Dual Mode, if you select Parameter Set0 or Parameter set1, Parameter set0 & Parameter
+             set1 are used, and if you select Parameter set2 or Parameter set3, Parameter set2 &
+             Parameter set3 are used.
+         (4) Once Tuning is completed, to save the currently applied parameters to drive flash memory,
+             click [Save] in the Ribbon Bar.
+
+
+
+
+                                                                                                        Page | 34
+Parameter
+
+
+
+
+      6. Parameter
+
+            6.1 Parameter File Import
+                (1) Click [Import] in the Ribbon Bar
+
+
+
+
+                (2) Select *.wspf (DINGS’ Servo Parameter File) and click Open
+
+
+
+
+                (3) The Parameter List of the imported parameter file is displayed.
+
+
+
+
+                (4) To apply the parameters to the drive, check the checkboxes of the parameters to download
+                    and click [Download Data].
+                (5) After downloading the parameters, click [Write Flash] to save them to the drive flash
+                    memory.
+                                                                                                         Page | 35
+Parameter
+Parameter
+
+
+
+            6.2 Parameter File Export
+                (1) Click [Export] in the Ribbon Bar
+
+
+
+
+                (2) Click [Save File] to save the parameter file.
+
+
+
+
+            6.3 Parameter Save (Write Flash)
+                (1) Click [Save] in the Ribbon Bar. The data set in the drive is saved to the drive flash memory.
+
+
+
+
+            6.4 Parameter Restore
+                (1) Click the [Restore] button on the Ribbon Bar. The data set in the drive is initialized. Click
+                    the [Save] button to save the initial status to the drive flash memory.
+                (2) If you press the [Restore] button only and turn the power off without pressing the [Save]
+                    button, the parameters saved in the drive before initialization are maintained.
+
+
+
+
+                                                                                                              Page | 36
+Motion
+
+
+
+
+     7. Motion
+
+         7.1 Servo Control
+
+
+
+
+             (1) Servo On: Click [Enable] on the Ribbon Bar to switch to Servo On state. The button will
+                 turn orange.
+
+
+
+
+             (2) Servo Off: Click [Disable] on the Ribbon Bar to switch to Servo Off state. The button will
+                 turn black.
+
+
+
+
+                                                                                                          Page | 37
+Motion
+
+
+
+
+         7.2 Motion
+             Execute Motion by mode
+              (1) Click [Motion] in the Tool Pane to display the window for executing Motion in the Target
+                  Pane.
+
+
+
+
+            7.2.1 Profile Position Mode
+
+
+
+
+                                                                                                         Page | 38
+Motion
+
+
+
+         (1) Select Profile Position for the Operation Mode.
+         (2) When the Position / Velocity Parameter input window is activated, input the parameter
+             values.
+         (3) Click [Enable] on the Ribbon Bar to switch to Servo On state, after which Motion is
+             executed.
+         (4) Click Absolute Position button [>] to move to the inputted Absolute Position. Check Repeat
+             and    then   click Absolute     Position    button      [>]   to   repeatedly   move   between
+             Position1↔Position2.
+         (5) Click the [0] button to set the current position to 0.
+         (6) Click [Go 0] to move to the position at which Absolute Position is 0.
+         (7) Click Relative Position button [>] to move in the positive direction from the current position
+             by the Relative Position value, and click [<] to move in the negative direction.
+
+
+         7.2.2     Profile Velocity Mode
+
+
+
+
+                                                                                                           Page | 39
+Motion
+Motion
+
+
+
+         (1) In the Motion execution window, select Profile Velocity for the Operation Mode.
+         (2) When the Velocity Parameter input window is activated, input the parameter values.
+         (3) After changing to Servo On, click [>] to drive the motor in the positive direction of the inputted
+             speed, and click [<] to drive in the negative direction.
+         (4) Click [0] to reduce the speed to 0 and stop.
+         (5) Checking Jog drives the motor at the input speed only while pressing [<] or [>].
+
+
+
+
+         7.2.3     Current / Torque / Voltage Mode
+
+
+
+
+         (1) Select Current/Torque/Voltage for the Operation Mode.
+             The mode can be changed to Current, Torque, or Voltage only in the Servo Off state.
+         (2) When the Parameter input window is activated, input the parameter values.
+             After changing to Servo On, click [Set] to execute Motion for the inputted parameter values
+             according to the mode.
+
+
+
+
+                                                                                                            Page | 40
+Motion
+
+
+
+
+         7.2.4 Homing Mode
+
+
+
+
+         (1) Select Homing for the Operation Mode
+         (2) When the Homing Parameter input window is activated, select the Homing Method and
+             input the parameter values.
+         (3) Click [Parameter Set] to set the parameter values in the drive, and click [Homing Start] to
+             execute Homing.
+            Please refer to the Reference Manual regarding the Homing Method.
+
+
+
+
+                                                                                                       Page | 41
+Object Dictionary
+
+
+
+
+       8. Object Dictionary
+
+            Load / Download the drive-supported objects.
+
+
+
+
+             (1) Select the group of objects to check or change to display the Object List corresponding to the
+                 group.
+             (2) Click [Load] to read the values of the object list from the drive.
+             (3) After changing the object value, check the checkbox for the corresponding object and click
+                 [Download] to apply the value of the checked object to the drive.
+             (4) After changing the object value, click [Save] in the Ribbon Bar to save the applied value to
+                 the drive flash memory.
+
+
+
+
+                                                                                                              Page | 42
+I/O
+
+
+
+
+      9. I/O
+
+         Digital Input Function Settings
+         I/O Test
+
+
+
+
+            (1) Click [I / O] in the Tool Pane to display the I/O window in the Target Pane.
+            (2) For the Digital Inputs, the Polarity and Function can be set. After setting the Polarity and
+                Function, click [Apply].
+            (3) Digital Output can be executed by checking or unchecking the Digital Output checkbox.
+
+
+
+
+                                                                                                         Page | 43
+Motion List (Motion Sequence)
+
+
+
+
+     10. Motion List (Motion Sequence)
+
+            Define the motion table to perform motions according to the conditions
+            Input the motion parameters for each motion (Motion0 - Motion7) to generate the Motion List.
+            Motion Sequence Modification and Drive Test
+
+
+
+
+            Motion List button
+
+               - Upload: Loads the Motion List from the drive
+
+               - Download: Download the changed Motion List to the Drive.
+
+               - Start: After selecting the motion to start, click [Start] to execute from the selected motion.
+
+               - Halt: Stop Motion
+
+
+
+
+                                                                                                                  Page | 44
+Motion List (Motion Sequence)
+
+
+
+
+              10.1.1 Motion List Edit
+              (1) Select the Motion List column to display the parameters for the selected motion at the
+                  bottom of the list, which can be modified.
+
+
+
+
+              (2) After modifying the motion parameters, click [Download] to apply the changed parameters
+                  to the drive.
+              (3) After modifying each motion, click [Download] to apply the modifications to the drive.
+
+
+
+
+                                                                                                           Page | 45
+Motion List (Motion Sequence)
+
+
+
+
+              10.1.2 Motion Mode
+              The table below shows the operation modes that can be set in the motion table.
+
+
+
+
+              10.1.3 Motion Parameter
+               Target and Parameter 0-3 vary depending on the Motion Mode.
+               The Target Value is the target value according to the operation mode. When the Modes of
+                Operation is Homing mode, the Target Value is Homing Method. Parameter0, Parameter1,
+                Parameter2, and Parameter3 are the control parameters required for each operation mode.
+                The following table shows the definitions of Target Value, Parameter0, Parameter1,
+                Parameter2, and Parameter3 according to the Modes of Operation.
+
+
+
+
+               Homing Mode Parameter
+
+                - The homing function is executed according to the set homing method, speed, acceleration,
+                   and offset
+
+
+
+
+                                                                                                       Page | 46
+Motion List (Motion Sequence)
+
+
+
+
+               Profile Position Mode Parameter
+
+                - Creates a profile with the profile velocity, acceleration, and deceleration data and drives
+                   based on the target position
+
+
+
+
+               Profile Velocity Mode Parameter
+
+                - Creates a profile with the profile velocity, acceleration, and deceleration data and drives
+                   based on the target speed
+
+
+
+
+                                                                                                            Page | 47
+Motion List (Motion Sequence)
+
+
+
+
+               Current Regulation Mode Parameter
+
+                -   Perform current control by the target current value
+
+
+
+
+              10.1.4 Next Motion Parameter
+              Two conditions can be set to execute the next motion.
+              After comparing the Next Motion Condition Type0, if the conditions are not correct, then compare
+              Next Motion Condition Type1. Set the conditions for executing the next motion through the Next
+              Motion Condition Type, and input the settings for executing the next motion according to the
+              Next Motion Condition Type. For the next motion index, input the motion or motion index to be
+              executed when the set conditions are satisfied.
+
+
+
+
+                                                                                                           Page | 48
+Motion List (Motion Sequence)
+
+
+
+
+               Next Motion Condition Value
+
+
+
+
+               Index of Next Motion
+
+
+
+
+                                              Page | 49
+Motion List (Motion Sequence)
+
+
+
+
+               Index of Next Motion
+
+
+
+
+              10.1.5 Motion List Example
+
+
+
+
+               Motion0: Moves to Target1 (-13000), waits for 500 ms after reaching the target position, and
+                executes Motion1
+               Motion1: Moves to Target2 (-6000), waits for 500 ms after reaching the target position, and
+                executes Motion0
+               (1) As follows, select Motion and input the parameters.
+               (2) After inputting the parameters, click [Download]
+
+
+
+                                                                                                         Page | 50
+Motion List (Motion Sequence)
+
+
+
+
+               (3) For the test, after changing to Servo On, click [Start].
+               (4) To first execute Motion1(Index1), select Index1 for Index in the Motion Edit window, and
+                    click [Start]. Index1 will execute first, after which the connected Motion0(Index0) motion
+                    will execute.
+
+
+
+
+                                                                                                             Page | 51
+Scope
+
+
+
+
+        11. Scope
+
+           (1) If there is no Scope window, click [Scope] in the Ribbon Bar to display the Scope window. If
+               Scope window is open, click [Scope] in the Ribbon Bar to hide the Scope window.
+
+
+
+
+           (2) Select the [Scope] tab in the Ribbon Bar
+
+
+
+
+              Save: Save the graph data as a CSV file
+              Channel: Select the data to monitor and the scale and color of the displayed graph.
+              Interval Time: Set the interval time for storing the data to monitor in the drive buffer.
+              Buffer Size: When saving the data to monitor in the drive buffer, set the buffer size to save.
+              Recording Time(msec) = Interval Time * Buffer Size
+              Track Line: When checked, the track line will appear on the graph, showing the data of the
+                checked track line position.
+              Synchronize: If checked, when there are multiple graphs, the track line time is synchronized.
+
+                                                                                                                Page | 52
+Scope
+
+
+
+
+        (3) Click [Channel] on the Ribbon Bar to display the window to select the Scope Channel.
+
+
+
+
+        (4) In the Scope Channel window, select the data to monitor and check the checkbox. After setting
+            the scale and color of the data to display on the graph, click [OK].
+
+
+
+
+        (5) Use the buttons in the Scope window to execute Scope.
+
+
+
+
+                                                                                                      Page | 53
+Scope
+
+
+
+
+           Select: When the graph is enlarged, the position can be moved or the Track Line can be
+            selected.
+           Zoom In/Out: After clicking [Zoom In] or [Zoom Out], click the left mouse button, move the
+            mouse cursor inside the graph, and use the mouse wheel to zoom in our out.
+           Start: Periodically reads data from the connected communication method and draws the
+            graph of the data to monitor. (Not Real Time)
+           Read buffer: Reads the data saved in the drive buffer once for the set Interval Time period
+            according to the set Buffer Size and shows it in the graph. If the Interval Time and Buffer
+            Size are large, the graph takes a long time to update.
+           Read buffer repeatedly: Repeatedly reads the data saved in the drive buffer for the set
+            Interval Time period according to the set Buffer Size and shows it in the graph. If the Interval
+            Time and Buffer Size are large, the graph takes a long time to update.
+
+
+
+
+                                                                                                           Page | 54
+Firmware
+
+
+
+     12. Firmware
+              Download drive firmware
+           (1) Click [Firmware] in the Ribbon Bar.
+
+
+
+
+           (2) Load the firmware file.
+
+
+
+
+           (3) Click [Next]
+
+
+
+
+               * A message box occurs when device name and product ID are inconsistent (Check Firmware.)
+
+
+
+
+                                                                                                       Page | 55
+Firmware
+
+
+
+
+           (4) Click [Erase] - Delete the drive firmware and then download.
+
+
+
+
+           (5) Click [Download].
+
+
+
+
+           (6) When the firmware download is complete, click [Yes (Y)] in the pop-up window that appears to
+               execute the drive program.
+
+
+
+
+                                                                                                        Page | 56
+                                                                                               International
+                                                                                                 Customer
+                                                                                   Person in Charge :
+                                                                                                        Daniel Jang
+                                                                                   daniel@dingsmotion.com
+                                                                                   No. 2850 Luheng Road, Changzhou
+                                                                                   Economic      Development       Zone,
+                                                                                   Jiangsu Province, China
+                                                                                   +86-519-85177825, 85177826
+
+
+                                                                                              North America
+                                                                                                 Customer
+                                                                                   Person in Charge :
+                                                                                                           Nicolas Ha
+                                                                                   sales@dingsmotionusa.com
+                                                                                   335 Cochrane Circle Morgan Hill,
+                                                                                   CA 95037
+                                                                                   +1-408-612-4970
+
+
+                                                                                                   China
+                                                                                                 Customer
+        +86-0519-8517 7825
+                                                                                   Person in Charge :
+                                                                                                           Sweet Shi
+        +86-0519-8517 7807
+                                                                                   info@dingsmotion.com
+
+        No. 2850 Luheng Road, Changzhou Economic                                   No. 2850 Luheng Road, Changzhou
+        Development Zone, Jiangsu Province, China                                  Economic      Development       Zone,
+                                                                                   Jiangsu Province, China
+        www.dingsmotion.com                                                        +86-519-85177825, 85177826
+
+
+It is prohibited to copyright or replication of the part or whole of user manual without permission.
+
+
+                                                                                                                           Page | 57
+
